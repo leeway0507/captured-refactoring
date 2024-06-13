@@ -1,10 +1,10 @@
-import { fetchProduct } from "@/app/hook/data/product-fetch"
-import { ProductSearchParmasProps } from "../hook/data/type"
-import Product from "./product-card"
+import { fetchProductList } from "@/app/utils/hooks/data/product-list-fetch"
+import { ProductSearchParmasProps } from "../utils/hooks/data/type"
+import ProductList from "./product-list"
 
 async function Page({ searchParams }: { searchParams: ProductSearchParmasProps }) {
-    const productResponse = await fetchProduct(searchParams)
-    return <Product productFilter={searchParams} productResponse={productResponse} />
+    const productResponse = await fetchProductList(searchParams)
+    return <ProductList productFilter={searchParams} productResponse={productResponse} />
 }
 
 export default Page

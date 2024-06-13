@@ -1,7 +1,7 @@
 'use client';
 
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { ScrollDirectionProps } from "../hook/interaction/scroll-direction";
+import { ScrollDirectionProps } from "../utils/hooks/interaction/scroll-direction";
 
 export const getNextPageNum = (scrollDirection: ScrollDirectionProps, currPage: string) => scrollDirection && scrollDirection === "up" ? currPage : String(Number(currPage) + 1)
 

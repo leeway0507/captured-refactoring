@@ -1,7 +1,7 @@
-import { convertObjToProductFilter } from '@/app/hook/data/product-fetch';
+import { convertObjToProductFilter } from '@/app/utils/hooks/data/product-list-fetch';
 
 
-describe('product-fetch', () => {
+describe('product-list-fetch', () => {
     it('should convert URL Params to Product Filter Obj', async () => {
         // filter example
         const exampleArr = [

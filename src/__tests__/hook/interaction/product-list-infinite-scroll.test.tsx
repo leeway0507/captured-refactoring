@@ -1,7 +1,7 @@
 import '@/__mocks__/intersectionObserver-mock'
 import { changeUrlMock } from '@/__mocks__/url-mock';
 import updatePageParams, { getNextPageNum } from "@/app/category/product-infinite-scroll";
-import useIntersectionObserver from '@/app/hook/interaction/infinite-scroll';
+import useIntersectionObserver from '@/app/utils/hooks/interaction/infinite-scroll';
 import { renderHook, render } from "@testing-library/react";
 import { useRouter } from 'next/navigation';
 
@@ -15,7 +15,7 @@ jest.mock('next/navigation', () => ({
     }),
 }));
 
-jest.mock('../../app/components/interaction/scroll-direction', () => ({
+jest.mock('../../../app/utils/hooks/interaction/scroll-direction', () => ({
     __esModule: true,
     default: jest.fn().mockReturnValue('down'),
 }));

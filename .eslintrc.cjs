@@ -15,5 +15,8 @@ module.exports = {
     'react/require-default-props': 'off',
     "react/react-in-jsx-scope": "off",
     "import/prefer-default-export": "off",
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": "error",
+  
   },
 };

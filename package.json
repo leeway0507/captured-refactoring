@@ -10,9 +10,11 @@
         "test": "jest"
     },
     "dependencies": {
+        "@headlessui/react": "^2.0.4",
         "next": "14.2.3",
         "react": "^18",
-        "react-dom": "^18"
+        "react-dom": "^18",
+        "react-toastify": "^10.0.5"
     },
     "devDependencies": {
         "@testing-library/jest-dom": "^6.4.6",

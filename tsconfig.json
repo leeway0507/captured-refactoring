@@ -21,6 +21,6 @@
             "@/*": ["./src/*"]
         }
     },
-    "include": [".eslintrc.cjs","next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/__tests__/hook/data/product-stores.test.tsx", "src/__tests__/interaction/scroll-direction.test.tsx"],
+    "include": [".eslintrc.cjs","next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/__tests__/hook/data/product-list-stores.test.tsx", "src/__tests__/interaction/scroll-direction.test.tsx"],
     "exclude": ["node_modules"]
 }

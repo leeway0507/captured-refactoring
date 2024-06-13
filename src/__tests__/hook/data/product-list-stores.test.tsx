@@ -1,9 +1,9 @@
-import useProductDataStore, { simpleHash, saveToLocal, loadFromLocal, checkAndUpdate } from "@/app/hook/data/product-stores";
-import productMock from "@/__mocks__/product-data-api";
-import { renderHook, render, waitFor } from '@testing-library/react'; // React v18 이후
-import { useState, useEffect } from "react";
-import { ProductDataStoreProps } from "@/app/hook/data/type";
-
+import useProductDataStore, { simpleHash, checkAndUpdate } from '@/app/utils/hooks/data/product-list-stores'
+import productMock from '@/__mocks__/product-data-api'
+import { renderHook, render, waitFor } from '@testing-library/react' // React v18 이후
+import { useState, useEffect } from 'react'
+import { ProductDataStoreProps } from '@/app/utils/hooks/data/type'
+import { saveToLocal, loadFromLocal } from '@/app/utils/storage'
 
 describe('product-store', () => {
     const filterParams = { brand: 'a,b', page: 'c' }
@@ -11,19 +11,10 @@ describe('product-store', () => {
     it('convert filter to hash', () => {
         const result = simpleHash(JSON.stringify(filterParams))
         expect(result).toEqual('0zbw8b2')
-    });
-
-
-    it('save data to local & load from local', () => {
-        const exampleObj = { 'hello': 'world' }
-        saveToLocal('test', exampleObj)
-
-        const localData = loadFromLocal('test')
-        expect(exampleObj).toEqual(localData)
-    });
+    })
 
     describe('test checkAndpdate', () => {
-        const localKey = "test"
+        const localKey = 'test'
         const mockData = productMock.slice(0, 1)
         const productResponse = { data: mockData, currentPage: 1, lastPage: 5 }
 
@@ -35,20 +26,17 @@ describe('product-store', () => {
                 useEffect(() => {
                     const productDataStore = checkAndUpdate(localKey, filterParams, productResponse)
                     setProductData(productDataStore)
-
                 }, [])
 
                 return productData
             })
 
-
             expect(simpleHash(JSON.stringify(filterParams))).toEqual(result.current?.filter)
             expect({ 1: mockData }).toEqual(result.current?.data)
-            expect("5").toEqual(result.current?.lastPage)
+            expect('5').toEqual(result.current?.lastPage)
         })
 
         it('update data to localStorage when unmounting', async () => {
-
             function UnmountComponent() {
                 // useEffect return 기능 체크
                 const useProductDataStoreTest = () => {
@@ -69,14 +57,13 @@ describe('product-store', () => {
             }
 
             const { unmount } = render(<UnmountComponent />)
-            await waitFor(() => { unmount() })
-
-
+            await waitFor(() => {
+                unmount()
+            })
 
             const localData = loadFromLocal<ProductDataStoreProps>(localKey)
             expect({ 1: mockData }).toEqual(localData!.data)
-            expect("5").toEqual(localData!.lastPage)
-
+            expect('5').toEqual(localData!.lastPage)
         })
 
         it('load data from localStorage when filter and page exist in data', () => {
@@ -87,8 +74,7 @@ describe('product-store', () => {
                 return productData
             })
 
-
-            expect((localData!.filter)).toEqual(result.current?.filter)
+            expect(localData!.filter).toEqual(result.current?.filter)
             expect(localData!.data).toEqual(result.current?.data)
         })
 
@@ -101,15 +87,9 @@ describe('product-store', () => {
                 return productData
             })
 
-
             expect(simpleHash(JSON.stringify(filterParams))).toEqual(result.current?.filter)
             expect({ 1: mockData, 2: newMockData }).toEqual(result.current?.data)
-            expect("5").toEqual(result.current?.lastPage)
-
+            expect('5').toEqual(result.current?.lastPage)
         })
-
-
-
-    });
-
-});
+    })
+})
