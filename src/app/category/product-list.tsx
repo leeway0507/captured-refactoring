@@ -22,8 +22,10 @@ function NoData() {
 }
 
 function ProductCardGrid({ children }: { children: React.ReactNode }) {
-    return <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 page-container">{children}</div>
+    const productGrid = 'grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 page-container'
+    return <div className={`${productGrid}`}>{children}</div>
 }
+
 function IntersectionTrigger({
     refer,
     page,

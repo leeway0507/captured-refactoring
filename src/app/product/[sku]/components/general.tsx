@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { ProductProps } from '@/app/utils/hooks/data/type'
 import { ProductImage } from '@/app/utils/ui/product'
-import { ToggleButton, ToggleButtonGrid, ConfirmButton } from '@/app/utils/ui/button'
+import { ToggleButton, ButtonBox, ConfirmButton } from '@/app/utils/ui/button'
 import { KRW } from '@/app/utils/string-style/currency'
 import ShipmentForm from '@/app/static/shipment-form'
 import SideBar from '@/app/utils/ui/sidebar'
@@ -11,7 +11,7 @@ import useCart from '@/app/utils/hooks/data/product-cart'
 import DeliveryInfo from './delivery-info'
 
 export function Container({ children }: { children: React.ReactNode }) {
-    return <div className="main-frame">{children}</div>
+    return <div className="flex justify-center gap-2">{children}</div>
 }
 
 export function ImageLayout({ children }: { children: React.ReactNode }) {
@@ -22,11 +22,11 @@ export function ImageLayout({ children }: { children: React.ReactNode }) {
 export function ImageArr({ product }: { product: ProductProps }) {
     const imageNameArray = ['main', 'sub-1', 'sub-2', 'sub-3', 'sub-4']
     const sku = product.sku.toString()
-    return imageNameArray.map((name) => <ProductImage sku={sku} ImgName={name} />)
+    return imageNameArray.map((name) => <ProductImage key={name} sku={sku} imgName={name} />)
 }
 
 export function ProductLayout({ children }: { children: React.ReactNode }) {
-    const ProductFlex = 'flex flex-col py-8 sticky top-[60px] gap-8 tb:w-[380px] xl:w-[480px]'
+    const ProductFlex = 'flex flex-col py-8 sticky top-[60px] gap-8 w-full tb:max-w-[380px] xl:max-w-[480px]'
     return <div className={`${ProductFlex}`}>{children}</div>
 }
 
@@ -61,36 +61,40 @@ export const getSizeStatus = (sizeList: string[], selectedItem: string | undefin
     return sizeList.map((s) => ({ size: s, status: getStatus(s, selectedItem) }))
 }
 
-export function AddToCart({ product, selectedSize }: { product: ProductProps; selectedSize: string }) {
+export function AddToCart({ product, selected }: { product: ProductProps; selected: string }) {
     const { size } = product
-    const isSoldOut = !!(size && size.length > 0)
-    const status = isSoldOut ? '장바구니 담기' : '품절'
+    const inStock = !!(size && size.length > 0)
 
     const { addToCart } = useCart()
 
     const handleClick = () => {
-        addToCart(product, selectedSize)
+        addToCart(product, selected)
+        // TODO: toast 추가
     }
 
     return (
-        <ConfirmButton buttonSize="xl" disabled={isSoldOut} onClick={handleClick}>
-            {status}
+        <ConfirmButton disabled={!inStock} onClick={handleClick}>
+            {inStock ? '장바구니 담기' : '품절'}
         </ConfirmButton>
     )
 }
 
-export function SizeBox({ product }: { product: ProductProps }) {
-    const [selected, setSelected] = useState<string>()
+export function SizeBox({
+    product,
+    selected,
+    setSelected,
+}: {
+    product: ProductProps
+    selected: string | undefined
+    setSelected: (s: string) => void
+}) {
     const sizeStatusList = getSizeStatus(product.size, selected)
     return (
-        <>
-            <ToggleButtonGrid>
-                {sizeStatusList.map((d) => (
-                    <ToggleButton data={d.size} status={d.status} setSelected={setSelected} />
-                ))}
-            </ToggleButtonGrid>
-            <AddToCart product={product} selectedSize={selected!} />
-        </>
+        <ButtonBox>
+            {sizeStatusList.map((d) => (
+                <ToggleButton key={d.size} data={d.size} status={d.status} setSelected={setSelected} />
+            ))}
+        </ButtonBox>
     )
 }
 

@@ -1,6 +1,6 @@
 import fetchProduct from '@/app/utils/hooks/data/product-fetch'
 import { productMetaData, JsonLDComponent } from './metadata'
-import Product from '../product'
+import Product from './product'
 
 interface ParamsProps {
     sku: string

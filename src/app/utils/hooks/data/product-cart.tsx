@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { ProductProps } from './type'
 import { saveToLocal, loadFromLocal } from '../../storage'
 
+// localStorage 저장에 사용되는 key
 const localKey = 'cr_t'
 
 export interface ProductCartProps {
@@ -12,9 +13,11 @@ export interface ProductCartProps {
     qty: number
 }
 
+// 기존 리스트에 동일 제품 & 동일 사이즈가 존재하는지 확인
 export const findProductIndex = (cartData: ProductCartProps[], product: ProductProps, selectedSize: string) =>
     cartData.findIndex((d) => d.product.sku === product.sku && d.size === selectedSize)
 
+// 기존 리스트에 동일 제품 & 동일 사이즈가 존재하면, 수량 1 증가
 export const updateProductQty = (
     cartData: ProductCartProps[],
     idx: number,
@@ -28,6 +31,7 @@ export const updateProductQty = (
     return setCartData(updatedCartData)
 }
 
+// 기존 리스트에 동일 제품 & 동일 사이즈가 존재하지 않으면 신규 추가
 export const addProductToCart = (
     cartData: ProductCartProps[],
     product: ProductProps,
@@ -38,6 +42,7 @@ export const addProductToCart = (
     return setCartData([...cartData, newProduct])
 }
 
+// 카트 리스트에 제품 추가
 export const addToCartFn = (
     cartData: ProductCartProps[] | undefined,
     setCartData: (a: ProductCartProps[]) => void,
@@ -61,10 +66,10 @@ const useCart = () => {
     useEffect(() => {
         const cartArr = loadFromLocal<ProductCartProps[]>(localKey)
         setCartData(cartArr)
-    }, [])
 
-    useEffect(() => {
-        saveToLocal(localKey, cartData)
+        return () => {
+            saveToLocal(localKey, cartData)
+        }
     }, [cartData])
 
     const addToCart = (product: ProductProps, selectedSize: string) => {

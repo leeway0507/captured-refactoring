@@ -9,21 +9,12 @@ const handleImageError = (errorNode: React.SyntheticEvent<HTMLImageElement>) => 
     parentDiv!.className = 'hidden'
 }
 
-export function ProductImage({ sku, ImgName }: { sku: string; ImgName: string }) {
-    const src = `${process.env.NEXT_PUBLIC_CDN}/product/${sku}/${ImgName}.webp`
+export function ProductImage({ sku, imgName }: { sku: string; imgName: string }) {
+    const src = `${process.env.NEXT_PUBLIC_CDN}/product/${sku}/${imgName}.webp`
 
     return (
         <div className="relative w-full aspect-[1/1.2] mx-auto bg-gray-50 vignette rounded">
-            <Image
-                src={src}
-                alt={sku}
-                fill
-                className="object-cover"
-                quality={95}
-                priority
-                unoptimized
-                onError={handleImageError}
-            />
+            <Image src={src} alt={sku} fill className="object-cover" unoptimized onError={handleImageError} />
         </div>
     )
 }
@@ -46,7 +37,7 @@ export function ProductCard({ product }: { product: ProductProps }) {
 
     return (
         <Link href={`/product/${sku}`} className="text-sub-black text-xs font-light pb-6 z-1 max-w-[300px]">
-            <ProductImage sku={String(sku)} ImgName="main" />
+            <ProductImage sku={String(sku)} imgName="main" />
             <Description product={product} />
         </Link>
     )

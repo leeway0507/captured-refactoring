@@ -1,29 +1,15 @@
 import React from 'react'
+import { Button, ButtonProps } from '@/components/ui/button'
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    buttonSize: 's' | 'm' | 'l' | 'xl'
+export function ConfirmButton(button: ButtonProps) {
+    return <Button {...button} />
 }
 
-export function ConfirmButton(buttonParam: ButtonProps) {
-    const conFirmClass = 'black-bar-xl rounded-full my-1 lg:text-lg w-full my-4'
-    const { children } = buttonParam
-    return (
-        <button type="button" className={`${conFirmClass}`} {...buttonParam}>
-            {children}
-        </button>
-    )
+export function CancleButton(button: ButtonProps) {
+    return <Button variant="outline" {...button} />
 }
 
-export function CancelButton({ button }: { button: ButtonProps }) {
-    const cancelClass = 'black-bar-xl rounded-full my-1 lg:text-lg w-full my-4'
-    return (
-        <button type="button" className={`${cancelClass}`} {...button}>
-            {button.children}
-        </button>
-    )
-}
-
-export function ToggleButtonGrid({ children }: { children: React.ReactNode }) {
+export function ButtonBox({ children }: { children: React.ReactNode }) {
     return (
         <div
             className="gap-2 grid grid-flow-dense"
@@ -43,21 +29,26 @@ export function ToggleButton({
     status: 'selected' | 'disabled' | 'init'
     setSelected: (s: string) => void
 }) {
-    const itemClass = 'flex-center text-sm w-full h-[35px] border rounded-full whitespace-nowrap px-1'
-    const statusClasses = {
-        selected: 'border-main-black border-2 cursor-pointer shadow-sm',
-        disabled: 'border-gray-300 cursor-pointer text-gray-500 border-1',
-        init: 'border-deep-gray cursor-not-allowed line-through decoration-[2px] text-deep-gray',
+    // const itemClass = 'flex-center text-sm w-full h-[35px] border rounded-full whitespace-nowrap px-1'
+    // const statusClasses = {
+    //     selected: 'border-main-black border-2 cursor-pointer shadow-sm',
+    //     disabled: 'border-gray-300 cursor-pointer text-gray-500 border-1',
+    //     init: 'border-deep-gray cursor-not-allowed line-through decoration-[2px] text-deep-gray',
+    // }
+    const variants = {
+        selected: 'default',
+        disabled: 'default',
+        init: 'outline',
     }
 
     return (
-        <button
-            type="button"
+        <Button
+            size="sm"
             disabled={status === 'disabled'}
-            className={`${itemClass} ${statusClasses[status]}`}
+            variant={variants[status] as 'default' | 'outline'}
             onClick={() => setSelected(data)}
         >
             <span className="px-3">{data}</span>
-        </button>
+        </Button>
     )
 }
