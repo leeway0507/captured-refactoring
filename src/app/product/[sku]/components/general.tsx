@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { ProductProps } from '@/app/utils/hooks/data/type'
 import { ProductImage } from '@/app/utils/ui/product'
-import { ToggleButton, ButtonBox, ConfirmButton } from '@/app/utils/ui/button'
+import { ToggleButton, ButtonBox, ConfirmButton, getToggleStatus } from '@/app/utils/ui/button'
 import { KRW } from '@/app/utils/string-style/currency'
 import ShipmentForm from '@/app/static/shipment-form'
 import SideBar from '@/app/utils/ui/sidebar'
@@ -26,7 +26,8 @@ export function ImageArr({ product }: { product: ProductProps }) {
 }
 
 export function ProductLayout({ children }: { children: React.ReactNode }) {
-    const ProductFlex = 'flex flex-col py-8 sticky top-[60px] gap-8 w-full tb:max-w-[380px] xl:max-w-[480px]'
+    const ProductFlex =
+        'flex flex-col py-8 sticky top-[60px] gap-8 w-full tb:max-w-[380px] xl:max-w-[480px]'
     return <div className={`${ProductFlex}`}>{children}</div>
 }
 
@@ -35,11 +36,16 @@ export function ProductInfo({ product }: { product: ProductProps }) {
 
     return (
         <div className="flex flex-col text-main-black tracking-tidest gap-1">
-            <Link href={`/category/brand/${brand}`} className="uppercase lg:text-sm text-zinc-400 underline">
+            <Link
+                href={`/category/brand/${brand}`}
+                className="uppercase lg:text-sm text-zinc-400 underline"
+            >
                 {brand}
             </Link>
 
-            <div className="flex items-left justify-between lg:text-xl capitalize font-bold">{productName}</div>
+            <div className="flex items-left justify-between lg:text-xl capitalize font-bold">
+                {productName}
+            </div>
             <div className="flex-left justify-between gap-2 text ">{productId.toUpperCase()}</div>
 
             <div className="whitespace-nowrap relative pt-3 pb-6 text-base">
@@ -51,17 +57,39 @@ export function ProductInfo({ product }: { product: ProductProps }) {
     )
 }
 
-interface SizeStatusProps {
-    size: string
-    status: 'selected' | 'init'
+
+
+export function SizeBox({
+    product,
+    selected,
+    setSelected,
+}: {
+    product: ProductProps
+    selected: string | undefined
+    setSelected: (s: string) => void
+}) {
+    const sizeStatusList = getToggleStatus(product.size, selected)
+    return (
+        <ButtonBox>
+            {sizeStatusList.map((d) => (
+                <ToggleButton
+                    key={d.item}
+                    data={d.item}
+                    status={d.status}
+                    setSelected={setSelected}
+                />
+            ))}
+        </ButtonBox>
+    )
 }
 
-export const getSizeStatus = (sizeList: string[], selectedItem: string | undefined): SizeStatusProps[] => {
-    const getStatus = (size: string, selected: string | undefined) => (size === selected ? 'selected' : 'init')
-    return sizeList.map((s) => ({ size: s, status: getStatus(s, selectedItem) }))
-}
-
-export function AddToCart({ product, selected }: { product: ProductProps; selected: string }) {
+export function AddToCartButton({
+    product,
+    selected,
+}: {
+    product: ProductProps
+    selected: string
+}) {
     const { size } = product
     const inStock = !!(size && size.length > 0)
 
@@ -78,26 +106,6 @@ export function AddToCart({ product, selected }: { product: ProductProps; select
         </ConfirmButton>
     )
 }
-
-export function SizeBox({
-    product,
-    selected,
-    setSelected,
-}: {
-    product: ProductProps
-    selected: string | undefined
-    setSelected: (s: string) => void
-}) {
-    const sizeStatusList = getSizeStatus(product.size, selected)
-    return (
-        <ButtonBox>
-            {sizeStatusList.map((d) => (
-                <ToggleButton key={d.size} data={d.size} status={d.status} setSelected={setSelected} />
-            ))}
-        </ButtonBox>
-    )
-}
-
 export function Shipment({ product }: { product: ProductProps }) {
     const { intl } = product
     return <ShipmentForm type={intl ? 'intl' : 'dome'} />

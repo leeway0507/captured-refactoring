@@ -8,10 +8,13 @@ import {
     ProductPagesProps,
     ProductSearchParmasProps,
 } from '@/app/utils/hooks/data/type'
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 import { ProductCard } from '../utils/ui/product'
 import useProductDataStore from '../utils/hooks/data/product-list-stores'
-import updatePageParams from './product-infinite-scroll'
+
 import useIntersectionObserver from '../utils/hooks/interaction/infinite-scroll'
+import { ScrollDirectionProps } from '../utils/hooks/interaction/scroll-direction'
+import Filter from './filter'
 
 function NoData() {
     return (
@@ -38,6 +41,29 @@ function IntersectionTrigger({
     return <div ref={refer} data-page={page} data-last-page={lastPage} className="h-1" />
 }
 
+export const getNextPageNum = (scrollDirection: ScrollDirectionProps, currPage: string) =>
+    scrollDirection && scrollDirection === 'up' ? currPage : String(Number(currPage) + 1)
+
+export const updatePageParams = (
+    ref: React.RefObject<HTMLDivElement>,
+    router: AppRouterInstance,
+    scrollDirection: ScrollDirectionProps,
+) => {
+    const url = new URL(window.location.href)
+    const { searchParams } = url
+
+    // 현재 페이지 추출
+    const currPage = ref.current && ref.current.getAttribute('data-page')
+    const lastPage = ref.current && ref.current.getAttribute('data-last-page')
+
+    if (currPage && lastPage && currPage < lastPage) {
+        // 다음 페이지 추출 및 URL 업데이트
+        const pageNum = getNextPageNum(scrollDirection, currPage)
+        searchParams.set('page', pageNum)
+        router.push(url.toString(), { scroll: false })
+    }
+}
+
 function InfiniteScrollProductCardArr({
     lastPage,
     page,
@@ -60,7 +86,13 @@ function InfiniteScrollProductCardArr({
     )
 }
 
-function ProductComponent({ productPages, lastPage }: { productPages: ProductPagesProps; lastPage: string }) {
+function ProductComponent({
+    productPages,
+    lastPage,
+}: {
+    productPages: ProductPagesProps
+    lastPage: string
+}) {
     const productPageArr: [string, ProductProps[]][] = Object.entries(productPages)
     return productPageArr.map(([page, data]) => (
         <InfiniteScrollProductCardArr lastPage={lastPage} page={page} data={data} key={page} />
@@ -79,5 +111,10 @@ export default function ProductList({
     // TODO:no Data 체크
     if (!ProductStores) return null
     if (!productResponse.data) return <NoData />
-    return <ProductComponent productPages={ProductStores.data} lastPage={ProductStores.lastPage} />
+    return (
+        <div className="flex flex-col gap-2">
+            <Filter />
+            <ProductComponent productPages={ProductStores.data} lastPage={ProductStores.lastPage} />
+        </div>
+    )
 }

@@ -66,10 +66,10 @@ const useCart = () => {
     useEffect(() => {
         const cartArr = loadFromLocal<ProductCartProps[]>(localKey)
         setCartData(cartArr)
+    }, [])
 
-        return () => {
-            saveToLocal(localKey, cartData)
-        }
+    useEffect(() => {
+        saveToLocal(localKey, cartData)
     }, [cartData])
 
     const addToCart = (product: ProductProps, selectedSize: string) => {

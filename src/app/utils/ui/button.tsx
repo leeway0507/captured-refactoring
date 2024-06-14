@@ -1,12 +1,26 @@
-import React from 'react'
 import { Button, ButtonProps } from '@/components/ui/button'
 
 export function ConfirmButton(button: ButtonProps) {
     return <Button {...button} />
 }
 
-export function CancleButton(button: ButtonProps) {
+export function CancelButton(button: ButtonProps) {
     return <Button variant="outline" {...button} />
+}
+
+interface ToggleStatusProps<T> {
+    item: T
+    status: 'selected' | 'init'
+}
+
+export const getToggleStatus = <T,>(
+    itemArr: T[],
+    selected: T | undefined,
+): ToggleStatusProps<T>[] => {
+    const getStatus = (item: T, selectedItem: T | undefined) =>
+        item === selectedItem ? 'selected' : 'init'
+
+    return itemArr.map((i) => ({ item: i, status: getStatus(i, selected) }))
 }
 
 export function ButtonBox({ children }: { children: React.ReactNode }) {
@@ -20,21 +34,17 @@ export function ButtonBox({ children }: { children: React.ReactNode }) {
     )
 }
 
-export function ToggleButton({
+export function ToggleButton<T extends React.ReactNode>({
     data,
     status,
     setSelected,
+    icon,
 }: {
-    data: string
+    data: T
     status: 'selected' | 'disabled' | 'init'
-    setSelected: (s: string) => void
+    setSelected: (s: T) => void
+    icon?: JSX.Element
 }) {
-    // const itemClass = 'flex-center text-sm w-full h-[35px] border rounded-full whitespace-nowrap px-1'
-    // const statusClasses = {
-    //     selected: 'border-main-black border-2 cursor-pointer shadow-sm',
-    //     disabled: 'border-gray-300 cursor-pointer text-gray-500 border-1',
-    //     init: 'border-deep-gray cursor-not-allowed line-through decoration-[2px] text-deep-gray',
-    // }
     const variants = {
         selected: 'default',
         disabled: 'default',
@@ -48,7 +58,9 @@ export function ToggleButton({
             variant={variants[status] as 'default' | 'outline'}
             onClick={() => setSelected(data)}
         >
-            <span className="px-3">{data}</span>
+            <span className="px-3 flex gap-1 items-center">
+                {data} {icon}
+            </span>
         </Button>
     )
 }

@@ -1,20 +1,19 @@
-
 export interface ProductProps {
-    sku: number;
-    brand: string;
-    korBrand: string;
-    productName: string;
-    korProductName: string;
-    productId: string;
-    price: number;
-    shippingFee: number;
-    intl: boolean;
-    imgType: string;
-    category: string;
-    color: string;
-    categorySpec: string;
-    size: string[];
-    deploy: number;
+    sku: number
+    brand: string
+    korBrand: string
+    productName: string
+    korProductName: string
+    productId: string
+    price: number
+    shippingFee: number
+    intl: boolean
+    imgType: string
+    category: string
+    color: string
+    categorySpec: string
+    size: string[]
+    deploy: number
 }
 
 export type ProductFetchResponseProps = {
@@ -23,22 +22,26 @@ export type ProductFetchResponseProps = {
     lastPage: number
 }
 
-export interface ProductFilterParamsProps{
-     [key: string]: string[] 
+export interface ProductFilterParamsProps {
+    pageType?: string[]
+    sortBy?: string[]
+    brand?: string[]
+    category?: string[]
+    size?: string[]
+    delivery?: string[]
+    price?: string[]
 }
 
-export interface ProductPagesProps{
-    [key:number]:ProductProps[]
+export interface ProductPagesProps {
+    [key: number]: ProductProps[]
 }
 
-export interface ProductDataStoreProps{
-    filter:string
+export interface ProductDataStoreProps {
+    filter: string
     data: ProductPagesProps
-    lastPage:string
+    lastPage: string
 }
-export interface ProductSearchParmasProps{
-    page?:string
-    brand?:string
-    
+export interface ProductSearchParmasProps {
+    page?: string
+    brand?: string
 }
-

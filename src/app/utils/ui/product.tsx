@@ -14,14 +14,22 @@ export function ProductImage({ sku, imgName }: { sku: string; imgName: string })
 
     return (
         <div className="relative w-full aspect-[1/1.2] mx-auto bg-gray-50 vignette rounded">
-            <Image src={src} alt={sku} fill className="object-cover" unoptimized onError={handleImageError} />
+            <Image
+                src={src}
+                alt={sku}
+                fill
+                className="object-cover"
+                unoptimized
+                onError={handleImageError}
+            />
         </div>
     )
 }
 
 export function Description({ product }: { product: ProductProps }) {
     const { brand, productName, price, productId, intl } = product
-    const shotenProductName = productName.length > 25 ? `${productName.slice(0, 25)}...` : productName
+    const shotenProductName =
+        productName.length > 25 ? `${productName.slice(0, 25)}...` : productName
     return (
         <div className="flex flex-col text-sub-black pt-1 px-1">
             <div className="h-[50px]">{`${brand} ${shotenProductName} | ${productId.toUpperCase()}`}</div>
@@ -36,7 +44,7 @@ export function ProductCard({ product }: { product: ProductProps }) {
     const { sku } = product
 
     return (
-        <Link href={`/product/${sku}`} className="text-sub-black text-xs font-light pb-6 z-1 max-w-[300px]">
+        <Link href={`/product/${sku}`} className="text-sub-black text-xs font-light pb-6 z-1 ">
             <ProductImage sku={String(sku)} imgName="main" />
             <Description product={product} />
         </Link>

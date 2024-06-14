@@ -1,7 +1,7 @@
 import { ProductProps } from '@/app/utils/hooks/data/type'
 import { KRW } from '@/app/utils/string-style/currency'
 import CarouselProgressBar, { CarouselImage } from '@/app/utils/ui/carousel/carousel'
-import { AddToCart } from './general'
+import { AddToCartButton } from './general'
 
 export function Container({ children }: { children: React.ReactNode }) {
     return <div className="main-frame">{children}</div>
@@ -33,7 +33,7 @@ export function CartBox({ product, selected }: { product: ProductProps; selected
     return (
         <div className={`${container}`}>
             <div>{KRW(product.price)}</div>
-            <AddToCart product={product} selected={selected} />
+            <AddToCartButton product={product} selected={selected} />
         </div>
     )
 }

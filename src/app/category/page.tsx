@@ -1,6 +1,6 @@
 import { fetchProductList } from "@/app/utils/hooks/data/product-list-fetch"
 import { ProductSearchParmasProps } from "../utils/hooks/data/type"
-import ProductList from "./product-list"
+import ProductList from "./infinite-scroll"
 
 async function Page({ searchParams }: { searchParams: ProductSearchParmasProps }) {
     const productResponse = await fetchProductList(searchParams)

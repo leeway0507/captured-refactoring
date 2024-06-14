@@ -31,7 +31,7 @@ export function GeneralView({ product }: { product: ProductProps }) {
             <General.ProductLayout>
                 <General.ProductInfo product={product} />
                 <General.SizeBox product={product} selected={selected} setSelected={setSelected} />
-                <General.AddToCart product={product} selected={selected!} />
+                <General.AddToCartButton product={product} selected={selected!} />
                 <General.Shipment product={product} />
                 <General.Info />
             </General.ProductLayout>
@@ -44,5 +44,9 @@ export default function Product({ product }: { product: ProductProps }) {
 
     // TODO: 로딩중 이미지로 표시
     if (!userView) return null
-    return userView === 'mobile' ? <MobileVIew product={product} /> : <GeneralView product={product} />
+    return userView === 'mobile' ? (
+        <MobileVIew product={product} />
+    ) : (
+        <GeneralView product={product} />
+    )
 }
