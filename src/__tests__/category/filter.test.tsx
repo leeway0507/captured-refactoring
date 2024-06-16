@@ -1,8 +1,12 @@
 import '@/__mocks__/useRouter-mock'
-import { getFilterParams, updateFilterParams, userFilter } from '@/app/category/filter'
+import {
+    getFilterParams,
+    applyFilterToURLFn,
+    useFilterParams,
+} from '@/app/utils/hooks/data/product-filter'
 import { changeUrlMock } from '@/__mocks__/url-mock'
 import { useRouter } from 'next/navigation'
-import { renderHook } from '@testing-library/react'
+import { renderHook, act } from '@testing-library/react'
 
 describe('Filter Component Logic', () => {
     const filterObj = {
@@ -30,16 +34,51 @@ describe('Filter Component Logic', () => {
     it('should update filter Params', () => {
         const router = useRouter()
 
-        renderHook(() => updateFilterParams(filterObj, router))
+        renderHook(() => applyFilterToURLFn(filterObj, router))
 
         const updatedURLObj = new URL(window.location.href)
         expect(updatedURLObj.href).toBe(testUrl)
     })
 
-    it('should get consistant filterParams Obj', () => {
-        const { filterParams } = renderHook(() => userFilter())
+    describe('useFilterParams', () => {
+        const updatedFilterObj = {
+            brand: ['adidas', 'nike', 'asics'],
+            size: ['230', '235'],
+        }
+        const updatedTestUrl = 'http://localhost/?brand=adidas%2Cnike%2Casics&size=230%2C235'
 
-        const updatedURLObj = new URL(window.location.href)
-        expect(updatedURLObj.href).toBe(testUrl)
+        it('should get initial filterState', () => {
+            const { result } = renderHook(() => useFilterParams())
+            const { filterState } = result.current
+
+            expect(filterState).toEqual(filterObj)
+        })
+
+        it('should update filterState when setFilterState is called', () => {
+            const { result } = renderHook(() => useFilterParams())
+
+            act(() => result.current.setFilterState(updatedFilterObj))
+
+            expect(result.current.filterState).toEqual(updatedFilterObj)
+        })
+
+        it('should reset filterState when resetFilterState is called', () => {
+            const { result } = renderHook(() => useFilterParams())
+
+            act(() => result.current.setFilterState(updatedFilterObj))
+            act(() => result.current.resetFilterState())
+
+            expect(result.current.filterState).toEqual(filterObj)
+        })
+
+        it('should apply updated filter when applyFilterToURL is called', () => {
+            const { result } = renderHook(() => useFilterParams())
+
+            act(() => result.current.setFilterState(updatedFilterObj))
+            act(() => result.current.applyFilterToURL())
+
+            const updatedURLObj = new URL(window.location.href)
+            expect(updatedURLObj.href).toBe(updatedTestUrl)
+        })
     })
 })

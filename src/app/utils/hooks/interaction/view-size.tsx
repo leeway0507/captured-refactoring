@@ -8,12 +8,7 @@ const mobileSize = 768
 const detectView = (innerWidth: number) => (innerWidth < mobileSize ? 'mobile' : 'general')
 
 const useMobile = () => {
-    const [view, setView] = useState<View>()
-
-    // 초기 체크
-    useEffect(() => {
-        setView(detectView(window.innerWidth))
-    }, [])
+    const [view, setView] = useState<View>(() => detectView(window.innerWidth))
 
     // 사이즈 변화 체크(반응형)
     useEffect(() => {

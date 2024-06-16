@@ -1,10 +1,7 @@
 'use client'
 
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
-import { useEffect, useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
-import { ProductFilterParamsProps } from '../utils/hooks/data/type'
 import {
     ButtonBox,
     ToggleButton,
@@ -13,152 +10,99 @@ import {
     CancelButton,
 } from '../utils/ui/button'
 import { filterMetaData } from '../static/metadata'
-import ScrollComponent from '../utils/ui/scroll-area'
+import DropdownComponent from '../utils/ui/dropdown'
 import SlideComponent from '../utils/ui/slider/slider'
-
-export const updateFilterParams = (
-    filterParams: ProductFilterParamsProps,
-    router: AppRouterInstance,
-) => {
-    const urlWithoutSearchParams = window.location.href.split('?')[0]
-    const newURL = new URL(urlWithoutSearchParams)
-
-    // update SearchParams
-    Object.entries(filterParams).map(([k, v]) => newURL.searchParams.set(k, v.join()))
-    router.push(newURL.href, { scroll: false })
-}
-
-export const getFilterParams = (): ProductFilterParamsProps => {
-    const url = new URL(window.location.href)
-    const { searchParams } = url
-
-    searchParams.delete('page')
-
-    // Use reduce to convert the search parameters into an object
-    const filterParams = Array.from(searchParams.entries()).reduce(
-        (acc, [key, value]) => ({ ...acc, [key]: value.split(',') }),
-        {},
-    )
-    return filterParams
-}
-
-const useFilterParams = () => {
-    const router = useRouter()
-    const [filterParams, setFilterParams] = useState<ProductFilterParamsProps>()
-    const [filterSaved, setFilterSaved] = useState<ProductFilterParamsProps>()
-
-    useEffect(() => {
-        const urlFilter = getFilterParams()
-        setFilterParams(urlFilter)
-        setFilterSaved(urlFilter)
-    }, [])
-
-    const updateFilter = () => {
-        if (filterParams) updateFilterParams(filterParams, router)
-    }
-    const updatePrev = () => {
-        if (filterParams) setFilterParams(filterSaved)
-    }
-    return { filterParams, setFilterParams, updateFilter, updatePrev }
-}
-
-type PageType = '의류' | '신발' | '전체' | '기타'
-const VALID_PAGE_TYPES: PageType[] = ['의류', '신발', '전체', '기타']
-
-const isPageType = (pageType: string): pageType is PageType =>
-    VALID_PAGE_TYPES.includes(pageType as PageType)
-
-const usePageType = (): PageType => {
-    const searchParams = useSearchParams()
-    const pageType = searchParams.get('pageType')
-
-    return pageType && isPageType(pageType) ? (pageType as PageType) : '전체'
-}
+import { useFilterParams, usePageType } from '../utils/hooks/data/product-filter'
 
 export function FilterOptions({
-    selectedFilterName,
-    setSelectedFilterName,
+    selectedFilterType,
+    setSelectedFilterType,
 }: {
-    selectedFilterName: FilterType | undefined
-    setSelectedFilterName: (s: FilterType | undefined) => void
+    selectedFilterType: FilterType | undefined
+    setSelectedFilterType: (s: FilterType | undefined) => void
 }) {
-    const { filterParams, setFilterParams, updateFilter, updatePrev } = useFilterParams()
+    const { filterState, setFilterState, applyFilterToURL, resetFilterState } = useFilterParams()
 
     const pageType = usePageType()
 
     const handleConfirm = () => {
-        updateFilter()
-        setSelectedFilterName(undefined)
+        applyFilterToURL()
+        setSelectedFilterType(undefined)
     }
     const handleCancel = () => {
-        updatePrev()
-        setSelectedFilterName(undefined)
+        resetFilterState()
+        setSelectedFilterType(undefined)
     }
 
-    const FilterComponent = {
+    const FilterComponent: Record<FilterType, JSX.Element> = {
         정렬순: (
-            <ScrollComponent
+            <DropdownComponent
+                key="정렬순"
                 defaultData={filterMetaData['정렬순']}
-                selectedData={filterParams?.sortBy || []}
-                updateData={(update: string[]) =>
-                    setFilterParams((old) => ({ ...old, sortBy: update }))
+                selectedData={filterState?.sortBy || []}
+                setSelectedData={(update: string[]) =>
+                    setFilterState((old) => ({ ...old, sortBy: update }))
                 }
                 unique
             />
         ),
         브랜드: (
-            <ScrollComponent
+            <DropdownComponent
+                key="브랜드"
                 defaultData={filterMetaData['브랜드']}
-                selectedData={filterParams?.brand || []}
-                updateData={(update: string[]) =>
-                    setFilterParams((old) => ({ ...old, brand: update }))
+                selectedData={filterState?.brand || []}
+                setSelectedData={(update: string[]) =>
+                    setFilterState((old) => ({ ...old, brand: update }))
                 }
             />
         ),
         제품종류: (
-            <ScrollComponent
+            <DropdownComponent
+                key="제품종류"
                 defaultData={filterMetaData['제품종류'][pageType]}
-                selectedData={filterParams?.category || []}
-                updateData={(update: string[]) =>
-                    setFilterParams((old) => ({ ...old, category: update }))
+                selectedData={filterState?.category || []}
+                setSelectedData={(update: string[]) =>
+                    setFilterState((old) => ({ ...old, category: update }))
                 }
             />
         ),
         사이즈: (
-            <ScrollComponent
+            <DropdownComponent
+                key="사이즈"
                 defaultData={filterMetaData['사이즈'][pageType]}
-                selectedData={filterParams?.size || []}
-                updateData={(update: string[]) =>
-                    setFilterParams((old) => ({ ...old, size: update }))
+                selectedData={filterState?.size || []}
+                setSelectedData={(update: string[]) =>
+                    setFilterState((old) => ({ ...old, size: update }))
                 }
             />
         ),
         배송: (
-            <ScrollComponent
+            <DropdownComponent
+                key="배송"
                 defaultData={filterMetaData['배송']}
-                selectedData={filterParams?.delivery || []}
-                updateData={(update: string[]) =>
-                    setFilterParams((old) => ({ ...old, delivery: update }))
+                selectedData={filterState?.delivery || []}
+                setSelectedData={(update: string[]) =>
+                    setFilterState((old) => ({ ...old, delivery: update }))
                 }
             />
         ),
         가격: (
             <SlideComponent
+                key="가격"
                 defaultData={filterMetaData['가격']}
-                selectedData={filterParams?.price || []}
-                updateData={(update: number[]) =>
-                    setFilterParams((old) => ({ ...old, price: update.map((v) => String(v)) }))
+                selectedData={filterState?.price || []}
+                setSelectedData={(update: number[]) =>
+                    setFilterState((old) => ({ ...old, price: update.map((v) => String(v)) }))
                 }
             />
         ),
     }
 
-    if (!selectedFilterName) return null
+    if (!selectedFilterType) return null
     return (
-        // TODO: absolute가 되도록 조치
-        <div>
-            <div>{FilterComponent[selectedFilterName]}</div>
-            <div className="flex gap-2">
+        <div className="absolute top-12 z-20 w-full bg-white pb-4">
+            <div>{FilterComponent[selectedFilterType]}</div>
+            <div className="flex gap-4 items-center justify-center pt-8">
                 <ConfirmButton onClick={handleConfirm}>적용하기</ConfirmButton>
                 <CancelButton onClick={handleCancel}>취소</CancelButton>
             </div>
@@ -167,27 +111,20 @@ export function FilterOptions({
 }
 
 type FilterType = '정렬순' | '브랜드' | '제품종류' | '사이즈' | '배송' | '가격'
+const VALID_FILTER_TYPES: FilterType[] = ['정렬순', '브랜드', '제품종류', '사이즈', '배송', '가격']
 
 export default function Filter() {
-    const [selectedFilterName, setSelectedFilterName] = useState<FilterType>()
-    const VALID_FILTER_TYPES: FilterType[] = [
-        '정렬순',
-        '브랜드',
-        '제품종류',
-        '사이즈',
-        '배송',
-        '가격',
-    ]
-    const filterStatus = getToggleStatus<FilterType>(VALID_FILTER_TYPES, selectedFilterName)
+    const [selectedFilterType, setSelectedFilterType] = useState<FilterType>()
+    const filterStatus = getToggleStatus<FilterType>(VALID_FILTER_TYPES, selectedFilterType)
 
     const addOrRemoveItem = (v: FilterType | undefined) => {
-        setSelectedFilterName((old) => {
+        setSelectedFilterType((old) => {
             if (old === v) return undefined
             return v
         })
     }
     return (
-        <>
+        <div className="py-2 fixed top-0 z-50 w-full bg-white">
             <ButtonBox>
                 {filterStatus.map((f) => (
                     <ToggleButton<FilterType>
@@ -200,9 +137,9 @@ export default function Filter() {
                 ))}
             </ButtonBox>
             <FilterOptions
-                selectedFilterName={selectedFilterName}
-                setSelectedFilterName={addOrRemoveItem}
+                selectedFilterType={selectedFilterType}
+                setSelectedFilterType={addOrRemoveItem}
             />
-        </>
+        </div>
     )
 }

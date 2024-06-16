@@ -1,4 +1,7 @@
-import useProductDataStore, { simpleHash, checkAndUpdate } from '@/app/utils/hooks/data/product-list-stores'
+import useProductDataStore, {
+    simpleHash,
+    loadUpdatedProductDataStore,
+} from '@/app/utils/hooks/data/product-list-stores'
 import productMock from '@/__mocks__/product-data-api'
 import { renderHook, render, waitFor } from '@testing-library/react' // React v18 이후
 import { useState, useEffect } from 'react'
@@ -24,7 +27,12 @@ describe('product-store', () => {
                 const [productData, setProductData] = useState<ProductDataStoreProps>()
 
                 useEffect(() => {
-                    const productDataStore = checkAndUpdate(localKey, filterParams, productResponse)
+                    const prevProductDataStore = loadFromLocal<ProductDataStoreProps>(localKey)
+                    const productDataStore = loadUpdatedProductDataStore(
+                        prevProductDataStore,
+                        filterParams,
+                        productResponse,
+                    )
                     setProductData(productDataStore)
                 }, [])
 
@@ -43,7 +51,12 @@ describe('product-store', () => {
                     const [, setProductData] = useState<ProductDataStoreProps>()
 
                     useEffect(() => {
-                        const productDataStore = checkAndUpdate(localKey, filterParams, productResponse)
+                        const prevProductDataStore = loadFromLocal<ProductDataStoreProps>(localKey)
+                        const productDataStore = loadUpdatedProductDataStore(
+                            prevProductDataStore,
+                            filterParams,
+                            productResponse,
+                        )
                         setProductData(productDataStore)
 
                         return () => {

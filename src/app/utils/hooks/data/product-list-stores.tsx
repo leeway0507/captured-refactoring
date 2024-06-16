@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import { ProductDataStoreProps, ProductFetchResponseProps, ProductSearchParmasProps } from './type'
 import { saveToLocal, loadFromLocal } from '../../storage'
 
@@ -16,18 +15,18 @@ export const simpleHash = (s: string) => {
     return (hash >>> 0).toString(36).padStart(7, '0')
 }
 
-export const checkAndUpdate = (
-    localKey: string,
+export const loadUpdatedProductDataStore = (
+    localProductData: ProductDataStoreProps | undefined,
     ProductFilterParams: ProductSearchParmasProps,
     ProductFetchResponse: ProductFetchResponseProps,
 ) => {
-    const localProductData = loadFromLocal<ProductDataStoreProps>(localKey)
     const filterHash = simpleHash(JSON.stringify(ProductFilterParams))
     const { data, currentPage, lastPage } = ProductFetchResponse
 
     // 신규 또는 필터 변경시 초기화
     const initCases = localProductData === undefined || localProductData.filter !== filterHash
-    if (initCases) return { filter: filterHash, data: { [currentPage]: data }, lastPage: lastPage.toString() }
+    if (initCases)
+        return { filter: filterHash, data: { [currentPage]: data }, lastPage: lastPage.toString() }
 
     // 기존과 변함 없다면
     const pages = Object.keys(localProductData.data)
@@ -46,19 +45,18 @@ const useProductDataStore = (
     ProductFilterParams: ProductSearchParmasProps,
     ProductFetchResponse: ProductFetchResponseProps,
 ) => {
-    const [dataStore, setDataStore] = useState<ProductDataStoreProps>()
     const localKey = 'pr_d'
+    const prevProductDataStore = loadFromLocal<ProductDataStoreProps>(localKey)
+    const updatedProductDataStore = loadUpdatedProductDataStore(
+        prevProductDataStore,
+        ProductFilterParams,
+        ProductFetchResponse,
+    )
 
-    useEffect(() => {
-        const productDataStore = checkAndUpdate(localKey, ProductFilterParams, ProductFetchResponse)
-        setDataStore(productDataStore)
+    if (JSON.stringify(prevProductDataStore) !== JSON.stringify(updatedProductDataStore))
+        saveToLocal(localKey, updatedProductDataStore)
 
-        return () => {
-            saveToLocal(localKey, productDataStore)
-        }
-    }, [ProductFilterParams, ProductFetchResponse])
-
-    return dataStore
+    return updatedProductDataStore
 }
 
 export default useProductDataStore

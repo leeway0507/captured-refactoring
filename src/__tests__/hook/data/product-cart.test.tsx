@@ -2,7 +2,9 @@ import productMock from '@/__mocks__/product-data-api'
 import useCart, {
     addToCartFn,
     findProductIndex,
-    updateProductQty,
+    removeToCartFn,
+    increaseQtyFn,
+    decreaseQtyFn,
     addProductToCart,
     ProductCartProps,
 } from '@/app/utils/hooks/data/product-cart'
@@ -23,30 +25,51 @@ describe('Product Cart', () => {
     })
 
     it('should add a new item to cart', () => {
-        addProductToCart(cart, product, selectedSize, setCart)
-
+        addProductToCart(cart, setCart, product, selectedSize)
         const expectedResult = [{ product, size: selectedSize, qty: 1 }]
 
         expect(cart).toEqual(expectedResult)
     })
+    it('should remove the cart', () => {
+        cart = [{ product, size: selectedSize, qty: 3 }]
+        removeToCartFn(cart, setCart, product, selectedSize)
+
+        const expectedResult: any = []
+        expect(cart).toEqual(expectedResult)
+    })
 
     it('should return product idx', () => {
-        const cartData = [{ product, size: selectedSize, qty: 1 }]
-        const idx = findProductIndex(cartData, product, selectedSize)
+        cart = [{ product, size: selectedSize, qty: 1 }]
+        const idx = findProductIndex(cart, product, selectedSize)
         expect(idx).toBe(0)
 
-        const cartDataSecond = [{ product, size: '123', qty: 1 }]
-        const idxSecond = findProductIndex(cartDataSecond, product, selectedSize)
+        const cartDataUpdated = [{ product, size: '123', qty: 1 }]
+        const idxSecond = findProductIndex(cartDataUpdated, product, selectedSize)
         expect(idxSecond).toBe(-1)
     })
 
     it('should increase the product qty', () => {
-        const cartData = [{ product, size: selectedSize, qty: 1 }]
-        const idx = findProductIndex(cartData, product, selectedSize)
-        updateProductQty(cartData, idx, setCart)
+        cart = [{ product, size: selectedSize, qty: 1 }]
+        increaseQtyFn(cart, setCart, product, selectedSize)
 
         const expectedResult = [{ product, size: selectedSize, qty: 2 }]
         expect(cart).toEqual(expectedResult)
+    })
+
+    it('should decrease the product qty', () => {
+        cart = [{ product, size: selectedSize, qty: 2 }]
+
+        // qty 2 -> 1
+        decreaseQtyFn(cart, setCart, product, selectedSize)
+
+        const expectedResult1 = [{ product, size: selectedSize, qty: 1 }]
+        expect(cart).toEqual(expectedResult1)
+
+        // qty 1 -> remove Product To Cart
+        decreaseQtyFn(cart, setCart, product, selectedSize)
+
+        const expectedResult2: any = []
+        expect(cart).toEqual(expectedResult2)
     })
 
     it('should add and update an item to Cart', () => {
