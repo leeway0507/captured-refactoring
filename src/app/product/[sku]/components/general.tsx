@@ -2,15 +2,23 @@ import Link from 'next/link'
 
 import { useState } from 'react'
 import { ProductProps } from '@/app/utils/hooks/data/type'
-import { ProductImage } from '@/app/utils/ui/product'
+import { ProductImage, ProductCard } from '@/app/utils/ui/product'
 import { ToggleButton, ButtonBox, ConfirmButton, getToggleStatus } from '@/app/utils/ui/button'
 import { KRW } from '@/app/utils/string-style/currency'
 import ShipmentForm from '@/app/static/shipment-form'
 import SideBar from '@/app/utils/ui/sidebar'
 import useCart from '@/app/utils/hooks/data/product-cart'
+
+import useRecentView from '@/app/utils/hooks/data/product-recent-view'
+import EmblaCarousel from '@/app/utils/ui/carousel/carousel'
+import styles from '@/app//utils/ui/carousel/styles.module.css'
 import DeliveryInfo from './delivery-info'
 
 export function Container({ children }: { children: React.ReactNode }) {
+    return <div className="main-frame">{children}</div>
+}
+
+export function ProductLayout({ children }: { children: React.ReactNode }) {
     return <div className="flex justify-center gap-2">{children}</div>
 }
 
@@ -25,7 +33,7 @@ export function ImageArr({ product }: { product: ProductProps }) {
     return imageNameArray.map((name) => <ProductImage key={name} sku={sku} imgName={name} />)
 }
 
-export function ProductLayout({ children }: { children: React.ReactNode }) {
+export function InfoLayout({ children }: { children: React.ReactNode }) {
     const ProductFlex =
         'flex flex-col py-8 sticky top-[60px] gap-8 w-full tb:max-w-[380px] xl:max-w-[480px]'
     return <div className={`${ProductFlex}`}>{children}</div>
@@ -56,8 +64,6 @@ export function ProductInfo({ product }: { product: ProductProps }) {
         </div>
     )
 }
-
-
 
 export function SizeBox({
     product,
@@ -129,5 +135,29 @@ export function Info() {
                 closeModal={closeDeliveryModal}
             />
         </>
+    )
+}
+
+function RecentViewProductCard({ recentView }: { recentView: ProductProps[] }) {
+    return (
+        <EmblaCarousel type="multi">
+            {recentView.map((product: ProductProps) => (
+                <div key={product.sku} className={`${styles.embla__slide} flex-center`}>
+                    <ProductCard product={product} />
+                </div>
+            ))}
+        </EmblaCarousel>
+    )
+}
+
+export function RecentView({ product }: { product: ProductProps }) {
+    const recentView = useRecentView(product)
+
+    if (!recentView) return null
+    return (
+        <div className="grow flex flex-col pt-10">
+            <div className="text-xl-2xl pb-6 font-bold">최근 본 아이템</div>
+            <RecentViewProductCard recentView={recentView} />
+        </div>
     )
 }

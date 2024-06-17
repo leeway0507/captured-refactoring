@@ -6,6 +6,7 @@ import styles from './styles.module.css'
 
 type EmblaCarouselProps = {
     children: React.ReactNode
+    type: 'single' | 'multi'
 }
 
 const handleImageError = (errorNode: React.SyntheticEvent<HTMLImageElement>) => {
@@ -17,11 +18,12 @@ const handleImageError = (errorNode: React.SyntheticEvent<HTMLImageElement>) => 
 interface CarouselImageProps extends React.ComponentProps<typeof Image> {}
 
 export function CarouselImage(props: CarouselImageProps) {
+    const { className } = props
     return (
         <div className={styles.embla__slide}>
             <Image
                 unoptimized
-                className={`${styles.embla__slide__img} bg-gray-100`}
+                className={`${styles.embla__slide__img} bg-gray-100 ${className}`}
                 onError={handleImageError}
                 priority
                 {...props}
@@ -30,12 +32,17 @@ export function CarouselImage(props: CarouselImageProps) {
     )
 }
 
-function EmblaCarousel({ children }: EmblaCarouselProps) {
+function EmblaCarousel({ children, type }: EmblaCarouselProps) {
     const [emblaRef] = useEmblaCarousel()
+
+    const carouselType = {
+        single: styles.embla,
+        multi: styles.embla_multi,
+    }
 
     return (
         <div className="flex flex-col">
-            <div className={styles.embla}>
+            <div className={carouselType[type]}>
                 <div className={styles.embla__viewport} ref={emblaRef}>
                     <div className={styles.embla__container}>{children}</div>
                 </div>
