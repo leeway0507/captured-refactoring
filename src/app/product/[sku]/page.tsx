@@ -1,5 +1,6 @@
-import fetchProduct from '@/app/utils/hooks/data/product-fetch'
+import fetchProduct from '@/hooks/data/product-fetch'
 import { productMetaData, JsonLDComponent } from './metadata'
+import Nav from '../../static/nav'
 import Product from './product'
 
 interface ParamsProps {
@@ -15,7 +16,10 @@ async function Page({ params }: { params: ParamsProps }) {
     return (
         <>
             <JsonLDComponent product={product} />
-            <Product product={product} />
+            <Nav hideMobileBottom />
+            <main className="page-container page-max-frame">
+                <Product product={product} />
+            </main>
         </>
     )
 }

@@ -1,12 +1,12 @@
 import useProductDataStore, {
     simpleHash,
     loadUpdatedProductDataStore,
-} from '@/app/utils/hooks/data/product-list-stores'
+} from '@/utils/hooks/data/product-list-stores'
 import productMock from '@/__mocks__/product-data-api'
 import { renderHook, render, waitFor } from '@testing-library/react' // React v18 이후
 import { useState, useEffect } from 'react'
-import { ProductDataStoreProps } from '@/app/utils/hooks/data/type'
-import { saveToLocal, loadFromLocal } from '@/app/utils/storage'
+import { ProductDataStoreProps } from '@/utils/hooks/data/type'
+import { saveToLocal, loadFromLocal } from '@/utils/storage'
 
 describe('product-store', () => {
     const filterParams = { brand: 'a,b', page: 'c' }

@@ -2,16 +2,16 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Monda, Fugaz_One } from 'next/font/google'
 import { ToastContainer, Flip } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import GoogleAnalytics from '@/app/utils/google-analytics-4'
 import Script from 'next/script'
+import GoogleAnalytics from '@/utils/google-analytics-4'
 
 const monda = Monda({ weight: ['400', '700'], subsets: ['latin'] })
 const FugazeOne = Fugaz_One({ weight: ['400'], subsets: ['latin'], variable: '--test' })
 
 export const metadata: Metadata = {
     title: '캡쳐드',
-    description: '전세계 숨은 재고를 검거하는 캡쳐드! 내가 원하는 그 제품, 캡쳐드에서 먼저 찾아보세요.',
+    description:
+        '전세계 숨은 재고를 검거하는 캡쳐드! 내가 원하는 그 제품, 캡쳐드에서 먼저 찾아보세요.',
     // viewport: "width=device-width, maximum-scale=1, user-scalable=0",
 }
 
@@ -32,7 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
-            <body className={`${monda.className} ${FugazeOne.variable}`}>
+            <body className={`${monda.className} ${FugazeOne.variable} relative`}>
                 {children}
                 <ToastContainer
                     position="top-right"

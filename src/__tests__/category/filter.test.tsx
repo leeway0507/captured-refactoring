@@ -3,7 +3,7 @@ import {
     getFilterParams,
     applyFilterToURLFn,
     useFilterParams,
-} from '@/app/utils/hooks/data/product-filter'
+} from '@/utils/hooks/data/product-filter'
 import { changeUrlMock } from '@/__mocks__/url-mock'
 import { useRouter } from 'next/navigation'
 import { renderHook, act } from '@testing-library/react'

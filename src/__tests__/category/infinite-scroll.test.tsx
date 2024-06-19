@@ -1,8 +1,8 @@
 import '@/__mocks__/intersectionObserver-mock'
 import '@/__mocks__/useRouter-mock'
 import { changeUrlMock } from '@/__mocks__/url-mock'
-import { getNextPageNum, updatePageParams } from '@/app/category/infinite-scroll'
-import useIntersectionObserver from '@/app/utils/hooks/interaction/infinite-scroll'
+import { getNextPageNum, updatePageParams } from '@/app/shop/infinite-scroll'
+import useIntersectionObserver from '@/utils/hooks/interaction/infinite-scroll'
 import { renderHook, render } from '@testing-library/react'
 import { useRouter } from 'next/navigation'
 

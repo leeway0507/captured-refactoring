@@ -161,7 +161,7 @@ export const brandArr = [
 export const filterMetaData = {
     정렬순: ['최신순', '낮은 가격 순', '높은 가격 순'],
     브랜드: brandArr,
-    제품종류: productCategory,
+    종류: productCategory,
     사이즈: productSize,
     배송: ['해외배송', '국내배송'],
     가격: [0, 1000000],

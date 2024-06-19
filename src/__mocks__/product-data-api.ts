@@ -1,4 +1,4 @@
-import { ProductProps } from '@/app/utils/hooks/data/type'
+import { ProductProps } from '@/utils/hooks/data/type'
 
 const productMock: ProductProps[] = [
     {

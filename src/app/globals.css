@@ -1,3 +1,5 @@
+@import '~react-toastify/dist/ReactToastify.min.css';
+
 @tailwind base;
   @tailwind components;
   @tailwind utilities;
@@ -65,15 +67,27 @@
       --ring: 212.7 26.8% 83.9%;
     }
   }
+    html {
+        overflow-y: scroll;
+    }
 
   @layer base {
     * {
       @apply border-border;
     }
     body {
-      @apply bg-background text-foreground;
+      @apply bg-background text-foreground min-h-lvh flex flex-col;
     }
     .flex-center {
     @apply flex items-center justify-center;
             }
+    .page-container {
+      @apply pt-[60px] md:pt-[130px]  pb-[75px] mx-auto grow w-full
+    }
+    .layout-max-frame{
+      @apply max-w-[1660px]
+    }
+    .page-max-frame{
+      @apply max-w-[1440px]
+    }
   }

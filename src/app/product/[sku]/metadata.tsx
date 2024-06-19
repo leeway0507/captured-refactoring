@@ -1,7 +1,9 @@
-import { ProductProps } from '@/app/utils/hooks/data/type'
+import { ProductProps } from '@/hooks/data/type'
 
-const generateTitle =(product:ProductProps)=>`${product.korBrand} ${product.korProductName} | ${product.productId}`
-const generateDescription =(product:ProductProps)=>`전세계 재고를 찾아 검거하는 캡쳐드! 내가 원하는 그 제품, 캡쳐드에서 먼저 찾아보세요. ${product.brand} ${product.productName} `
+const generateTitle = (product: ProductProps) =>
+    `${product.korBrand} ${product.korProductName} | ${product.productId}`
+const generateDescription = (product: ProductProps) =>
+    `전세계 재고를 찾아 검거하는 캡쳐드! 내가 원하는 그 제품, 캡쳐드에서 먼저 찾아보세요. ${product.brand} ${product.productName} `
 
 export async function productMetaData(product: ProductProps) {
     const title = generateTitle(product)
@@ -43,5 +45,10 @@ export function JsonLDComponent({ product }: { product: ProductProps }) {
                     : 'https://schema.org/OutOfStock',
         },
     }
-    return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+    return (
+        <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+    )
 }

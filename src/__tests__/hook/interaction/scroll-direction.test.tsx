@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react'
-import useScrollDirection from '@/app/utils/hooks/interaction/scroll-direction'
+import useScrollDirection from '@/utils/hooks/interaction/scroll-direction'
 
 describe('detect user scroll direction', () => {
     beforeEach(() => {
@@ -27,19 +27,19 @@ describe('detect user scroll direction', () => {
     })
 
     it('should return "up" when scrolling up', () => {
-        const { result } = renderHook(() => useScrollDirection());
+        const { result } = renderHook(() => useScrollDirection())
 
         // scorll up
         act(() => {
-            window.scrollY = 20;
-            window.dispatchEvent(new Event('scroll'));
-        });
+            window.scrollY = 20
+            window.dispatchEvent(new Event('scroll'))
+        })
 
         act(() => {
-            window.scrollY = 0;
-            window.dispatchEvent(new Event('scroll'));
-        });
+            window.scrollY = 0
+            window.dispatchEvent(new Event('scroll'))
+        })
 
-        expect(result.current).toBe('up');
-    });
+        expect(result.current).toBe('up')
+    })
 })

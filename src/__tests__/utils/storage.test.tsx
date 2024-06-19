@@ -1,4 +1,4 @@
-import { saveToLocal, loadFromLocal } from '@/app/utils/storage'
+import { saveToLocal, loadFromLocal } from '@/utils/storage'
 
 describe('Storage', () => {
     it('save data to local & load from local', () => {
