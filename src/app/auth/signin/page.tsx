@@ -1,4 +1,4 @@
-import { Login } from './signin'
+import SignIn from './signin'
 import { RegisterAndResetPassword, OauthButton } from './buttons'
 import Nav from '../../../components/common/nav'
 
@@ -7,7 +7,7 @@ async function Page() {
         <>
             <Nav />
             <main className="flex md:flex-center page-container max-w-sm flex-col w-full gap-3 px-4">
-                <Login />
+                <SignIn />
                 <RegisterAndResetPassword />
                 <OauthButton />
             </main>

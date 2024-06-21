@@ -10,7 +10,6 @@ import {
     Columns3,
     Search,
 } from 'lucide-react'
-import React from 'react'
 import { usePathname } from 'next/navigation'
 import cn from '@/utils/cn'
 import useElementHide from '@/hooks/interaction/element-hide'

@@ -1,4 +1,4 @@
-import Nav from '@/components/nav'
+import Nav from '@/components/common/nav'
 import Footer from '@/components/common/footer'
 import Register from './register'
 

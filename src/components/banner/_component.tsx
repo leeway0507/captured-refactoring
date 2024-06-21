@@ -1,7 +1,6 @@
 'use client'
 
 import Image from 'next/image'
-import React from 'react'
 import Link from 'next/link'
 import cn from '@/utils/cn'
 import { ProductProps } from '@/hooks/data/type'

@@ -6,7 +6,7 @@ async function Page() {
     return (
         <>
             <Nav />
-            <main className="page-container page-max-frame">
+            <main className="page-container page-max-frame flex">
                 <Cart />
             </main>
             <Footer />

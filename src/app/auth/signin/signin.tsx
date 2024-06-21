@@ -1,11 +1,12 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm, FormProvider } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { toast } from 'react-toastify'
 import { ConfirmButton } from '@/components/button'
 import { EmailField, PasswordField } from '@/components/form'
+import { useSearchParams } from 'next/navigation'
+import { signInAction } from '../_actions/sign-in'
 
 const FormSchema = z.object({
     email: z.string().email({
@@ -16,29 +17,24 @@ const FormSchema = z.object({
     }),
 })
 
-export function Login() {
+export default function SignIn() {
+    const searchParams = useSearchParams()
+    const redirectURL = searchParams.get('redirectTo') || '/'
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
-        defaultValues: {
-            email: '',
-            password: '',
-        },
     })
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
-        // TODO : 로그인 로직
-        toast(JSON.stringify(data))
+        signInAction({ ...data, redirectTo: redirectURL })
     }
 
     return (
-        <FormProvider {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full">
-                <EmailField form={form} />
-                <PasswordField form={form} />
-                <ConfirmButton type="submit" className="w-full">
-                    로그인
-                </ConfirmButton>
-            </form>
-        </FormProvider>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full">
+            <EmailField form={form} />
+            <PasswordField form={form} />
+            <ConfirmButton type="submit" className="w-full">
+                로그인
+            </ConfirmButton>
+        </form>
     )
 }

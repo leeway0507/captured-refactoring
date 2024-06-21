@@ -6,7 +6,7 @@ import Nav from '../../components/common/nav'
 
 async function Page({ searchParams }: { searchParams: ProductSearchParmasProps }) {
     // ssr Off : localStorage에 저장되어있는 데이터와 productResponse를 비교하는 로직이 존재하므로 ssr 해지 필요
-    const ProductList = dynamic(() => import('./infinite-scroll'), { ssr: false })
+    const ProductList = dynamic(() => import('./product-list'), { ssr: false })
     const productResponse = await fetchProductList(searchParams)
     return (
         <>

@@ -9,9 +9,9 @@ import useCart, { ProductCartProps } from '@/hooks/data/product-cart'
 import { ProductImage } from '@/components/product-card'
 import { KRW } from '@/utils/currency'
 import { ProductProps } from '@/hooks/data/type'
-import Spinner from '@/components/spinner'
+import Spinner from '@/components/spinner/spinner'
 import calcTotalPrice from './calculate-price'
-import { CartShipmentInfo } from '../static/shipment-info'
+import { CartShipmentInfo } from './_components/shipment-info'
 
 function NoCartData() {
     return (
@@ -232,7 +232,11 @@ function InfoBox({ cartData }: { cartData: ProductCartProps[] }) {
 }
 
 function CartContainer({ children }: { children: React.ReactNode }) {
-    return <div className="flex flex-col lg:flex-row lg:gap-12 lg:justify-around">{children}</div>
+    return (
+        <div className="flex flex-col lg:flex-row lg:gap-12 lg:justify-around w-full">
+            {children}
+        </div>
+    )
 }
 
 function Cart() {

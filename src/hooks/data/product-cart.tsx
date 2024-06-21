@@ -5,7 +5,7 @@ import { saveToLocal, loadFromLocal } from '@/utils/storage'
 import { ProductProps } from './type'
 
 // localStorage 저장에 사용되는 key
-const localKey = process.env.NEXT_PUBLIC_CART_LOCALSTORAGE_KEY!
+const localKey = process.env.NEXT_PUBLIC_CART_LOCAL_STORAGE_KEY!
 
 export interface ProductCartProps {
     product: ProductProps

@@ -1,10 +1,7 @@
 'use client'
 
-import React from 'react'
-
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 import useProductDataStore from '@/hooks/data/product-list-stores'
-
 import useIntersectionObserver from '@/hooks/interaction/infinite-scroll'
 import { ScrollDirectionProps } from '@/hooks/interaction/scroll-direction'
 import { ProductCard } from '@/components/product-card'
@@ -14,6 +11,7 @@ import {
     ProductPagesProps,
     ProductSearchParmasProps,
 } from '@/hooks/data/type'
+import Spinner from '@/components/spinner/spinner'
 import Filter, { MobileCategoryNav } from './filter'
 
 function NoData() {
@@ -109,7 +107,7 @@ export default function ProductList({
     const ProductStores = useProductDataStore(productFilter, productResponse)
 
     // TODO:no Data 체크
-    if (!ProductStores) return null
+    if (!ProductStores) return <Spinner />
     if (!ProductStores.data) return <NoData />
     return (
         <>
