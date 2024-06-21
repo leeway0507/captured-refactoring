@@ -1,4 +1,4 @@
-function PersonalInfo() {
+function PersonalPolicy() {
     const title = 'text-base font-bold py-4'
     return (
         <>
@@ -93,4 +93,4 @@ function PersonalInfo() {
     )
 }
 
-export default PersonalInfo
+export default PersonalPolicy

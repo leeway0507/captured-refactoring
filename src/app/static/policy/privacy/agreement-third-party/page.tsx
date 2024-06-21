@@ -1,4 +1,4 @@
-import Logo from '@/app/static/logo'
+import Logo from '@/components/common/logo'
 import ThirdPartyPolicy from './third-party-policy'
 
 export default function page() {

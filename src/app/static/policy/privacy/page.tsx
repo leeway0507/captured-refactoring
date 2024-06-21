@@ -1,4 +1,4 @@
-import Logo from '../../logo'
+import Logo from '../../../../components/common/logo'
 import PrivacyPolicy from './privacy-policy'
 
 export default function page() {

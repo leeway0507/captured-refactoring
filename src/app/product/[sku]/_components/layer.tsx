@@ -6,12 +6,12 @@ import { KRW } from '@/utils/currency'
 import useCart from '@/hooks/data/product-cart'
 import useRecentView from '@/hooks/data/product-recent-view'
 import { ProductProps } from '@/hooks/data/type'
-import SideBar from '@/components/sidebar'
-import { ProductImage, ProductCard } from '@/components/product'
+import SideModal from '@/components/side-modal'
+import { ProductImage, ProductCard } from '@/components/product-card'
 import EmblaCarousel, { CarouselImage } from '@/components/carousel/carousel'
 import { ToggleButton, ButtonBox, ConfirmButton, getToggleStatus } from '@/components/button'
-import { ProductShipmentInfo, ProductShipmentInfoModal } from '@/app/static/shipment-info'
-import styles from '@/app//components/carousel/styles.module.css'
+import styles from '@/components/carousel/styles.module.css'
+import { ProductShipmentInfo, ProductShipmentInfoModal } from './shipment-info'
 
 export function Container({ children }: { children: React.ReactNode }) {
     return <div className="flex gap-8 justify-between flex-col md:flex-row ">{children}</div>
@@ -62,7 +62,7 @@ export function InfoLayout({ children }: { children: React.ReactNode }) {
     const InfoClass =
         'flex flex-col w-full gap-4 md:gap-8 lg:max-w-[380px] xl:max-w-[480px] px-2 md:py-8'
 
-    return <div className={`${InfoClass}`}>{children}</div>
+    return <aside className={`${InfoClass}`}>{children}</aside>
 }
 
 export function ProductInfo({ product }: { product: ProductProps }) {
@@ -191,9 +191,9 @@ export function Info() {
                     <ChevronRight strokeWidth="3" />
                 </span>
             </button>
-            <SideBar isOpen={isDeliveryOpen} closeModal={closeDeliveryModal}>
+            <SideModal isOpen={isDeliveryOpen} closeModal={closeDeliveryModal}>
                 <ProductShipmentInfoModal closeModal={closeDeliveryModal} />
-            </SideBar>
+            </SideModal>
         </>
     )
 }

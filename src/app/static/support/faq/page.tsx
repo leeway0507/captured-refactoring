@@ -1,6 +1,6 @@
 import { ShipmentAccordion, GeneralAccordion } from './faq-accordion'
-import Nav from '../../nav'
-import Footer from '../../footer'
+import Nav from '../../../../components/common/nav'
+import Footer from '../../../../components/common/footer'
 
 export default function Page() {
     return (

@@ -1,9 +1,9 @@
 'use client'
 
-import { Dialog, Transition } from '@headlessui/react'
+import { Dialog, TransitionChild, Transition, DialogPanel } from '@headlessui/react'
 import { Fragment } from 'react'
 
-function SideBar({
+function SideModal({
     children,
     isOpen,
     closeModal,
@@ -15,7 +15,7 @@ function SideBar({
     return (
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as="div" className="relative z-50" onClose={closeModal}>
-                <Transition.Child
+                <TransitionChild
                     as={Fragment}
                     enter="opacity-0 duration-500"
                     enterFrom="opacity-0"
@@ -25,10 +25,10 @@ function SideBar({
                     leaveTo="opacity-0"
                 >
                     <div className="fixed inset-0 bg-black bg-opacity-30 h-full" />
-                </Transition.Child>
+                </TransitionChild>
 
                 <div className="fixed top-0 right-0 h-full">
-                    <Transition.Child
+                    <TransitionChild
                         as={Fragment}
                         enter="transition duration-500 ease-in-out transform"
                         enterFrom="translate-x-full"
@@ -37,14 +37,14 @@ function SideBar({
                         leaveFrom="translate-x-0"
                         leaveTo="translate-x-full"
                     >
-                        <Dialog.Panel className="ms-auto h-full w-[85%] max-w-[500px] overflow-hidden bg-white ">
+                        <DialogPanel className="ms-auto h-full w-[85%] max-w-[500px] overflow-hidden bg-white ">
                             <div className="mx-auto overflow-auto h-full">{children}</div>
-                        </Dialog.Panel>
-                    </Transition.Child>
+                        </DialogPanel>
+                    </TransitionChild>
                 </div>
             </Dialog>
         </Transition>
     )
 }
 
-export default SideBar
+export default SideModal

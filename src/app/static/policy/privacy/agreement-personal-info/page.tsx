@@ -1,5 +1,5 @@
-import Logo from '../../../logo'
-import PersonalInfo from './agreement-personal-info'
+import Logo from '../../../../../components/common/logo'
+import PersonalPolicy from './agreement-personal-info'
 
 export default function page() {
     return (
@@ -8,7 +8,7 @@ export default function page() {
                 <Logo />
             </header>
             <main className="max-w-3xl text-sm text-justify mx-auto">
-                <PersonalInfo />
+                <PersonalPolicy />
             </main>
         </>
     )

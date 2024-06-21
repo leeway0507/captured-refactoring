@@ -3,9 +3,9 @@
 import { useState } from 'react'
 import dynamic from 'next/dynamic'
 import { ProductProps } from '@/hooks/data/type'
-import * as Prod from './components/layer'
+import * as Prod from './_components/layer'
 
-const RecentView = dynamic(() => import('./components/recent-view'), { ssr: false })
+const RecentView = dynamic(() => import('./_components/recent-view'), { ssr: false })
 
 export default function Product({ product }: { product: ProductProps }) {
     const [selected, setSelected] = useState<string>()

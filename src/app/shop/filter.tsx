@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 import {
@@ -12,7 +13,39 @@ import {
 import DropdownComponent from '@/components/dropdown'
 import SlideComponent from '@/components/slider/slider'
 import { useFilterParams, useCategoryType } from '@/hooks/data/product-filter'
-import { filterMetaData } from '../static/metadata'
+import { useSearchParams } from 'next/navigation'
+import { filterMetaData } from '../../data/metadata'
+
+export function MobileCategoryNav() {
+    const params = useSearchParams()
+    const pageType = params.get('category')
+    const customUnderLine = 'font-bold underline underline-offset-[5px] decoration-2'
+    return (
+        <nav className="flex md:hidden gap-5 px-3 w-full h-[25px] text-sm">
+            <Link href="/shop" className={` ${!pageType && customUnderLine}`}>
+                All
+            </Link>
+            <Link
+                href="/shop?category=신발"
+                className={`${pageType === '신발' && customUnderLine}`}
+            >
+                SHOES
+            </Link>
+            <Link
+                href="/shop?category=의류"
+                className={`${pageType === '의류' && customUnderLine}`}
+            >
+                CLOTHING
+            </Link>
+            <Link
+                href="/shop?category=기타"
+                className={`${pageType === '기타' && customUnderLine}`}
+            >
+                ACCESSORY
+            </Link>
+        </nav>
+    )
+}
 
 export function FilterOptions({
     selectedFilterType,
@@ -101,8 +134,8 @@ export function FilterOptions({
     if (!selectedFilterType) return null
     return (
         <div className="absolute top-12 z-20 w-full bg-white pb-4">
-            <div>{FilterComponent[selectedFilterType]}</div>
-            <div className="flex gap-4 items-center justify-center pt-8">
+            <div className="py-2">{FilterComponent[selectedFilterType]}</div>
+            <div className="flex gap-4 items-center justify-center pt-2">
                 <ConfirmButton onClick={handleConfirm}>적용하기</ConfirmButton>
                 <CancelButton onClick={handleCancel}>취소</CancelButton>
             </div>

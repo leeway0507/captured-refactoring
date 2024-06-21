@@ -17,7 +17,7 @@ import useElementHide from '@/hooks/interaction/element-hide'
 import Logo from './logo'
 import SearchInputMain from './search'
 
-function NavCard({
+function NavMobileCard({
     type,
     link,
 }: {
@@ -35,30 +35,37 @@ function NavCard({
     return (
         <Link href={link} className="flex-center flex-col">
             <div>{icons[type]}</div>
-            <div className={cn('text-[5px] uppercase text-gray-500')}>{type}</div>
+            <div className={cn('text-xs uppercase text-gray-500')}>{type}</div>
         </Link>
     )
 }
 
-function NavhideMobileBottom() {
+function NavMobileBottom() {
     return (
         <nav className="tb:hidden fixed bottom-0 z-50 grid grid-cols-5 w-full border bg-white py-3">
-            <NavCard type="home" link="/" />
-            <NavCard type="brand" link="/brand" />
-            <NavCard type="shop" link="/shop" />
-            <NavCard type="cart" link="/cart" />
-            <NavCard type="mypage" link="/mypage" />
+            <NavMobileCard type="home" link="/" />
+            <NavMobileCard type="brand" link="/brand" />
+            <NavMobileCard type="shop" link="/shop" />
+            <NavMobileCard type="cart" link="/cart" />
+            <NavMobileCard type="mypage" link="/auth/signin" />
         </nav>
     )
 }
 
-function NavMobileTop() {
+function NavMobileTop({ hideMobileBottom }: { hideMobileBottom: boolean }) {
     return (
         <div className="fixed top-0 flex items-center justify-between w-full p-3 z-50 bg-white">
             <Logo />
-            <Link href="/search" className="">
-                <Search size="24px" />
-            </Link>
+            <div className="flex gap-4">
+                {hideMobileBottom && (
+                    <Link href="/cart">
+                        <ShoppingCart strokeWidth={2} size="24px" />
+                    </Link>
+                )}
+                <Link href="/search" className="">
+                    <Search size="24px" />
+                </Link>
+            </div>
         </div>
     )
 }
@@ -66,8 +73,8 @@ function NavMobileTop() {
 export function NavMobile({ hideMobileBottom }: { hideMobileBottom?: boolean }) {
     return (
         <div className="md:hidden block">
-            <NavMobileTop />
-            {!hideMobileBottom && <NavhideMobileBottom />}
+            <NavMobileTop hideMobileBottom={hideMobileBottom || false} />
+            {!hideMobileBottom && <NavMobileBottom />}
         </div>
     )
 }

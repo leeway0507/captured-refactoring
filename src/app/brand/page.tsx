@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import { brandIndex } from '../static/metadata'
-import Nav from '../static/nav'
-import Footer from '../static/footer'
+import { brandIndex } from '../../data/metadata'
+import Nav from '../../components/common/nav'
+import Footer from '../../components/common/footer'
 
 function Brand({ brandName }: { brandName: string }) {
     return (

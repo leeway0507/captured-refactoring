@@ -4,8 +4,8 @@ import BrandItemsLayOutOne from '@/components/banner/brand-items-layout-one'
 import BrandItemsLayOutTwo from '@/components/banner/brand-items-layout-two'
 import MainLayout from '@/components/banner/main-layout'
 import BrandList from '@/components/banner/brand-layout'
-import Footer from './static/footer'
-import Nav from './static/nav'
+import Footer from '../../components/common/footer'
+import Nav from '../../components/common/nav'
 
 export default async function Home() {
     return (

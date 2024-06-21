@@ -1,6 +1,6 @@
 import Cart from './cart'
-import Nav from '../static/nav'
-import Footer from '../static/footer'
+import Nav from '../../components/common/nav'
+import Footer from '../../components/common/footer'
 
 async function Page() {
     return (

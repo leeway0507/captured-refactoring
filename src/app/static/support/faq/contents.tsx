@@ -91,9 +91,7 @@ export const RefundAndExchange = (
             <div className=" pb-1">
                 물품 수령 후 7일 이전의 경우 반품 및 취소 신청 가능합니다. 아래의 양식으로 고객센터
                 메일(
-                <span className="underline text-blue-500 ">
-                    {process.env.NEXT_PUBLIC_CUSTOMER_EMAIL}
-                </span>
+                <span className="underline text-blue-500 ">{process.env.CUSTOMER_EMAIL}</span>
                 )로 보내주시면 관련 내용 안내드리겠습니다.{' '}
             </div>
             <div className="border rounded-md py-3 my-2 text-sm px-2 border-gray-500">
@@ -135,10 +133,8 @@ export const NotYetShipped = (
         </div>
         <div className="pb-1">
             주문일이 15일 이상 경과한 경우 고객센터 메일(
-            <span className="underline text-blue-500 ">
-                {process.env.NEXT_PUBLIC_CUSTOMER_EMAIL}
-            </span>
-            ) 또는 채널 알림톡으로 문의주시면 확인 후 안내드리겠습니다.
+            <span className="underline text-blue-500 ">{process.env.CUSTOMER_EMAIL}</span>) 또는
+            채널 알림톡으로 문의주시면 확인 후 안내드리겠습니다.
         </div>
     </div>
 )
@@ -156,7 +152,7 @@ export const RefundProcess = (
 
 export const QuestionInfo = (
     <div className="flex flex-col gap-1">
-        <div>• 이메일 : {process.env.NEXT_PUBLIC_CUSTOMER_EMAIL}</div>
+        <div>• 이메일 : {process.env.CUSTOMER_EMAIL}</div>
         <div>
             • 카카오 채널 : <span className="underline">@captured</span> 검색
         </div>

@@ -1,8 +1,8 @@
 import dynamic from 'next/dynamic'
 import { fetchProductList } from '@/hooks/data/product-list-fetch'
 import { ProductSearchParmasProps } from '@/hooks/data/type'
-import Footer from '../static/footer'
-import Nav from '../static/nav'
+import Footer from '../../components/common/footer'
+import Nav from '../../components/common/nav'
 
 async function Page({ searchParams }: { searchParams: ProductSearchParmasProps }) {
     // ssr Off : localStorage에 저장되어있는 데이터와 productResponse를 비교하는 로직이 존재하므로 ssr 해지 필요

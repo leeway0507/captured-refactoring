@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import cn from '@/utils/cn'
-import { Container, MoreButton } from './_component'
+import { Container } from './_component'
 import EmblaCarousel, { CarouselImage } from '../carousel/carousel'
 import styles from '../carousel/styles.module.css'
 
@@ -13,7 +13,7 @@ function BrandCard({ brandName }: { brandName: string }) {
                 alt={brandName}
                 width={150}
                 height={150}
-                className="object-contain max-w-[120px] 2xl:max-w-[150px]"
+                className="object-contain max-w-[80px] md:max-w-[120px] 2xl:max-w-[150px]"
             />
         </Link>
     )
@@ -33,11 +33,10 @@ const BrandBox = () =>
 
 export default async function BrandList() {
     return (
-        <Container className="py-4 lg:px-4 bg-gray-100 w-full h-full ">
+        <Container className="py-8 lg:px-4 bg-gray-100 w-full h-full ">
             <EmblaCarousel type="multi">
                 <BrandBox />
             </EmblaCarousel>
-            <MoreButton link="/brand" />
         </Container>
     )
 }

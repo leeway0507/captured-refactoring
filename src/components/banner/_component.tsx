@@ -7,7 +7,7 @@ import cn from '@/utils/cn'
 import { ProductProps } from '@/hooks/data/type'
 import EmblaCarousel from '../carousel/carousel'
 import styles from '../carousel/styles.module.css'
-import { ProductImage, Description } from '../product'
+import { ProductImage, Description } from '../product-card'
 import { CancelButton } from '../button'
 
 export function MoreButton({ link }: { link: string }) {
@@ -78,7 +78,7 @@ export function FixedBanner({
 
 export function CardTitleOverlay({ name }: { name: string }) {
     return (
-        <div className="absolute w-full h-full text-white z-10 flex-col flex-center gap-2 bg-black/20">
+        <div className="absolute text-white z-10 flex-col flex-center gap-2 bg-black/20 w-full h-full">
             <div className="text-3xl font-bold capitalize">{name}</div>
         </div>
     )
@@ -96,7 +96,7 @@ export function FixedCardTitle({
     aspect?: string
 }) {
     return (
-        <Link href={`${href}`} className="relative hover:opacity-95 w-full h-full">
+        <Link href={`${href}`} className="relative hover:opacity-95 w-full h-full flex">
             <CardTitleOverlay name={name} />
             <FixedBanner src={src} alt={name} className={`${aspect}`} />
         </Link>
@@ -131,14 +131,18 @@ export function ProductCardArr({
     maxItems?: number
 }) {
     return data.slice(0, maxItems).map((product: ProductProps) => (
-        <div key={product.sku} className={cn('flex-center flex-col w-full text-sm', className)}>
+        <Link
+            href={`/product/${product.sku}`}
+            key={product.sku}
+            className={cn('flex-center flex-col w-full text-sm', className)}
+        >
             <ProductImage
                 sku={String(product.sku)}
                 imgName="main"
                 className="max-w-[400px] bg-transparent aspect-[1/0.8]"
             />
             <Description product={product} />
-        </div>
+        </Link>
     ))
 }
 export function ProductCardCarousel({

@@ -4,7 +4,7 @@ export function LocalCardTitle({ name }: { name: string }) {
     const aspect = 'md:aspect-[4/5]'
     return (
         <ResponsiveCardTitle
-            src={`./layout/${name}.webp`}
+            src={`layout/${name}.webp`}
             href={`/shop?pageType=${name}`}
             name={name}
             aspect={`${aspect}`}

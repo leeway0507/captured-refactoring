@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { Button } from '@/components/shadcn-ui/button'
 import { ConfirmButton, CancelButton } from '@/components/button'
 import useCart, { ProductCartProps } from '@/hooks/data/product-cart'
-import { ProductImage } from '@/components/product'
+import { ProductImage } from '@/components/product-card'
 import { KRW } from '@/utils/currency'
 import { ProductProps } from '@/hooks/data/type'
 import Spinner from '@/components/spinner'
@@ -118,16 +118,19 @@ function ProductBox({
     return (
         <section className="basis-3/5">
             {cartData.map((data) => (
-                <div key={String(data.product.sku)} className="flex gap-3 border-b py-2 px-2">
+                <div
+                    key={String(data.product.sku)}
+                    className="flex-center gap-3 border-b py-2 px-2"
+                >
                     <input
                         type="checkbox"
-                        className="accent-black scale-[115%] w-4 mx-2"
+                        className="accent-black md:scale-[115%] w-4 md:mx-2"
                         id={`${data.product.sku}-${data.size}`}
                         checked={data.checked}
                         onClick={() => toggleCheckState(data.product, data.size)}
                     />
                     <Link
-                        className="flex-center flex-col w-full max-w-[180px]"
+                        className="flex-center flex-col w-full max-w-[120px] md:max-w-[180px]"
                         href={`/product/${data.product.sku}`}
                     >
                         <ProductImage
@@ -229,7 +232,7 @@ function InfoBox({ cartData }: { cartData: ProductCartProps[] }) {
 }
 
 function CartContainer({ children }: { children: React.ReactNode }) {
-    return <div className="flex flex-col lg:flex-row lg:gap-12">{children}</div>
+    return <div className="flex flex-col lg:flex-row lg:gap-12 lg:justify-around">{children}</div>
 }
 
 function Cart() {

@@ -22,7 +22,7 @@ export default function SearchInputMain() {
             <input
                 value={inputValue} // Bind the input value to the state
                 onChange={onChangeHandler}
-                className=" placeholder h-full text-sm text-gray-500 placeholder"
+                className=" placeholder h-full text-sm text-gray-500 placeholder focus:outline-none focus-visible:outline-0 "
                 onKeyDown={onKeyDownHandler}
             />
         </div>

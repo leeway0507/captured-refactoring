@@ -1,8 +1,8 @@
 import useRecentView from '@/hooks/data/product-recent-view'
 import EmblaCarousel, { CarouselImage } from '@/components/carousel/carousel'
-import { Description } from '@/components/product'
+import { Description } from '@/components/product-card'
 import { ProductProps } from '@/hooks/data/type'
-import styles from './components/carousel/styles.module.css'
+import styles from '@/components/carousel/styles.module.css'
 
 function RecentViewProduct({ product }: { product: ProductProps }) {
     const src = `${process.env.NEXT_PUBLIC_CDN}/product/${product.sku}/main.webp`

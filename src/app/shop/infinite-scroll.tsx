@@ -7,14 +7,14 @@ import useProductDataStore from '@/hooks/data/product-list-stores'
 
 import useIntersectionObserver from '@/hooks/interaction/infinite-scroll'
 import { ScrollDirectionProps } from '@/hooks/interaction/scroll-direction'
-import { ProductCard } from '@/components/product'
+import { ProductCard } from '@/components/product-card'
 import {
     ProductProps,
     ProductFetchResponseProps,
     ProductPagesProps,
     ProductSearchParmasProps,
 } from '@/hooks/data/type'
-import Filter from './filter'
+import Filter, { MobileCategoryNav } from './filter'
 
 function NoData() {
     return (
@@ -110,17 +110,12 @@ export default function ProductList({
 
     // TODO:no Data 체크
     if (!ProductStores) return null
+    if (!ProductStores.data) return <NoData />
     return (
         <>
+            <MobileCategoryNav />
             <Filter />
-            {!productResponse.data ? (
-                <NoData />
-            ) : (
-                <ProductComponent
-                    productPages={ProductStores.data}
-                    lastPage={ProductStores.lastPage}
-                />
-            )}
+            <ProductComponent productPages={ProductStores.data} lastPage={ProductStores.lastPage} />
         </>
     )
 }

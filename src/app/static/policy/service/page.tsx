@@ -1,4 +1,4 @@
-import Logo from '../../logo'
+import Logo from '../../../../components/common/logo'
 import ServicePolicy from './service-policy'
 
 export default function page() {
