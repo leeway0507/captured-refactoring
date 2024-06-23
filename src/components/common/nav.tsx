@@ -79,21 +79,22 @@ export function NavMobile({ hideMobileBottom }: { hideMobileBottom?: boolean }) 
 }
 
 function NavTop() {
+    const routeStyle = 'basis-1/5 flex-center h-full'
     return (
-        <nav className="flex items-center justify-around max-w-2xl mx-auto text-lg py-1 w-full">
-            <Link href="/brand" className="basis-1/5 flex-center">
+        <nav className="flex items-center justify-around max-w-2xl mx-auto text-lg w-full h-10">
+            <Link href="/brand" className={`${routeStyle}`}>
                 brand
             </Link>
-            <Link href="/shop" className="basis-1/5 flex-center">
+            <Link href="/shop" className={`${routeStyle}`}>
                 latest
             </Link>
-            <Link href="/shop?category=신발" className="basis-1/5 flex-center">
+            <Link href="/shop?category=신발" className={`${routeStyle}`}>
                 shoes
             </Link>
-            <Link href="/shop?category=의류" className="basis-1/5 flex-center">
+            <Link href="/shop?category=의류" className={`${routeStyle}`}>
                 clothing
             </Link>
-            <Link href="/shop?category=기타" className="basis-1/5 flex-center">
+            <Link href="/shop?category=기타" className={`${routeStyle}`}>
                 accessory
             </Link>
         </nav>

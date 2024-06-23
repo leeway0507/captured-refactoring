@@ -104,14 +104,19 @@ export default function ProductList({
     productResponse: ProductFetchResponseProps
 }) {
     const ProductStores = useProductDataStore(productFilter, productResponse)
-
-    // TODO:no Data 체크
-    if (!ProductStores.data) return <NoData />
+    const productData = ProductStores.data[1]
     return (
         <>
             <MobileCategoryNav />
             <Filter />
-            <ProductComponent productPages={ProductStores.data} lastPage={ProductStores.lastPage} />
+            {productData ? (
+                <ProductComponent
+                    productPages={ProductStores.data}
+                    lastPage={ProductStores.lastPage}
+                />
+            ) : (
+                <NoData />
+            )}
         </>
     )
 }

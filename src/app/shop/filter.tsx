@@ -21,7 +21,7 @@ export function MobileCategoryNav() {
     const pageType = params.get('category')
     const customUnderLine = 'font-bold underline underline-offset-[5px] decoration-2'
     return (
-        <nav className="flex md:hidden gap-5 px-3 w-full h-[25px] text-sm">
+        <div className="flex md:hidden gap-5 px-3 w-full h-[25px] text-sm">
             <Link href="/shop" className={` ${!pageType && customUnderLine}`}>
                 All
             </Link>
@@ -43,7 +43,7 @@ export function MobileCategoryNav() {
             >
                 ACCESSORY
             </Link>
-        </nav>
+        </div>
     )
 }
 
