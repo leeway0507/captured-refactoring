@@ -1,19 +1,22 @@
 import { UseFormReturn } from 'react-hook-form'
 import { Input } from './shadcn-ui/input'
 
-export function CustomFormField<T extends UseFormReturn<any>>({
-    formName,
-    inputType,
-    label,
-    form,
-    disabled,
-}: {
+interface CustomFormFieldProps<T extends UseFormReturn<any>>
+    extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'form'> {
     formName: string
     inputType: string
     label: string
     form: T
     disabled?: boolean
-}) {
+}
+
+export function CustomFormField<T extends UseFormReturn<any>>({
+    formName,
+    inputType,
+    label,
+    form,
+    ...inputProps
+}: CustomFormFieldProps<T>) {
     const error = form.formState.errors[formName]
     return (
         <div className="text-xs">
@@ -24,18 +27,38 @@ export function CustomFormField<T extends UseFormReturn<any>>({
                         {error && error?.message?.toString()}
                     </div>
                 </div>
-                <Input disabled={disabled} type={inputType} {...form.register(formName)} />
+                <Input
+                    type={inputType}
+                    {...form.register(formName)}
+                    {...inputProps} // Spread the remaining props here
+                />
             </label>
         </div>
     )
 }
 
 export function EmailField<T extends UseFormReturn<any>>({ form }: { form: T }) {
-    return <CustomFormField form={form} formName="email" label="이메일 주소" inputType="text" />
+    return (
+        <CustomFormField
+            form={form}
+            formName="email"
+            label="이메일 주소"
+            inputType="text"
+            autoComplete="username"
+        />
+    )
 }
 
 export function PasswordField<T extends UseFormReturn<any>>({ form }: { form: T }) {
-    return <CustomFormField form={form} formName="password" label="비밀번호" inputType="password" />
+    return (
+        <CustomFormField
+            form={form}
+            formName="password"
+            label="비밀번호"
+            inputType="password"
+            autoComplete="current-password"
+        />
+    )
 }
 
 export function PasswordConfirmField<T extends UseFormReturn<any>>({ form }: { form: T }) {

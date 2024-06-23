@@ -1,5 +1,6 @@
 'use client'
 
+import { SessionProvider, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import {
     User,
@@ -102,9 +103,11 @@ function NavTop() {
 }
 
 function Icons() {
+    const { data } = useSession()
     return (
         <div className="flex gap-4">
-            <Link href="/mypage">
+            <Link href="/mypage" className="flex-center gap-1">
+                <div className="text-sm font-medium">{data && data.user.name}</div>
                 <User className="text-black" fill="black" size="28px" />
             </Link>
             <Link href="/cart">
@@ -136,10 +139,12 @@ function NavBottom({ reference }: { reference: any }) {
 function NavPc() {
     const ref = useElementHide(20, 40)
     return (
-        <div className="hidden md:block fixed bg-white top-0 w-full py-2 z-50 shadow-md">
-            <NavTop />
-            <NavBottom reference={ref} />
-        </div>
+        <SessionProvider>
+            <div className="hidden md:block fixed bg-white top-0 w-full py-2 z-50 shadow-md">
+                <NavTop />
+                <NavBottom reference={ref} />
+            </div>
+        </SessionProvider>
     )
 }
 

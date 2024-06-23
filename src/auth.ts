@@ -1,4 +1,4 @@
-import NextAuth, { DefaultSession } from 'next-auth'
+import NextAuth, { DefaultSession, AuthError, CredentialsSignin } from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import KakaoProvider from 'next-auth/providers/kakao'
 import NaverProvider from 'next-auth/providers/naver'
@@ -22,10 +22,7 @@ const transform = (res: { email: string; kr_name: string; sign_up_type: string }
     signUpType: res.sign_up_type,
 })
 
-export const signInByEmail = async (
-    email: string,
-    password: string,
-): Promise<CustomUser | null> => {
+export const signInByEmail = async (email: string, password: string) => {
     const params = new URLSearchParams()
     params.append('username', email)
     params.append('password', password)
@@ -36,15 +33,7 @@ export const signInByEmail = async (
         cache: 'no-store',
     })
 
-    if (res.status !== 200) {
-        // If the status is not 200, the sign in failed
-        return null
-    }
-
-    // Assuming the response JSON is the user object
-    const user = await res.json()
-
-    return transform(user)
+    return { status: res.status, data: await res.json() }
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -62,8 +51,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 email: { label: 'email', type: 'text' },
                 password: { label: 'password', type: 'password' },
             },
-            authorize: async (credentials) =>
-                signInByEmail(credentials.email as string, credentials.password as string),
+            authorize: async (credentials) => {
+                const { status, data } = await signInByEmail(
+                    credentials.email as string,
+                    credentials.password as string,
+                )
+
+                if (status === 200) return transform(data)
+
+                throw new CredentialsSignin(data.detail)
+            },
         }),
     ],
     callbacks: {

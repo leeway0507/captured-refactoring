@@ -25,7 +25,7 @@ export default function SignIn() {
     })
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
-        signInAction({ ...data, redirectTo: redirectURL })
+        signInAction({ ...data, redirectTo: redirectURL }).then((err) => err && alert(err))
     }
 
     return (
