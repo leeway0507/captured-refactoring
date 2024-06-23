@@ -51,7 +51,7 @@ export const increaseQtyFn = (
 }
 
 // 기존 리스트에 동일 제품 & 동일 사이즈가 존재하지 않으면 신규 추가
-export const addProductToCart = (
+export const addNewProductToCart = (
     cartData: ProductCartProps[],
     setCartData: (a: ProductCartProps[]) => void,
     product: ProductProps,
@@ -69,14 +69,14 @@ export const addToCartFn = (
     selectedSize: string,
 ) => {
     // cartData undefined
-    if (!cartData) return addProductToCart([], setCartData, product, selectedSize)
+    if (!cartData) return addNewProductToCart([], setCartData, product, selectedSize)
 
     // product && size already in cart
     const idx = findProductIndex(cartData, product, selectedSize)
     if (idx !== -1) return updateProductQty('increase', cartData, idx, setCartData)
 
     // add new product to cart
-    return addProductToCart(cartData, setCartData, product, selectedSize)
+    return addNewProductToCart(cartData, setCartData, product, selectedSize)
 }
 
 export const removeToCartFn = (

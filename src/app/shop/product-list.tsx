@@ -11,7 +11,6 @@ import {
     ProductPagesProps,
     ProductSearchParmasProps,
 } from '@/hooks/data/type'
-import Spinner from '@/components/spinner/spinner'
 import Filter, { MobileCategoryNav } from './filter'
 
 function NoData() {
@@ -107,7 +106,6 @@ export default function ProductList({
     const ProductStores = useProductDataStore(productFilter, productResponse)
 
     // TODO:no Data 체크
-    if (!ProductStores) return <Spinner />
     if (!ProductStores.data) return <NoData />
     return (
         <>

@@ -7,5 +7,9 @@ jest.mock('next/navigation', () => ({
             const url = new URL(s, window.location.origin)
             changeUrlMock(url)
         }),
+        replace: jest.fn((s) => {
+            const url = new URL(s, window.location.origin)
+            changeUrlMock(url)
+        }),
     }),
 }))

@@ -5,15 +5,18 @@ import useCart, {
     removeToCartFn,
     increaseQtyFn,
     decreaseQtyFn,
-    addProductToCart,
+    addNewProductToCart,
     ProductCartProps,
-} from '@/utils/hooks/data/product-cart'
+} from '@/hooks/data/product-cart'
 import { renderHook, act } from '@testing-library/react'
 
 describe('Product Cart', () => {
+    // env 세팅
+
     const localKey = 'cr_t'
     const product = productMock[0]
     const selectedSize = product.size[0]
+
     let cart: ProductCartProps[] = []
     const setCart = (newCart: ProductCartProps[]) => {
         cart = newCart
@@ -25,7 +28,7 @@ describe('Product Cart', () => {
     })
 
     it('should add a new item to cart', () => {
-        addProductToCart(cart, setCart, product, selectedSize)
+        addNewProductToCart(cart, setCart, product, selectedSize)
         const expectedResult = [{ product, size: selectedSize, qty: 1, checked: true }]
 
         expect(cart).toEqual(expectedResult)
@@ -90,8 +93,7 @@ describe('Product Cart', () => {
             return addToCart
         })
 
-        const addToCart = result.current
-        act(() => addToCart(product, selectedSize))
+        act(() => result.current(product, selectedSize))
 
         const cartArr = localStorage.getItem(localKey)
         const expectedResult = [{ product, size: selectedSize, qty: 1, checked: true }]

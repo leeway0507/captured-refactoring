@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react'
-import useScrollDirection from '@/utils/hooks/interaction/scroll-direction'
+import useScrollDirection from '@/hooks/interaction/scroll-direction'
 
 describe('detect user scroll direction', () => {
     beforeEach(() => {

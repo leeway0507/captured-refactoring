@@ -38,12 +38,10 @@ export function ProductImage({
 
 export function Description({ product }: { product: ProductProps }) {
     const { brand, productName, price, productId, intl } = product
-    const shotenProductName =
-        productName.length > 50 ? `${productName.slice(0, 50)}...` : productName
     return (
         <div className="flex-col flex-center text-sub-black px-2 w-full text-center font-medium">
             <div className="capitalize py-1 ">{`${brand} | ${productId}`}</div>
-            <div className="text-gray-500">{`${shotenProductName}`}</div>
+            <div className="text-gray-500 line-clamp-2">{productName}</div>
             <div className="py-2">
                 {intl ? '해외배송' : '국내배송'} | {KRW(price)}
             </div>

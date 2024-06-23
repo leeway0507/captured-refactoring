@@ -1,12 +1,8 @@
 import '@/__mocks__/useRouter-mock'
-import {
-    getFilterParams,
-    applyFilterToURLFn,
-    useFilterParams,
-} from '@/utils/hooks/data/product-filter'
 import { changeUrlMock } from '@/__mocks__/url-mock'
 import { useRouter } from 'next/navigation'
 import { renderHook, act } from '@testing-library/react'
+import { getFilterParams, applyFilterToURLFn, useFilterParams } from '@/hooks/data/product-filter'
 
 describe('Filter Component Logic', () => {
     const filterObj = {

@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react'
-import useMobile from '@/utils/hooks/interaction/view-size'
+import useMobile from '@/hooks/interaction/user-view-size'
 
 describe('View Interaction', () => {
     it('should return "mobile" when view smaller than 768px', () => {

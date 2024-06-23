@@ -1,12 +1,12 @@
 import '@/__mocks__/intersectionObserver-mock'
 import '@/__mocks__/useRouter-mock'
 import { changeUrlMock } from '@/__mocks__/url-mock'
-import { getNextPageNum, updatePageParams } from '@/app/shop/infinite-scroll'
-import useIntersectionObserver from '@/utils/hooks/interaction/infinite-scroll'
 import { renderHook, render } from '@testing-library/react'
 import { useRouter } from 'next/navigation'
+import useIntersectionObserver from '@/hooks/interaction/infinite-scroll'
+import { getNextPageNum, updatePageParams } from '@/app/shop/product-list'
 
-jest.mock('../../app/utils/hooks/interaction/scroll-direction', () => ({
+jest.mock('../../hooks/interaction/scroll-direction', () => ({
     __esModule: true,
     default: jest.fn().mockReturnValue('down'),
 }))
@@ -25,7 +25,7 @@ describe('product-infinite-scroll', () => {
                         return '1'
                     }
                     if (attributeName === 'data-last-page') {
-                        return '5'
+                        return '3'
                     }
                     return undefined
                 }),
