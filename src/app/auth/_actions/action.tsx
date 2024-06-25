@@ -1,8 +1,10 @@
 'use server'
 
 import { signIn, signOut } from '@/auth'
+import { AddressProps } from '@/hooks/data/type'
 import { AuthError } from 'next-auth'
 import { redirect } from 'next/navigation'
+import { Step2State } from '../register/type'
 
 export const signInAction = async (data: {
     email: string
@@ -30,3 +32,14 @@ export const signInAction = async (data: {
 }
 
 export const signOutAction = async () => signOut({ redirect: true, redirectTo: '/' })
+
+export const signUp = async (userData: Step2State, addressData: AddressProps) => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ user_registration: userData, address: addressData }),
+    })
+    return { status: res.status, data: await res.json() }
+}

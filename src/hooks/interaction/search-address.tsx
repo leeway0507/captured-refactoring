@@ -2,8 +2,8 @@ import { useDaumPostcodePopup } from 'react-daum-postcode'
 import { useState } from 'react'
 
 export function usePostcode() {
-    const [korAddress, setKorAddress] = useState<string>()
-    const [engAddress, setEngAddress] = useState<string>()
+    const [krAddress, setKrAddress] = useState<string>()
+    const [enAddress, setEnAddress] = useState<string>()
 
     const open = useDaumPostcodePopup()
 
@@ -16,13 +16,13 @@ export function usePostcode() {
             kor += `(${building})`
         }
 
-        setKorAddress(kor)
-        setEngAddress(eng)
+        setKrAddress(kor)
+        setEnAddress(eng)
     }
 
     const openAddressDialog = () => {
         open({ onComplete: handleComplete })
     }
 
-    return { openAddressDialog, korAddress, engAddress }
+    return { openAddressDialog, krAddress, enAddress }
 }

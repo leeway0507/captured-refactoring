@@ -4,7 +4,7 @@ import { X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Button } from '@/components/shadcn-ui/button'
-import { CustomFormField } from '@/components/form'
+import { FormField } from '@/components/form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useFormContext, useForm } from 'react-hook-form'
@@ -58,11 +58,11 @@ function EmailVerificationDialog({
                             </Button>
                         </div>
                         <div className="flex w-full items-end">
-                            <CustomFormField
+                            <FormField
                                 form={codeForm}
                                 formName="code"
                                 label="인증번호 입력"
-                                inputType="string"
+                                type="string"
                             />
                             <Button
                                 variant="ghost"

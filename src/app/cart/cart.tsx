@@ -189,19 +189,19 @@ function ShippingBox({
     )
 }
 
-function PriceBox({ cartData }: { cartData: ProductCartProps[] }) {
+export function PriceBox({ cartData }: { cartData: ProductCartProps[] }) {
     const { totalProductPrice, intlShippingFee, domeShippingFee } = calcTotalPrice(cartData)
     const totalShippingFee = intlShippingFee + domeShippingFee
     const totalPrice = totalProductPrice + totalShippingFee
 
     return (
-        <div className="flex flex-col gap-2">
-            <div className="flex justify-between">
+        <div className="flex flex-col gap-2 text-sm md:text-base">
+            <div className="flex justify-between ">
                 <div>물품가격</div>
                 <div>{KRW(totalProductPrice)}</div>
             </div>
             <ShippingBox intlShippingFee={intlShippingFee} domeShippingFee={domeShippingFee} />
-            <div className="flex justify-between text-lg">
+            <div className="flex justify-between text-base md:text-lg">
                 <div>총 결제금액</div>
                 <div>{KRW(totalPrice)}</div>
             </div>
@@ -222,9 +222,10 @@ function OrderButton() {
     )
 }
 function InfoBox({ cartData }: { cartData: ProductCartProps[] }) {
+    const checkedCartData = cartData.filter((p) => p.checked)
     return (
         <aside className="flex flex-col w-full lg:max-w-[450px] gap-6 bg-gray-50 lg:bg-white p-4 shadow-inner lg:shadow-none">
-            <PriceBox cartData={cartData} />
+            <PriceBox cartData={checkedCartData} />
             <OrderButton />
             <CartShipmentInfo />
         </aside>

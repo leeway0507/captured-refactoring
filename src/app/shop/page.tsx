@@ -1,7 +1,4 @@
-import { Suspense } from 'react'
 import dynamic from 'next/dynamic'
-
-import Spinner from '@/components/spinner/spinner'
 import { fetchProductList } from '@/hooks/data/product-list-fetch'
 import { ProductSearchParmasProps } from '@/hooks/data/type'
 import Footer from '../../components/common/footer'
@@ -17,9 +14,7 @@ async function Page({ searchParams }: { searchParams: ProductSearchParmasProps }
         <>
             <Nav />
             <main className="page-container page-max-frame grow flex flex-col w-full">
-                <Suspense fallback={<Spinner />}>
-                    <ProductList productFilter={searchParams} productResponse={productResponse} />
-                </Suspense>
+                <ProductList productFilter={searchParams} productResponse={productResponse} />
             </main>
             <Footer />
         </>

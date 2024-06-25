@@ -1,44 +1,10 @@
-'use client'
-
-import { SessionProvider, useSession } from 'next-auth/react'
 import Link from 'next/link'
-import {
-    User,
-    ShoppingCart,
-    Home,
-    LucideBookMarked,
-    CircleUser,
-    Columns3,
-    Search,
-} from 'lucide-react'
-import { usePathname } from 'next/navigation'
-import cn from '@/utils/cn'
-import useElementHide from '@/hooks/interaction/element-hide'
-import Logo from './logo'
-import SearchInputMain from './search'
+import { ShoppingCart, Search } from 'lucide-react'
+import { auth } from '@/auth'
+import { Session } from 'next-auth'
+import { NavBottom, NavMobileCard } from './nav-client'
 
-function NavMobileCard({
-    type,
-    link,
-}: {
-    type: 'home' | 'cart' | 'brand' | 'shop' | 'mypage'
-    link: string
-}) {
-    const params = usePathname()
-    const icons = {
-        home: <Home strokeWidth={params === link ? 2 : 1} />,
-        brand: <LucideBookMarked strokeWidth={params === link ? 2 : 1} />,
-        cart: <ShoppingCart strokeWidth={params === link ? 2 : 1} />,
-        shop: <Columns3 strokeWidth={params === link ? 2 : 1} />,
-        mypage: <CircleUser strokeWidth={params === link ? 2 : 1} />,
-    }
-    return (
-        <Link href={link} className="flex-center flex-col">
-            <div>{icons[type]}</div>
-            <div className={cn('text-xs uppercase text-gray-500')}>{type}</div>
-        </Link>
-    )
-}
+import Logo from './logo'
 
 function NavMobileBottom() {
     return (
@@ -47,7 +13,7 @@ function NavMobileBottom() {
             <NavMobileCard type="brand" link="/brand" />
             <NavMobileCard type="shop" link="/shop" />
             <NavMobileCard type="cart" link="/cart" />
-            <NavMobileCard type="mypage" link="/auth/signin" />
+            <NavMobileCard type="mypage" link="/mypage" />
         </nav>
     )
 }
@@ -102,49 +68,13 @@ function NavTop() {
     )
 }
 
-function Icons() {
-    const { data } = useSession()
+async function NavPc() {
+    const session: Session | null = await auth()
     return (
-        <div className="flex gap-4">
-            <Link href="/mypage" className="flex-center gap-1">
-                <div className="text-sm font-medium">{data && data.user.name}</div>
-                <User className="text-black" fill="black" size="28px" />
-            </Link>
-            <Link href="/cart">
-                <ShoppingCart className="text-black" fill="black" size="28px" />
-            </Link>
+        <div className="hidden md:block fixed bg-white top-0 w-full py-2 z-50 shadow-md">
+            <NavTop />
+            <NavBottom session={session} />
         </div>
-    )
-}
-
-function NavBottom({ reference }: { reference: any }) {
-    const baseContainer =
-        'grid grid-cols-5 text-center w-full bg-white px-16 max-w-[1440px] overflow-hidden mx-auto pt-4'
-    const animation = 'duration-300 ease-in-out opacity-100 transform translate-y-0 relative'
-    return (
-        <div ref={reference} className={cn(baseContainer, animation)}>
-            <div className="col-span-1 flex justify-start">
-                <SearchInputMain />
-            </div>
-            <div className="col-span-3 flex-center">
-                <Logo />
-            </div>
-            <div className="col-span-1 flex items-center justify-end">
-                <Icons />
-            </div>
-        </div>
-    )
-}
-
-function NavPc() {
-    const ref = useElementHide(20, 40)
-    return (
-        <SessionProvider>
-            <div className="hidden md:block fixed bg-white top-0 w-full py-2 z-50 shadow-md">
-                <NavTop />
-                <NavBottom reference={ref} />
-            </div>
-        </SessionProvider>
     )
 }
 

@@ -13,6 +13,29 @@ import {
 } from '@/hooks/data/type'
 import Filter, { MobileCategoryNav } from './filter'
 
+export const getNextPageNum = (scrollDirection: ScrollDirectionProps, currPage: string) =>
+    scrollDirection && scrollDirection === 'up' ? currPage : String(Number(currPage) + 1)
+
+export const updatePageParams = (
+    ref: React.RefObject<HTMLDivElement>,
+    router: AppRouterInstance,
+    scrollDirection: ScrollDirectionProps,
+) => {
+    const url = new URL(window.location.href)
+    const { searchParams } = url
+
+    // 현재 페이지 추출
+    const currPage = ref.current && ref.current.getAttribute('data-page')
+    const lastPage = ref.current && ref.current.getAttribute('data-last-page')
+
+    if (currPage && lastPage && currPage < lastPage) {
+        // 다음 페이지 추출 및 URL 업데이트
+        const pageNum = getNextPageNum(scrollDirection, currPage)
+        searchParams.set('page', pageNum)
+        router.replace(url.toString(), { scroll: false })
+    }
+}
+
 function NoData() {
     return (
         <div className="flex flex-col mx-auto h-full grow lg:p-16 ">
@@ -36,29 +59,6 @@ function IntersectionTrigger({
     lastPage: string
 }) {
     return <div ref={refer} data-page={page} data-last-page={lastPage} className="h-1" />
-}
-
-export const getNextPageNum = (scrollDirection: ScrollDirectionProps, currPage: string) =>
-    scrollDirection && scrollDirection === 'up' ? currPage : String(Number(currPage) + 1)
-
-export const updatePageParams = (
-    ref: React.RefObject<HTMLDivElement>,
-    router: AppRouterInstance,
-    scrollDirection: ScrollDirectionProps,
-) => {
-    const url = new URL(window.location.href)
-    const { searchParams } = url
-
-    // 현재 페이지 추출
-    const currPage = ref.current && ref.current.getAttribute('data-page')
-    const lastPage = ref.current && ref.current.getAttribute('data-last-page')
-
-    if (currPage && lastPage && currPage < lastPage) {
-        // 다음 페이지 추출 및 URL 업데이트
-        const pageNum = getNextPageNum(scrollDirection, currPage)
-        searchParams.set('page', pageNum)
-        router.replace(url.toString(), { scroll: false })
-    }
 }
 
 function InfiniteScrollProductCardArr({

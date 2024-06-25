@@ -18,10 +18,9 @@ export const calculateIntlShippingFee = (arr: ProductCartProps[]) =>
     )
 
 const calcTotalPrice = (arr: ProductCartProps[]) => {
-    const checkedArr = arr.filter((p) => p.checked)
-    const totalProductPrice = calculateProductPrice(checkedArr)
-    const domeShippingFee = calculateDomeShippingFee(checkedArr)
-    const intlShippingFee = calculateIntlShippingFee(checkedArr)
+    const totalProductPrice = calculateProductPrice(arr)
+    const domeShippingFee = calculateDomeShippingFee(arr)
+    const intlShippingFee = calculateIntlShippingFee(arr)
 
     return { totalProductPrice, domeShippingFee, intlShippingFee }
 }

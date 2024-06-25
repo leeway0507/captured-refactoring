@@ -47,7 +47,8 @@ describe('Price Calculation', () => {
     })
 
     it('should calculate ', () => {
-        const { totalProductPrice, domeShippingFee, intlShippingFee } = calcTotalPrice(mockData)
+        const checkedArr = mockData.filter((p) => p.checked)
+        const { totalProductPrice, domeShippingFee, intlShippingFee } = calcTotalPrice(checkedArr)
         expect(totalProductPrice).toBe(expectedProductPrice)
         expect(domeShippingFee).toBe(expectedDomeResult)
         expect(intlShippingFee).toBe(expectedIntlFeeResult)

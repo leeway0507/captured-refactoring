@@ -6,7 +6,7 @@ import { z } from 'zod'
 import { ConfirmButton } from '@/components/button'
 import { EmailField, PasswordField } from '@/components/form'
 import { useSearchParams } from 'next/navigation'
-import { signInAction } from '../_actions/sign-in'
+import { signInAction } from '../_actions/action'
 
 const FormSchema = z.object({
     email: z.string().email({

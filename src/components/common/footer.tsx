@@ -49,7 +49,7 @@ function Policy() {
 
 export default function Footer() {
     return (
-        <footer className="bg-gray-100 pt-8 pb-24 lg:pb-12 text-xs lg:text-sm px-2 lg:px-6">
+        <footer className="bg-gray-50 pt-8 pb-24 lg:pb-12 text-xs lg:text-sm px-2 lg:px-6">
             <div className="page-max-frame w-full flex flex-col gap-2 mx-auto">
                 <FooterNavBar />
                 <CompanyInfo />

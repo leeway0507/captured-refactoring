@@ -5,16 +5,14 @@ import { ConfirmButton } from '@/components/button'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, FormProvider } from 'react-hook-form'
 import { z } from 'zod'
-import { toast } from 'react-toastify'
 import { useState } from 'react'
 import EmailVerificationButton from './_components/email-verification'
 import PolicyCheckbox from './_components/policy-checkbox'
-import { useRegistrationContext } from './_components/registration-context'
+import { Step1State } from './type'
 
-export default function Step1({ setNextStep }: { setNextStep: (b: boolean) => void }) {
+export default function Step1({ setStep1Data }: { setStep1Data: (b: Step1State) => void }) {
     const [isVerfied, setIsverfied] = useState(false)
     const [termCheck, setTermCheck] = useState(false)
-    const { setStep1 } = useRegistrationContext()
 
     const formSchema = z
         .object({
@@ -58,9 +56,8 @@ export default function Step1({ setNextStep }: { setNextStep: (b: boolean) => vo
     })
 
     function onSubmit(data: z.infer<typeof formSchema>) {
-        toast(JSON.stringify(data))
-        setStep1(data)
-        setNextStep(true)
+        const { passwordConfirm, ...rest } = data
+        setStep1Data(rest)
     }
 
     const nextStepCondition = form.formState.isValid && termCheck && isVerfied

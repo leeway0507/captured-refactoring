@@ -1,5 +1,5 @@
 import Nav from '../../components/common/nav'
-import { signOutAction } from '../auth/_actions/sign-in'
+import { signOutAction } from '../auth/_actions/action'
 
 async function Page() {
     return (

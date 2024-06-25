@@ -81,8 +81,6 @@ export function ResetPassword({ verifiedEmail }: { verifiedEmail: string }) {
         mode: 'onChange',
     })
 
-    console.log(form.formState.errors)
-
     function onSubmit(data: z.infer<typeof FormSchema>) {
         console.log(data)
         toast(JSON.stringify(data))

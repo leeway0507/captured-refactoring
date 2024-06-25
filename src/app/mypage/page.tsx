@@ -1,17 +1,12 @@
-import { auth } from '@/auth'
-import Nav from '../../components/common/nav'
-import { signOutAction } from '../auth/_actions/sign-in'
+import Nav from '@/components/common/nav'
+import { Mypage } from './mypage'
 
-async function Page() {
-    const session = await auth()
-    console.log('pageSession', session)
+async function Page({ searchParams }: { searchParams: any }) {
     return (
         <>
             <Nav />
-            <main className="page-container max-w-sm flex-center">
-                <form action={signOutAction}>
-                    <button type="submit">SIGN OUT</button>
-                </form>
+            <main className="page-container page-max-frame flex items-center flex-col  px-2 md:px-0">
+                <Mypage searchParams={searchParams} />
             </main>
         </>
     )

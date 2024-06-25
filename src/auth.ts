@@ -1,4 +1,4 @@
-import NextAuth, { DefaultSession, AuthError, CredentialsSignin } from 'next-auth'
+import NextAuth, { DefaultSession, CredentialsSignin } from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import KakaoProvider from 'next-auth/providers/kakao'
 import NaverProvider from 'next-auth/providers/naver'
@@ -7,6 +7,7 @@ interface CustomUser {
     email: string
     name: string
     signUpType: string
+    accessToken: string
 }
 
 // user Session Schema 재정의
@@ -16,10 +17,16 @@ declare module 'next-auth' {
     }
 }
 
-const transform = (res: { email: string; kr_name: string; sign_up_type: string }): CustomUser => ({
+const transform = (res: {
+    email: string
+    kr_name: string
+    sign_up_type: string
+    access_token: string
+}): CustomUser => ({
     email: res.email,
     name: res.kr_name,
     signUpType: res.sign_up_type,
+    accessToken: res.access_token,
 })
 
 export const signInByEmail = async (email: string, password: string) => {
@@ -73,8 +80,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
             // eslint-disable-next-line no-param-reassign
             session.user.email = token.email as string
+
             // eslint-disable-next-line no-param-reassign
             session.user.signUpType = token.signUpType as string
+
+            // eslint-disable-next-line no-param-reassign
+            session.user.accessToken = token.accessToken as string
             return session
         },
     },

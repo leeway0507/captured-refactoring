@@ -45,3 +45,49 @@ export interface ProductSearchParmasProps {
     page?: string
     brand?: string
 }
+
+export interface OrderInfoProps {
+    orderId: string
+    userOrderNumber: number
+    orderedAt: string
+    orderStatus: string
+    paymentStatus: string
+    addressId: string
+    orderTotalPrice: number
+    paymentMethod: string
+}
+export interface OrderProductProps extends Omit<ProductProps, 'size'> {
+    orderNum: number
+    orderId: string
+    sku: number
+    size: string
+    quantity: number
+    deliveryStatus: string
+    deliveryNumber: string
+    deliveryCompany: string
+}
+export interface AddressProps {
+    addressId?: string
+    krName: string
+    enName: string
+    customId: string
+    phone: string
+    krAddress: string
+    krAddressDetail: string
+    enAddress: string
+    enAddressDetail: string
+}
+
+export interface AddressFormProps extends AddressProps {
+    addressId?: string
+    email?: string
+    password?: string
+    krName: string
+    enName: string
+    customId: string
+    phone: string
+    krAddress: string
+    krAddressDetail: string
+    enAddress: string
+    enAddressDetail: string
+}
