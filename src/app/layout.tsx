@@ -1,7 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Monda } from 'next/font/google'
-import { ToastContainer, Flip } from 'react-toastify'
+import { ToastContainer, Slide } from 'react-toastify'
 import Script from 'next/script'
 import GoogleAnalytics from '@/utils/google-analytics-4'
 
@@ -25,7 +25,6 @@ const jsonLd = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="kr">
-            <GoogleAnalytics GA_TRACKING_ID={process.env.GA_TRACKING_ID!} />
             <Script
                 id="initID+JSON"
                 type="application/ld+json"
@@ -36,12 +35,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <ToastContainer
                     position="top-right"
                     autoClose={1000}
-                    hideProgressBar={false}
+                    hideProgressBar
                     newestOnTop={false}
-                    transition={Flip}
-                    toastClassName="shadow-lg top-[50px]"
+                    transition={Slide}
+                    toastClassName="shadow-lg top-[60px] md:top-[100px] text-sm text-black font-medium"
                 />
             </body>
+            <GoogleAnalytics GA_TRACKING_ID={process.env.GA_TRACKING_ID!} />
         </html>
     )
 }

@@ -51,7 +51,6 @@ export const useFilterParams = () => {
 }
 
 // filter CategoryType
-
 type CategoryType = '의류' | '신발' | '전체' | '기타'
 const VALID_CATEGORY_TYPES: CategoryType[] = ['의류', '신발', '전체', '기타']
 

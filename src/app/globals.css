@@ -68,7 +68,7 @@
     }
   }
     html {
-        overflow-y: scroll;
+        overflow-y: scroll
     }
 
   @layer base {
@@ -82,7 +82,7 @@
     @apply flex items-center justify-center;
             }
     .page-container {
-      @apply pt-[60px] md:pt-[130px]  pb-[75px] mx-auto grow w-full
+      @apply pt-[55px] md:pt-[130px]  pb-[75px] mx-auto grow w-full
     }
     .layout-max-frame{
       @apply max-w-[1660px]

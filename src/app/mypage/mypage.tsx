@@ -1,18 +1,18 @@
 import { Session } from 'next-auth'
-import { getOrderInfo } from '@/hooks/data/order-fetch'
+import { getOrderHistory } from '@/hooks/data/order-fetch'
 import { auth } from '@/auth'
 import * as Tabs from '@radix-ui/react-tabs'
 import cn from '@/utils/cn'
 import { InputWithLabel } from '@/components/input'
 import OrderDetail from './_components/order-detail'
-import OrderTable from './_components/order-table'
+import OrderHistoryTable from './_components/order-table'
 import { AddressList, UpdateAddressForm } from './_components/address'
 import { LogoutButton } from './_components/client'
 import { ResetPassword } from '../auth/resetpassword/reset-password'
 
 export async function ResetPasswordTab() {
     const {
-        user: { email, signUpType, name },
+        user: { email, signUpType, name, accessToken },
     } = (await auth()) as Session
 
     return (
@@ -22,7 +22,7 @@ export async function ResetPasswordTab() {
                 <InputWithLabel labelName="로그인 종류" disabled value={signUpType} />
                 <InputWithLabel labelName="가입 성명" disabled value={name} />
             </div>
-            <ResetPassword verifiedEmail={email} />
+            <ResetPassword resetData={{ accessToken, email }} redirectTo="/mypage" />
         </div>
     )
 }
@@ -36,15 +36,13 @@ export async function OrderTab({ orderId }: { orderId: string | undefined }) {
         user: { accessToken },
     } = (await auth()) as Session
 
-    const orderHistory = await getOrderInfo(accessToken)
-        .then((r) => r.data)
-        .catch(() => [])
+    const orderHistory = await getOrderHistory(accessToken)
 
     const order = orderId && orderHistory.find((p) => p.orderId === orderId)
     return order ? (
         <OrderDetail order={order} accessToken={accessToken} />
     ) : (
-        <OrderTable orderHistory={orderHistory} />
+        <OrderHistoryTable orderHistory={orderHistory} />
     )
 }
 
@@ -73,11 +71,7 @@ function TriggerGroup() {
     )
 }
 
-export function Mypage({
-    searchParams,
-}: {
-    searchParams: { updateAddress?: string; orderId?: string }
-}) {
+export function Mypage(searchParams: { updateAddress?: string; orderId?: string }) {
     const { updateAddress, orderId } = searchParams
 
     const rootClass = cn('flex flex-col ', 'md:flex-row justify-center py-4 w-full gap-10')

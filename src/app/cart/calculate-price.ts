@@ -1,19 +1,21 @@
-import { ProductCartProps } from '@/hooks/data/product-cart'
+import { ProductCartProps } from '@/hooks/data/type'
 
 export const calculateProductPrice = (arr: ProductCartProps[]) =>
-    arr?.reduce((result, item) => result + item.product.price * item.qty, 0)
+    arr?.reduce((result, item) => result + item.product.price * item.quantity, 0)
 
 export const calculateDomeShippingFee = (arr: ProductCartProps[]) =>
     arr?.reduce(
         (result, item) =>
-            item.product.intl === false ? result + item.product.shippingFee * item.qty : result,
+            item.product.intl === false
+                ? result + item.product.shippingFee * item.quantity
+                : result,
         0,
     )
 
 export const calculateIntlShippingFee = (arr: ProductCartProps[]) =>
     arr?.reduce(
         (result, item) =>
-            item.product.intl === true ? result + item.product.shippingFee * item.qty : result,
+            item.product.intl === true ? result + item.product.shippingFee * item.quantity : result,
         0,
     )
 

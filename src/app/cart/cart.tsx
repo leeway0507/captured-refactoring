@@ -4,14 +4,16 @@ import Link from 'next/link'
 import { Plus, Minus, Trash2, ChevronRight, ChevronDown } from 'lucide-react'
 import { useState } from 'react'
 import { Button } from '@/components/shadcn-ui/button'
-import { ConfirmButton, CancelButton } from '@/components/button'
-import useCart, { ProductCartProps } from '@/hooks/data/product-cart'
+import { ConfirmButton } from '@/components/button'
+import useCart from '@/hooks/data/product-cart'
+import { ProductCartProps, ProductProps } from '@/hooks/data/type'
 import { ProductImage } from '@/components/product-card'
 import { KRW } from '@/utils/currency'
-import { ProductProps } from '@/hooks/data/type'
 import Spinner from '@/components/spinner/spinner'
+import { toast } from 'react-toastify'
 import calcTotalPrice from './calculate-price'
 import { CartShipmentInfo } from './_components/shipment-info'
+import { setCartItemsToCookies } from './action'
 
 function NoCartData() {
     return (
@@ -25,11 +27,11 @@ function NoCartData() {
 }
 
 function ProductQtyUpdate({
-    qty,
+    quantity,
     increaseQty,
     decreaseQty,
 }: {
-    qty: number
+    quantity: number
     increaseQty: () => void
     decreaseQty: () => void
 }) {
@@ -40,17 +42,17 @@ function ProductQtyUpdate({
                 variant="ghost"
                 type="button"
                 onClick={decreaseQty}
-                aria-label="Decrease qty"
+                aria-label="Decrease quantity"
             >
                 <Minus size="12px" strokeWidth="3" />
             </Button>
-            <div className="text-sm">{qty}</div>
+            <div className="text-sm">{quantity}</div>
             <Button
                 size="icon-sm"
                 variant="ghost"
                 type="button"
                 onClick={increaseQty}
-                aria-label="Decrease qty"
+                aria-label="Decrease quantity"
             >
                 <Plus size="12px" strokeWidth="3" />
             </Button>
@@ -71,28 +73,29 @@ function ProductDescription({
 }) {
     const { product, size } = data
     const handleRemoveProduct = () => {
-        // modal
+        toast('장바구니에서 제거되었습니다.')
         removeToCart(product, size)
     }
+
     return (
-        <div className="flex flex-col w-full justify-center">
+        <div className="flex flex-col w-full justify-center text-xs md:text-sm ">
             <div className="flex justify-between items-center">
-                <span className="text-lg">{product.brand}</span>
-                <Button variant="ghost" onClick={handleRemoveProduct}>
+                <span className="text-base md:text-lg">{product.brand}</span>
+                <Button variant="ghost" size="icon-sm" onClick={handleRemoveProduct}>
                     <Trash2 size="20px" />
                 </Button>
             </div>
-            <p className="text-sm text-gray-500">{product.productName}</p>
-            <p className="text-sm uppercase text-gray-500">{product.productId}</p>
+            <span className="text-gray-500 line-clamp-1">{product.productName}</span>
+            <span className="uppercase text-gray-500">{product.productId}</span>
             <div className="flex justify-between">
-                <span className="text-sm">{size}</span>
-                <span className="text-sm underline text-gray-500">
+                <span>{size}</span>
+                <span className=" underline text-gray-500">
                     {product.intl ? '해외배송' : '국내배송'}
                 </span>
             </div>
             <div className="flex justify-between pt-2">
                 <ProductQtyUpdate
-                    qty={data.qty}
+                    quantity={data.quantity}
                     increaseQty={() => increaseQty(data.product, data.size)}
                     decreaseQty={() => decreaseQty(data.product, data.size)}
                 />
@@ -126,17 +129,17 @@ function ProductBox({
                         type="checkbox"
                         className="accent-black md:scale-[115%] w-4 md:mx-2"
                         id={`${data.product.sku}-${data.size}`}
-                        checked={data.checked}
+                        defaultChecked={data.checked}
                         onClick={() => toggleCheckState(data.product, data.size)}
                     />
                     <Link
-                        className="flex-center flex-col w-full max-w-[120px] md:max-w-[180px]"
+                        className="flex-center flex-col w-full  max-w-[100px] md:max-w-[125px] lg:max-w-[150px]"
                         href={`/product/${data.product.sku}`}
                     >
                         <ProductImage
                             sku={String(data.product.sku)}
                             imgName="main"
-                            className=" aspect-[1/1]"
+                            className="aspect-[1/1]"
                         />
                     </Link>
                     <ProductDescription
@@ -175,7 +178,7 @@ function ShippingBox({
                 </div>
                 <span> {KRW(totalShippingFee)}</span>
             </button>{' '}
-            <div className={`${isOpen ? 'block' : 'hidden '} text-sm text-gray-500`}>
+            <div className={`${isOpen ? 'block' : 'hidden '} text-xs text-gray-500`}>
                 <div className="flex justify-between w-full">
                     <span>국내 배송비</span>
                     <span>{KRW(intlShippingFee)}</span>
@@ -195,13 +198,13 @@ export function PriceBox({ cartData }: { cartData: ProductCartProps[] }) {
     const totalPrice = totalProductPrice + totalShippingFee
 
     return (
-        <div className="flex flex-col gap-2 text-sm md:text-base">
+        <div className="flex flex-col gap-2 text-sm">
             <div className="flex justify-between ">
                 <div>물품가격</div>
                 <div>{KRW(totalProductPrice)}</div>
             </div>
             <ShippingBox intlShippingFee={intlShippingFee} domeShippingFee={domeShippingFee} />
-            <div className="flex justify-between text-base md:text-lg">
+            <div className="flex justify-between text-base">
                 <div>총 결제금액</div>
                 <div>{KRW(totalPrice)}</div>
             </div>
@@ -209,24 +212,23 @@ export function PriceBox({ cartData }: { cartData: ProductCartProps[] }) {
     )
 }
 
-function OrderButton() {
+function OrderButton({ cartData }: { cartData: ProductCartProps[] }) {
+    const handleClick = () =>
+        setCartItemsToCookies(window.btoa(encodeURIComponent(JSON.stringify(cartData))))
     return (
         <div className="w-full flex gap-4 justify-evenly">
-            <Link href="/order?order=selected">
-                <CancelButton size="xl">선택 주문</CancelButton>
-            </Link>
-            <Link href="/order?order=All">
-                <ConfirmButton size="xl">전체 주문</ConfirmButton>
-            </Link>
+            <ConfirmButton className="w-full" onClick={handleClick}>
+                주문하기
+            </ConfirmButton>
         </div>
     )
 }
 function InfoBox({ cartData }: { cartData: ProductCartProps[] }) {
     const checkedCartData = cartData.filter((p) => p.checked)
     return (
-        <aside className="flex flex-col w-full lg:max-w-[450px] gap-6 bg-gray-50 lg:bg-white p-4 shadow-inner lg:shadow-none">
+        <aside className="flex flex-col w-full md:max-w-[350px] lg:max-w-[450px] gap-6 bg-gray-50 md:bg-white p-4 shadow-inner md:shadow-none">
             <PriceBox cartData={checkedCartData} />
-            <OrderButton />
+            <OrderButton cartData={checkedCartData} />
             <CartShipmentInfo />
         </aside>
     )
@@ -234,7 +236,7 @@ function InfoBox({ cartData }: { cartData: ProductCartProps[] }) {
 
 function CartContainer({ children }: { children: React.ReactNode }) {
     return (
-        <div className="flex flex-col lg:flex-row lg:gap-12 lg:justify-around w-full">
+        <div className="flex flex-col md:flex-row md:gap-2 lg:gap-12 md:justify-around w-full">
             {children}
         </div>
     )

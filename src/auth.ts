@@ -3,7 +3,8 @@ import Credentials from 'next-auth/providers/credentials'
 import KakaoProvider from 'next-auth/providers/kakao'
 import NaverProvider from 'next-auth/providers/naver'
 
-interface CustomUser {
+export interface CustomUser {
+    userId: string
     email: string
     name: string
     signUpType: string
@@ -18,11 +19,13 @@ declare module 'next-auth' {
 }
 
 const transform = (res: {
+    user_id: string
     email: string
     kr_name: string
     sign_up_type: string
     access_token: string
 }): CustomUser => ({
+    userId: res.user_id,
     email: res.email,
     name: res.kr_name,
     signUpType: res.sign_up_type,
@@ -86,6 +89,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
             // eslint-disable-next-line no-param-reassign
             session.user.accessToken = token.accessToken as string
+
+            // eslint-disable-next-line no-param-reassign
+            session.user.userId = token.userId as string
             return session
         },
     },

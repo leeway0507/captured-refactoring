@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { ChevronDown } from 'lucide-react'
 import {
     ButtonBox,
@@ -14,6 +14,7 @@ import DropdownComponent from '@/components/dropdown'
 import SlideComponent from '@/components/slider/slider'
 import { useFilterParams, useCategoryType } from '@/hooks/data/product-filter'
 import { useSearchParams } from 'next/navigation'
+import cn from '@/utils/cn'
 import { filterMetaData } from '../../data/metadata'
 
 export function MobileCategoryNav() {
@@ -50,13 +51,16 @@ export function MobileCategoryNav() {
 export function FilterOptions({
     selectedFilterType,
     setSelectedFilterType,
+    boxRef,
 }: {
     selectedFilterType: FilterType | undefined
     setSelectedFilterType: (s: FilterType | undefined) => void
+    boxRef: React.RefObject<HTMLDivElement>
 }) {
     const { filterState, setFilterState, applyFilterToURL, resetFilterState } = useFilterParams()
 
     const categoryType = useCategoryType()
+    const boxHeight = boxRef.current?.clientHeight
 
     const handleConfirm = () => {
         applyFilterToURL()
@@ -67,7 +71,7 @@ export function FilterOptions({
         setSelectedFilterType(undefined)
     }
 
-    const FilterComponent: Record<FilterType, JSX.Element> = {
+    const FilterComponent: Record<FilterType, React.ReactNode> = {
         정렬순: (
             <DropdownComponent
                 key="정렬순"
@@ -133,7 +137,12 @@ export function FilterOptions({
 
     if (!selectedFilterType) return null
     return (
-        <div className="absolute top-12 z-20 w-full bg-white pb-4">
+        <div
+            className={cn(
+                'absolute z-20 w-full bg-white pb-4 left-0 right-0 ',
+                `$top-${boxHeight}px`,
+            )}
+        >
             <div className="py-2">{FilterComponent[selectedFilterType]}</div>
             <div className="flex gap-4 items-center justify-center pt-2">
                 <ConfirmButton onClick={handleConfirm}>적용하기</ConfirmButton>
@@ -150,6 +159,8 @@ export default function Filter() {
     const [selectedFilterType, setSelectedFilterType] = useState<FilterType>()
     const filterStatus = getToggleStatus<FilterType>(VALID_FILTER_TYPES, selectedFilterType)
 
+    const boxRef = useRef<HTMLDivElement>(null)
+
     const addOrRemoveItem = (v: FilterType | undefined) => {
         setSelectedFilterType((old) => {
             if (old === v) return undefined
@@ -157,22 +168,26 @@ export default function Filter() {
         })
     }
     return (
-        <div className="sticky top-[55px] py-3 px-2 w-full bg-white z-10">
-            <ButtonBox>
-                {filterStatus.map((f) => (
-                    <ToggleButton<FilterType>
-                        key={f.item}
-                        data={f.item}
-                        status={f.status}
-                        setSelected={addOrRemoveItem}
-                        icon={<ChevronDown size="15px" />}
-                    />
-                ))}
-            </ButtonBox>
-            <FilterOptions
-                selectedFilterType={selectedFilterType}
-                setSelectedFilterType={addOrRemoveItem}
-            />
-        </div>
+        <>
+            <MobileCategoryNav />
+            <div className="sticky top-[55px] py-3 px-2 w-full bg-white z-10" ref={boxRef}>
+                <ButtonBox>
+                    {filterStatus.map((f) => (
+                        <ToggleButton<FilterType>
+                            key={f.item}
+                            data={f.item}
+                            status={f.status}
+                            setSelected={addOrRemoveItem}
+                            icon={<ChevronDown size="15px" />}
+                        />
+                    ))}
+                </ButtonBox>
+                <FilterOptions
+                    selectedFilterType={selectedFilterType}
+                    setSelectedFilterType={addOrRemoveItem}
+                    boxRef={boxRef}
+                />
+            </div>
+        </>
     )
 }

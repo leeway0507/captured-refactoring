@@ -1,10 +1,7 @@
 import Link from 'next/link'
-import { ShoppingCart, Search } from 'lucide-react'
 import { auth } from '@/auth'
 import { Session } from 'next-auth'
-import { NavBottom, NavMobileCard } from './nav-client'
-
-import Logo from './logo'
+import { NavBottom, NavMobileCard, NavMobileTop } from './nav-client'
 
 function NavMobileBottom() {
     return (
@@ -15,24 +12,6 @@ function NavMobileBottom() {
             <NavMobileCard type="cart" link="/cart" />
             <NavMobileCard type="mypage" link="/mypage" />
         </nav>
-    )
-}
-
-function NavMobileTop({ hideMobileBottom }: { hideMobileBottom: boolean }) {
-    return (
-        <div className="fixed top-0 flex items-center justify-between w-full p-3 z-50 bg-white">
-            <Logo />
-            <div className="flex gap-4">
-                {hideMobileBottom && (
-                    <Link href="/cart">
-                        <ShoppingCart strokeWidth={2} size="24px" />
-                    </Link>
-                )}
-                <Link href="/search" className="">
-                    <Search size="24px" />
-                </Link>
-            </div>
-        </div>
     )
 }
 
@@ -48,7 +27,7 @@ export function NavMobile({ hideMobileBottom }: { hideMobileBottom?: boolean }) 
 function NavTop() {
     const routeStyle = 'basis-1/5 flex-center h-full'
     return (
-        <nav className="flex items-center justify-around max-w-2xl mx-auto text-lg w-full h-10">
+        <nav className="flex items-center justify-around max-w-2xl mx-auto text-lg w-screen h-10">
             <Link href="/brand" className={`${routeStyle}`}>
                 brand
             </Link>
@@ -71,7 +50,7 @@ function NavTop() {
 async function NavPc() {
     const session: Session | null = await auth()
     return (
-        <div className="hidden md:block fixed bg-white top-0 w-full py-2 z-50 shadow-md">
+        <div className="hidden md:block fixed bg-white top-0 w-screen py-2 z-50 shadow-md">
             <NavTop />
             <NavBottom session={session} />
         </div>

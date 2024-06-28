@@ -2,7 +2,7 @@ import Nav from '@/components/common/nav'
 import Footer from '@/components/common/footer'
 import { ResetPasswordForm } from './reset-password'
 
-function Page() {
+async function Page() {
     return (
         <>
             <Nav />

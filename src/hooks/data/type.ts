@@ -31,6 +31,15 @@ export interface ProductFilterParamsProps {
     delivery?: string[]
     price?: string[]
 }
+export interface ProductFilterSearchParamsProps {
+    pageType?: string
+    sortBy?: string
+    brand?: string
+    categorySpec?: string
+    size?: string
+    delivery?: string
+    price?: string | number[]
+}
 
 export interface ProductPagesProps {
     [key: number]: ProductProps[]
@@ -41,12 +50,15 @@ export interface ProductDataStoreProps {
     data: ProductPagesProps
     lastPage: string
 }
-export interface ProductSearchParmasProps {
-    page?: string
-    brand?: string
+
+export interface ProductCartProps {
+    product: ProductProps
+    size: string
+    quantity: number
+    checked: boolean
 }
 
-export interface OrderInfoProps {
+export interface OrderHistoryProps {
     orderId: string
     userOrderNumber: number
     orderedAt: string
@@ -56,16 +68,25 @@ export interface OrderInfoProps {
     orderTotalPrice: number
     paymentMethod: string
 }
-export interface OrderProductProps extends Omit<ProductProps, 'size'> {
+export interface OrderItemProps extends Omit<ProductProps, 'size'> {
     orderNum: number
     orderId: string
-    sku: number
     size: string
     quantity: number
     deliveryStatus: string
     deliveryNumber: string
     deliveryCompany: string
 }
+
+export interface OrderHistoryRequestProps {
+    paymentKey: string
+    orderId: string
+    orderedAt: Date
+    orderTotalPrice: Number
+    paymentMethod: String
+    paymentInfo: String
+}
+
 export interface AddressProps {
     addressId?: string
     krName: string
@@ -78,10 +99,7 @@ export interface AddressProps {
     enAddressDetail: string
 }
 
-export interface AddressFormProps extends AddressProps {
-    addressId?: string
-    email?: string
-    password?: string
+export interface AddressFormProps {
     krName: string
     enName: string
     customId: string
@@ -90,4 +108,19 @@ export interface AddressFormProps extends AddressProps {
     krAddressDetail: string
     enAddress: string
     enAddressDetail: string
+}
+
+export interface SignUpFormProps extends AddressFormProps {
+    addressId: string
+    email: string
+    password: string
+}
+
+export interface RequestItemCheckProps {
+    sku: number
+    size: string
+    quantity: number
+}
+export interface CheckCartItemResultProps {
+    [form: string]: boolean
 }

@@ -8,23 +8,23 @@ import productMock from '@/__mocks__/product-data-api'
 
 describe('Price Calculation', () => {
     const mockData = [
-        { product: productMock[0], qty: 1, size: '240', checked: true },
-        { product: productMock[1], qty: 2, size: '235', checked: true },
-        { product: productMock[2], qty: 3, size: '230', checked: true },
-        { product: productMock[3], qty: 3, size: '230', checked: false },
+        { product: productMock[0], quantity: 1, size: '240', checked: true },
+        { product: productMock[1], quantity: 2, size: '235', checked: true },
+        { product: productMock[2], quantity: 3, size: '230', checked: true },
+        { product: productMock[3], quantity: 3, size: '230', checked: false },
     ]
 
     // calc only checked
     const expectedProductPrice =
-        mockData[0].product.price * mockData[0].qty +
-        mockData[1].product.price * mockData[1].qty +
-        mockData[2].product.price * mockData[2].qty
+        mockData[0].product.price * mockData[0].quantity +
+        mockData[1].product.price * mockData[1].quantity +
+        mockData[2].product.price * mockData[2].quantity
 
     // calc only checked
     const expectedIntlFeeResult =
-        mockData[0].product.shippingFee * mockData[0].qty +
-        mockData[1].product.shippingFee * mockData[1].qty +
-        mockData[2].product.shippingFee * mockData[2].qty
+        mockData[0].product.shippingFee * mockData[0].quantity +
+        mockData[1].product.shippingFee * mockData[1].quantity +
+        mockData[2].product.shippingFee * mockData[2].quantity
 
     const expectedDomeResult = 0
 

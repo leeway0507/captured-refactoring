@@ -1,8 +1,8 @@
 import { KRW } from '@/utils/currency'
-import { OrderInfoProps } from '@/hooks/data/type'
+import { OrderHistoryProps } from '@/hooks/data/type'
 import Link from 'next/link'
 
-function OrderTableHeader() {
+function OrderHistoryTableHeader() {
     return (
         <div className="border-b border-black/90 h-10 text-nowrap grid grid-cols-4">
             <div>주문번호</div>
@@ -13,7 +13,7 @@ function OrderTableHeader() {
     )
 }
 
-function OrderTableRow({ data }: { data: OrderInfoProps }) {
+function OrderHistoryTableRow({ data }: { data: OrderHistoryProps }) {
     const row =
         'hover:bg-gray-100 odd:bg-slate-50 hover:cursor-pointer grid grid-cols-4 place-items-center text-xs'
     return (
@@ -26,16 +26,16 @@ function OrderTableRow({ data }: { data: OrderInfoProps }) {
     )
 }
 
-function OrderTableBody({ data }: { data: OrderInfoProps[] }) {
-    return data.map((d) => <OrderTableRow key={d.userOrderNumber} data={d} />)
+function OrderHistoryTableBody({ data }: { data: OrderHistoryProps[] }) {
+    return data.map((d) => <OrderHistoryTableRow key={d.userOrderNumber} data={d} />)
 }
 
 const tableClass = 'w-full text-sm text-center mx-auto'
-export default function OrderTable({ orderHistory }: { orderHistory: OrderInfoProps[] }) {
+export default function OrderHistoryTable({ orderHistory }: { orderHistory: OrderHistoryProps[] }) {
     return (
         <div className={`${tableClass}`} key="order">
-            <OrderTableHeader />
-            <OrderTableBody data={orderHistory} />
+            <OrderHistoryTableHeader />
+            <OrderHistoryTableBody data={orderHistory} />
         </div>
     )
 }

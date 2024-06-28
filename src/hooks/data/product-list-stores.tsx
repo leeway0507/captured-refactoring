@@ -2,14 +2,14 @@
 
 import { saveToLocal, loadFromLocal } from '@/utils/storage'
 import { simpleHash } from '@/utils/simple-hash'
-import { ProductDataStoreProps, ProductFetchResponseProps, ProductSearchParmasProps } from './type'
+import { ProductDataStoreProps, ProductFetchResponseProps } from './type'
 
-export const loadUpdatedProductDataStore = (
+export const loadUpdatedProductDataStore = <T,>(
+    searchKey: T,
     localProductData: ProductDataStoreProps | undefined,
-    ProductFilterParams: ProductSearchParmasProps,
     ProductFetchResponse: ProductFetchResponseProps,
 ) => {
-    const filterHash = simpleHash(JSON.stringify(ProductFilterParams))
+    const filterHash = simpleHash(JSON.stringify(searchKey))
     const { data, currentPage, lastPage } = ProductFetchResponse
 
     // 신규 또는 필터 변경시 초기화
@@ -30,15 +30,12 @@ export const loadUpdatedProductDataStore = (
     }
 }
 
-const useProductDataStore = (
-    ProductFilterParams: ProductSearchParmasProps,
-    ProductFetchResponse: ProductFetchResponseProps,
-) => {
+const useProductDataStore = <T,>(searchKey: T, ProductFetchResponse: ProductFetchResponseProps) => {
     const localKey = 'pr_d'
     const prevProductDataStore = loadFromLocal<ProductDataStoreProps>(localKey)
     const updatedProductDataStore = loadUpdatedProductDataStore(
+        searchKey,
         prevProductDataStore,
-        ProductFilterParams,
         ProductFetchResponse,
     )
 

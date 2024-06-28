@@ -4,6 +4,7 @@ import { auth } from '@/auth'
 import Link from 'next/link'
 import { ItemGroup, ItemRow } from '@/components/item'
 import AddressForm from './address-form'
+import { deleteAddressAction } from '../_actions/action'
 
 function SkeletonAddressInfo() {
     return <div className="h-48 bg-gray-50 w-full" />
@@ -50,21 +51,35 @@ export function AddressInfo({ address }: { address: AddressProps | undefined }) 
     )
 }
 
-function AddressUpdateButton({ addressId }: { addressId: string }) {
+export function UpdateAddressButton({ addressId }: { addressId: string }) {
+    return <Link href={`?updateAddress=${addressId}`}>수정</Link>
+}
+
+function DeleteAddressButton({ addressId }: { addressId: string }) {
     return (
-        <Link
-            href={`?updateAddress=${addressId}`}
-            className="underline absolute top-4 right-8 text-sm"
-        >
-            수정
-        </Link>
+        <form action={deleteAddressAction}>
+            <input name="addressId" type="hidden" value={addressId} />
+            <button type="submit" className="underline">
+                삭제
+            </button>
+        </form>
     )
 }
 
-function AddressInfoWithUpdateButton({ address }: { address: AddressProps }) {
+function ButtonGroup({ address }: { address: AddressProps }) {
+    const isInitAddress = address.addressId?.endsWith('-0')
+    return (
+        <div className="underline absolute top-4 right-8 text-sm flex gap-4">
+            {!isInitAddress && <DeleteAddressButton addressId={address.addressId!} />}
+            <UpdateAddressButton addressId={address.addressId!} />
+        </div>
+    )
+}
+
+export function AddressInfoWithUpdateButton({ address }: { address: AddressProps }) {
     return (
         <div className="relative">
-            <AddressUpdateButton addressId={address.addressId!} />
+            <ButtonGroup address={address} />
             <AddressInfo address={address} />
         </div>
     )
@@ -81,15 +96,16 @@ function NoAddress() {
 
 export async function UpdateAddressForm({ addressId }: { addressId: string | 'new' }) {
     const session = await auth()
-    const addresses = (await getAddressAll(session?.user.accessToken!)).data
+    const addresses = (await getAddressAll(session?.user.accessToken!))
 
     const defaultValue = addressId === 'new' ? {} : addresses.find((a) => a.addressId === addressId)
 
     return (
         <div className="max-w-lg mx-auto">
             <AddressForm
-                formType={addressId === 'new' ? 'new' : 'update'}
                 defaultValue={defaultValue}
+                formType={addressId === 'new' ? 'new' : 'update'}
+                redirectTo="/mypage"
             />
         </div>
     )
@@ -97,7 +113,7 @@ export async function UpdateAddressForm({ addressId }: { addressId: string | 'ne
 
 export async function AddressList() {
     const session = await auth()
-    const addresses = (await getAddressAll(session?.user.accessToken!)).data
+    const addresses = await getAddressAll(session?.user.accessToken!)
     if (addresses.length === 0) return <NoAddress />
     return (
         <div className="max-w-lg mx-auto">
@@ -106,9 +122,11 @@ export async function AddressList() {
                     + 신규주소 추가
                 </Link>
             )}
-            {addresses.map((a) => (
-                <AddressInfoWithUpdateButton key={a.addressId} address={a} />
-            ))}
+            <section className="space-y-4">
+                {addresses.map((a) => (
+                    <AddressInfoWithUpdateButton key={a.addressId} address={a} />
+                ))}
+            </section>
         </div>
     )
 }

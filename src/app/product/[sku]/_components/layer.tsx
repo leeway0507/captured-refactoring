@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
+import { toast } from 'react-toastify'
 
 import { KRW } from '@/utils/currency'
 import useCart from '@/hooks/data/product-cart'
@@ -129,7 +130,7 @@ export function AddToCartNormal({
 
     const handleClick = () => {
         addToCart(product, selected)
-        // TODO: toast 추가
+        toast(<div>장바구니에 담았습니다.</div>)
     }
 
     return (

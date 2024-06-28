@@ -6,7 +6,7 @@ import { z } from 'zod'
 import { ConfirmButton } from '@/components/button'
 import { EmailField, PasswordField } from '@/components/form'
 import { useSearchParams } from 'next/navigation'
-import { signInAction } from '../_actions/action'
+import { signInAction } from '../actions/action'
 
 const FormSchema = z.object({
     email: z.string().email({
@@ -29,7 +29,7 @@ export default function SignIn() {
     }
 
     return (
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="pt-8 space-y-6 w-full">
             <EmailField form={form} />
             <PasswordField form={form} />
             <ConfirmButton type="submit" className="w-full">

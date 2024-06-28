@@ -1,16 +1,23 @@
 'use client'
 
-import { UserNameField, EmailField, PasswordConfirmField, PasswordField } from '@/components/form'
-import { ConfirmButton } from '@/components/button'
-
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import { useState } from 'react'
 import { z } from 'zod'
 
 import { toast } from 'react-toastify'
-import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
+import { zodResolver } from '@hookform/resolvers/zod'
 
-export function VerificateEmail({ setVerifiedEmail }: { setVerifiedEmail: (b: string) => void }) {
+import { UserNameField, EmailField, PasswordConfirmField, PasswordField } from '@/components/form'
+import { ConfirmButton } from '@/components/button'
+import { fetchResetPassword, getTokenByEmailAndName } from '@/hooks/data/auth-fetch'
+
+interface ResetDataProps {
+    accessToken: string
+    email: string
+}
+
+export function VerificateEmail({ setResetData }: { setResetData: (d: ResetDataProps) => void }) {
     const FormSchema = z.object({
         email: z.string().email({
             message: '이메일 주소가 올바르지 않습니다.',
@@ -30,9 +37,11 @@ export function VerificateEmail({ setVerifiedEmail }: { setVerifiedEmail: (b: st
         mode: 'onChange',
     })
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
-        toast(JSON.stringify(data))
-        setVerifiedEmail(form.getValues().email)
+    async function onSubmit(data: z.infer<typeof FormSchema>) {
+        await getTokenByEmailAndName(data.email, data.username)
+            .then((r) => setResetData({ accessToken: r.token, email: form.getValues().email }))
+            .then(() => toast('인증에 성공했습니다.'))
+            .catch((r) => toast.error(r.message))
     }
 
     return (
@@ -46,7 +55,13 @@ export function VerificateEmail({ setVerifiedEmail }: { setVerifiedEmail: (b: st
     )
 }
 
-export function ResetPassword({ verifiedEmail }: { verifiedEmail: string }) {
+export function ResetPassword({
+    resetData,
+    redirectTo,
+}: {
+    resetData: ResetDataProps
+    redirectTo: string
+}) {
     const FormSchema = z
         .object({
             email: z.string(),
@@ -76,14 +91,16 @@ export function ResetPassword({ verifiedEmail }: { verifiedEmail: string }) {
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
-            email: verifiedEmail,
+            email: resetData.email,
         },
         mode: 'onChange',
     })
-
-    function onSubmit(data: z.infer<typeof FormSchema>) {
-        console.log(data)
-        toast(JSON.stringify(data))
+    const router = useRouter()
+    async function onSubmit(data: z.infer<typeof FormSchema>) {
+        await fetchResetPassword(resetData.accessToken, data.password)
+            .then(() => toast('비밀번호를 변경했습니다.'))
+            .then(() => router.push(redirectTo))
+            .catch((r) => toast(r.message))
     }
 
     return (
@@ -98,11 +115,11 @@ export function ResetPassword({ verifiedEmail }: { verifiedEmail: string }) {
 }
 
 export function ResetPasswordForm() {
-    const [verifiedEmail, setVerifiedEmail] = useState<string>()
+    const [resetData, setResetData] = useState<ResetDataProps>()
 
-    return !verifiedEmail ? (
-        <VerificateEmail setVerifiedEmail={setVerifiedEmail} />
+    return !resetData ? (
+        <VerificateEmail setResetData={setResetData} />
     ) : (
-        <ResetPassword verifiedEmail={verifiedEmail} />
+        <ResetPassword resetData={resetData} redirectTo="/auth/signin" />
     )
 }

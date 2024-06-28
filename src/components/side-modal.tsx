@@ -8,7 +8,7 @@ function SideModal({
     isOpen,
     closeModal,
 }: {
-    children: JSX.Element
+    children: React.ReactNode
     isOpen: boolean
     closeModal: () => void
 }) {

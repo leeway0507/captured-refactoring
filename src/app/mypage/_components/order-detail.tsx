@@ -2,10 +2,15 @@
 
 import { useEffect, useState } from 'react'
 import { KRW } from '@/utils/currency'
-import { getOrderRow } from '@/hooks/data/order-fetch'
+import { getOrderItem } from '@/hooks/data/order-fetch'
 import { getAddressById } from '@/hooks/data/address-fetch'
-import { AddressProps, OrderInfoProps, OrderProductProps, ProductProps } from '@/hooks/data/type'
-import { ProductCartProps } from '@/hooks/data/product-cart'
+import {
+    AddressProps,
+    OrderHistoryProps,
+    OrderItemProps,
+    ProductProps,
+    ProductCartProps,
+} from '@/hooks/data/type'
 import { ProductImage } from '@/components/product-card'
 import Spinner from '@/components/spinner/spinner'
 import { ConfirmButton } from '@/components/button'
@@ -15,8 +20,19 @@ import { ChevronLeft } from 'lucide-react'
 import { PriceBox } from '../../cart/cart'
 import { AddressInfo } from './address'
 
-function OrderProductDescription({ orderProducts }: { orderProducts: OrderProductProps }) {
-    const { brand, productName, price, productId, intl, size, quantity } = orderProducts
+interface ProductHorizontalCardProps {
+    sku: number
+    brand: string
+    productName: string
+    productId: string
+    price: number
+    intl: boolean
+    size: string
+    quantity: number
+}
+
+function OrderProductDescription(props: Omit<ProductHorizontalCardProps, 'sku'>) {
+    const { brand, productName, price, productId, intl, size, quantity } = props
     return (
         <div className="flex flex-col w-full justify-center text-xs md:text-sm ">
             <span className="text-base md:text-lg">{brand}</span>
@@ -34,40 +50,41 @@ function OrderProductDescription({ orderProducts }: { orderProducts: OrderProduc
     )
 }
 
-function OrderProductCard({ orderProducts }: { orderProducts: OrderProductProps }) {
+export function ProductHorizontalCard(props: ProductHorizontalCardProps) {
+    const { sku, ...rest } = props
     return (
         <div className="flex gap-4">
             <ProductImage
-                sku={orderProducts.sku.toString()}
+                sku={sku.toString()}
                 imgName="main"
-                className="max-w-[150px]"
+                className="max-w-[100px] md:max-w-[125px] lg:max-w-[150px]"
             />
-            <OrderProductDescription orderProducts={orderProducts} />
+            <OrderProductDescription {...rest} />
         </div>
     )
 }
 
-function OrderProductInfo({ orderProducts }: { orderProducts: OrderProductProps[] }) {
-    return orderProducts.map((p) => <OrderProductCard key={p.sku} orderProducts={p} />)
+function OrderProductInfo({ orderItems }: { orderItems: OrderItemProps[] }) {
+    return orderItems.map((p) => <ProductHorizontalCard key={p.sku} {...p} />)
 }
 
 function OrderTitle({ children }: { children: React.ReactNode }) {
-    return <h1 className="text-lg md:text-xl border-b  pb-1 mb-2">{children}</h1>
+    return <h1 className="text-lg md:text-xl border-b pb-1 mb-2">{children}</h1>
 }
 
-const productCartAdapter = (orderProducts: OrderProductProps[]): ProductCartProps[] =>
-    orderProducts.map((p) => {
+const orderItemAdapter = (orderItems: OrderItemProps[]): ProductCartProps[] =>
+    orderItems.map((p) => {
         const { size, quantity, ...rest } = p
         // 주의: 타입 강제 변경하였음
         return {
             product: rest as unknown as ProductProps,
             size,
-            qty: quantity,
+            quantity,
             checked: true,
         }
     })
 
-function OrderInfo({ order }: { order: OrderInfoProps }) {
+function OrderInfo({ order }: { order: OrderHistoryProps }) {
     const container = 'grid grid-rows-4 w-full grid-flow-col auto-cols-auto'
     return (
         <ItemGroup className={`${container}`}>
@@ -86,23 +103,19 @@ export default function OrderDetail({
     order,
     accessToken,
 }: {
-    order: OrderInfoProps
+    order: OrderHistoryProps
     accessToken: string
 }) {
-    const [orderProducts, setOrderProducts] = useState<OrderProductProps[]>([])
+    const [orderItems, setOrderProducts] = useState<OrderItemProps[]>([])
     const [address, setAddress] = useState<AddressProps>()
     const router = useRouter()
 
     useEffect(() => {
         const getProducts = async () =>
-            getOrderRow(order.orderId, accessToken)
-                .then((r) => setOrderProducts(r.data))
-                .catch(() => setOrderProducts([]))
+            getOrderItem(order.orderId, accessToken).then((r) => setOrderProducts(r))
 
         const getaddressInfo = async () =>
-            getAddressById(order.addressId, accessToken)
-                .then((r) => setAddress(r.data))
-                .catch(() => setAddress(undefined))
+            getAddressById(order.addressId, accessToken).then((r) => setAddress(r))
 
         getaddressInfo()
         getProducts()
@@ -114,7 +127,7 @@ export default function OrderDetail({
         router.push(url.href)
     }
 
-    if (orderProducts.length === 0 && !address) return <Spinner />
+    if (orderItems.length === 0 && !address) return <Spinner />
 
     return (
         <div className="space-y-8 text-sm max-w-xl mx-auto">
@@ -129,9 +142,9 @@ export default function OrderDetail({
             </section>
             <section>
                 <OrderTitle>상세주문정보</OrderTitle>
-                <OrderProductInfo orderProducts={orderProducts} />
+                <OrderProductInfo orderItems={orderItems} />
                 <div className="border-b h-2 my-2" />
-                <PriceBox cartData={productCartAdapter(orderProducts)} />
+                <PriceBox cartData={orderItemAdapter(orderItems)} />
             </section>
             <ConfirmButton onClick={handleOnClick} className="w-full">
                 돌아가기

@@ -4,6 +4,8 @@ import BrandItemsLayOutOne from '@/components/banner/brand-items-layout-one'
 import BrandItemsLayOutTwo from '@/components/banner/brand-items-layout-two'
 import MainLayout from '@/components/banner/main-layout'
 import BrandList from '@/components/banner/brand-layout'
+import { Suspense } from 'react'
+import Spinner from '@/components/spinner/spinner'
 import Footer from '../../components/common/footer'
 import Nav from '../../components/common/nav'
 
@@ -13,12 +15,20 @@ export default async function Home() {
             <Nav />
             <main className="page-container flex flex-col w-full gap-12 lg:gap-24">
                 <MainLayout />
-                <BrandItemsLayOutOne brandName="arc'teryx" />
+                <Suspense fallback={<Spinner />}>
+                    <BrandItemsLayOutOne brandName="arc'teryx" />
+                </Suspense>
                 <BrandList />
-                <BrandItemsLayOutOne brandName="adidas originals" />
-                <NewestItem />
+                <Suspense fallback={<Spinner />}>
+                    <BrandItemsLayOutOne brandName="adidas originals" />
+                </Suspense>
+                <Suspense fallback={<Spinner />}>
+                    <NewestItem />
+                </Suspense>
                 <CategoryLayout />
-                <BrandItemsLayOutTwo brandName="patagonia" />
+                <Suspense fallback={<Spinner />}>
+                    <BrandItemsLayOutTwo brandName="patagonia" />
+                </Suspense>
             </main>
             <Footer />
         </>

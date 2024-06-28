@@ -52,7 +52,7 @@ export function ToggleButton<T extends React.ReactNode>({
     data: T
     status: 'selected' | 'disabled' | 'init'
     setSelected: (s: T) => void
-    icon?: JSX.Element
+    icon?: React.ReactNode
 }) {
     const buttonDesign = {
         selected: 'default',

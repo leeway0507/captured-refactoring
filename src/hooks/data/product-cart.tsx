@@ -2,17 +2,10 @@
 
 import { useEffect, useState } from 'react'
 import { saveToLocal, loadFromLocal } from '@/utils/storage'
-import { ProductProps } from './type'
+import { ProductProps, ProductCartProps } from './type'
 
 // localStorage 저장에 사용되는 key
 const localKey = process.env.NEXT_PUBLIC_CART_LOCAL_STORAGE_KEY!
-
-export interface ProductCartProps {
-    product: ProductProps
-    size: string
-    qty: number
-    checked: boolean
-}
 
 // 기존 리스트에 동일 제품 & 동일 사이즈가 존재하는지 확인하고 idx 반환
 export const findProductIndex = (
@@ -29,12 +22,12 @@ const updateProductQty = (
     setCartData: (a: ProductCartProps[]) => void,
 ) => {
     const obj = {
-        increase: cartData[idx].qty + 1,
-        decrease: cartData[idx].qty - 1,
+        increase: cartData[idx].quantity + 1,
+        decrease: cartData[idx].quantity - 1,
     }
     const updatedCartData = [
         ...cartData.slice(0, idx),
-        { ...cartData[idx], qty: obj[updateType] },
+        { ...cartData[idx], quantity: obj[updateType] },
         ...cartData.slice(idx + 1),
     ]
     return setCartData(updatedCartData)
@@ -57,7 +50,7 @@ export const addNewProductToCart = (
     product: ProductProps,
     selectedSize: string,
 ) => {
-    const newProduct = { product, size: selectedSize, qty: 1, checked: true }
+    const newProduct = { product, size: selectedSize, quantity: 1, checked: true }
     return setCartData([...cartData, newProduct])
 }
 
@@ -103,7 +96,7 @@ export const decreaseQtyFn = (
     const idx = findProductIndex(cartData, product, selectedSize)
     const target = { ...cartData[idx] }
 
-    if (target.qty < 2) {
+    if (target.quantity < 2) {
         removeToCartFn(cartData, setCartData, target.product, target.size)
     } else {
         updateProductQty('decrease', cartData, idx, setCartData)
@@ -155,7 +148,18 @@ const useCart = () => {
         toggleCheckStateFn(cartData!, setCartData, product, selectedSize)
     }
 
-    return { cartData, addToCart, removeToCart, increaseQty, decreaseQty, toggleCheckState }
+    const initCart = () => {
+        window.localStorage.removeItem(localKey)
+    }
+    return {
+        cartData,
+        addToCart,
+        removeToCart,
+        increaseQty,
+        decreaseQty,
+        toggleCheckState,
+        initCart,
+    }
 }
 
 export default useCart

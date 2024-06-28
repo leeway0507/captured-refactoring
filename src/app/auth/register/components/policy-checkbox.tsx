@@ -3,7 +3,7 @@
 import { ChevronDown, ChevronRight, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
-import { Dialog, DialogPanel } from '@headlessui/react'
+import { DialogWrapper } from '@/components/dialog'
 import PersonalPolicy from '@/app/static/policy/privacy/agreement-personal-info/agreement-personal-info'
 import ServicePolicy from '@/app/static/policy/service/service-policy'
 import ThirdPartyPolicy from '@/app/static/policy/privacy/agreement-third-party/third-party-policy'
@@ -22,23 +22,17 @@ function PolicyPageDialog({
 }: {
     isOpen: boolean
     handleClose: () => void
-    policyComponent: JSX.Element
+    policyComponent: React.ReactNode
 }) {
     return (
-        <Dialog open={isOpen} onClose={handleClose} className="relative z-50">
-            <div className="fixed inset-0 w-screen bg-black/30 h-full">
-                <div className="flex items-center justify-center p-4 h-full">
-                    <DialogPanel className="max-w-2xl space-y-4 bg-white border py-6 px-12 overflow-auto max-h-[95%] rounded">
-                        <div className="flex justify-end w-full">
-                            <Button variant="ghost" size="icon" onClick={handleClose}>
-                                <X />
-                            </Button>
-                        </div>
-                        {policyComponent}
-                    </DialogPanel>
-                </div>
+        <DialogWrapper isOpen={isOpen} handleClose={handleClose}>
+            <div className="flex justify-end w-full">
+                <Button variant="ghost" size="icon" onClick={handleClose}>
+                    <X />
+                </Button>
             </div>
-        </Dialog>
+            {policyComponent}
+        </DialogWrapper>
     )
 }
 

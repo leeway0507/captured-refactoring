@@ -29,7 +29,7 @@ export default function RecentView({ product }: { product: ProductProps }) {
             <div className="text-xl pb-6 font-semibold">최근 본 아이템</div>
             <EmblaCarousel type="multi">
                 {recentView.map((recentProduct: ProductProps) => (
-                    <RecentViewProduct product={recentProduct} />
+                    <RecentViewProduct key={recentProduct.sku} product={recentProduct} />
                 ))}
             </EmblaCarousel>
         </div>

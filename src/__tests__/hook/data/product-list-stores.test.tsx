@@ -27,8 +27,8 @@ describe('product-store', () => {
                 useEffect(() => {
                     const prevProductDataStore = loadFromLocal<ProductDataStoreProps>(localKey)
                     const productDataStore = loadUpdatedProductDataStore(
-                        prevProductDataStore,
                         filterParams,
+                        prevProductDataStore,
                         productResponse,
                     )
                     setProductData(productDataStore)
@@ -51,8 +51,8 @@ describe('product-store', () => {
                     useEffect(() => {
                         const prevProductDataStore = loadFromLocal<ProductDataStoreProps>(localKey)
                         const productDataStore = loadUpdatedProductDataStore(
-                            prevProductDataStore,
                             filterParams,
+                            prevProductDataStore,
                             productResponse,
                         )
                         setProductData(productDataStore)

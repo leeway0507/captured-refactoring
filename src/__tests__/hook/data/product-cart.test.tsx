@@ -29,12 +29,12 @@ describe('Product Cart', () => {
 
     it('should add a new item to cart', () => {
         addNewProductToCart(cart, setCart, product, selectedSize)
-        const expectedResult = [{ product, size: selectedSize, qty: 1, checked: true }]
+        const expectedResult = [{ product, size: selectedSize, quantity: 1, checked: true }]
 
         expect(cart).toEqual(expectedResult)
     })
     it('should remove the cart', () => {
-        cart = [{ product, size: selectedSize, qty: 3, checked: true }]
+        cart = [{ product, size: selectedSize, quantity: 3, checked: true }]
         removeToCartFn(cart, setCart, product, selectedSize)
 
         const expectedResult: any = []
@@ -42,33 +42,33 @@ describe('Product Cart', () => {
     })
 
     it('should return product idx', () => {
-        cart = [{ product, size: selectedSize, qty: 1, checked: true }]
+        cart = [{ product, size: selectedSize, quantity: 1, checked: true }]
         const idx = findProductIndex(cart, product, selectedSize)
         expect(idx).toBe(0)
 
-        const cartDataUpdated = [{ product, size: '123', qty: 1, checked: true }]
+        const cartDataUpdated = [{ product, size: '123', quantity: 1, checked: true }]
         const idxSecond = findProductIndex(cartDataUpdated, product, selectedSize)
         expect(idxSecond).toBe(-1)
     })
 
-    it('should increase the product qty', () => {
-        cart = [{ product, size: selectedSize, qty: 1, checked: true }]
+    it('should increase the product quantity', () => {
+        cart = [{ product, size: selectedSize, quantity: 1, checked: true }]
         increaseQtyFn(cart, setCart, product, selectedSize)
 
-        const expectedResult = [{ product, size: selectedSize, qty: 2, checked: true }]
+        const expectedResult = [{ product, size: selectedSize, quantity: 2, checked: true }]
         expect(cart).toEqual(expectedResult)
     })
 
-    it('should decrease the product qty', () => {
-        cart = [{ product, size: selectedSize, qty: 2, checked: true }]
+    it('should decrease the product quantity', () => {
+        cart = [{ product, size: selectedSize, quantity: 2, checked: true }]
 
-        // qty 2 -> 1
+        // quantity 2 -> 1
         decreaseQtyFn(cart, setCart, product, selectedSize)
 
-        const expectedResult1 = [{ product, size: selectedSize, qty: 1, checked: true }]
+        const expectedResult1 = [{ product, size: selectedSize, quantity: 1, checked: true }]
         expect(cart).toEqual(expectedResult1)
 
-        // qty 1 -> remove Product To Cart
+        // quantity 1 -> remove Product To Cart
         decreaseQtyFn(cart, setCart, product, selectedSize)
 
         const expectedResult2: any = []
@@ -78,12 +78,12 @@ describe('Product Cart', () => {
     it('should add and update an item to Cart', () => {
         // add a new Items
         addToCartFn(cart, setCart, product, selectedSize)
-        const expectedResult = [{ product, size: selectedSize, qty: 1, checked: true }]
+        const expectedResult = [{ product, size: selectedSize, quantity: 1, checked: true }]
         expect(cart).toEqual(expectedResult)
 
-        // increase the product qty
+        // increase the product quantity
         addToCartFn(cart, setCart, product, selectedSize)
-        const expectedResultSecond = [{ product, size: selectedSize, qty: 2, checked: true }]
+        const expectedResultSecond = [{ product, size: selectedSize, quantity: 2, checked: true }]
         expect(cart).toEqual(expectedResultSecond)
     })
 
@@ -96,7 +96,7 @@ describe('Product Cart', () => {
         act(() => result.current(product, selectedSize))
 
         const cartArr = localStorage.getItem(localKey)
-        const expectedResult = [{ product, size: selectedSize, qty: 1, checked: true }]
+        const expectedResult = [{ product, size: selectedSize, quantity: 1, checked: true }]
         expect(cartArr).toBe(JSON.stringify(expectedResult))
     })
 })

@@ -14,7 +14,7 @@ export function AccordionComponent({
     value,
 }: {
     title: string
-    content: React.ReactNode | JSX.Element
+    content: React.ReactNode | React.ReactNode
     value: string
 }) {
     const id = `accordion-${value}`

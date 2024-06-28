@@ -9,12 +9,14 @@ import {
     CircleUser,
     Columns3,
     Search,
+    SearchIcon,
+    ArrowLeft,
 } from 'lucide-react'
-import { useRouter, usePathname } from 'next/navigation'
+import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import cn from '@/utils/cn'
 import useElementHide from '@/hooks/interaction/element-hide'
 import { Session } from 'next-auth'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Logo from './logo'
 
 export function NavMobileCard({
@@ -35,43 +37,119 @@ export function NavMobileCard({
     return (
         <Link href={link} className="flex-center flex-col">
             <div>{icons[type]}</div>
-            <div className={cn('text-xs uppercase text-gray-500')}>{type}</div>
+            <div className={cn('text-[11px] uppercase text-gray-500')}>{type}</div>
         </Link>
     )
 }
 
+function SearchBarOpenButton({ handleOpen }: { handleOpen: () => void }) {
+    const buttonClass =
+        'flex-center rounded-full bg-rose-600 text-white h-[30px] aspect-square mx-1'
+    return (
+        <button type="button" className={`${buttonClass}`} aria-label="Search" onClick={handleOpen}>
+            <SearchIcon className="h-4 w-4" />
+        </button>
+    )
+}
+
+function SearchBarCloseButton({ handleClose }: { handleClose: () => void }) {
+    return (
+        <button type="button" onClick={handleClose} aria-label="close">
+            <ArrowLeft className="h-6 w-6" />
+        </button>
+    )
+}
+
+export function MobileSearchInput() {
+    const router = useRouter()
+    const params = useSearchParams()
+
+    const keyword = params.get('keyword') || ''
+    const ref = useRef<HTMLInputElement>(null)
+
+    const onKeyDownHandler = (event: { key: string }) => {
+        const inputValue = ref.current?.value
+        if (event.key === 'Enter' && inputValue !== '') {
+            router.push(`/search?keyword=${inputValue}`, { scroll: false })
+        }
+    }
+    const onClickHandler = () => {
+        const inputValue = ref.current?.value
+        if (inputValue !== '') router.push(`/search?keyword=${inputValue}`, { scroll: false })
+    }
+
+    return (
+        <div className="grow relative flex items-center w-full h-[45px] border rounded-full z-50">
+            <input
+                placeholder="제품명, 제품번호를 검색하세요"
+                className="grow placeholder:text-black/90 shadow-none rounded-full ps-6 pe-8 placeholder h-full text-sm placeholder:text-sm outline-rose-500"
+                onKeyDown={onKeyDownHandler}
+                ref={ref}
+                defaultValue={keyword}
+            />
+            <button
+                type="button"
+                className="right-0 absolute flex-center rounded-full bg-rose-600 text-white h-[30px] aspect-square mx-1"
+                onClick={onClickHandler}
+                aria-label="Search"
+            >
+                <SearchIcon className="h-4 w-4" />
+            </button>
+        </div>
+    )
+}
+
+export function NavMobileTop({ hideMobileBottom }: { hideMobileBottom: boolean }) {
+    const [isOpen, setIsOpen] = useState(false)
+    const handleOpen = () => setIsOpen(true)
+    const handleClose = () => setIsOpen(false)
+    return (
+        <div className="fixed top-0 flex space-x-2 justify-between items-center w-full p-3 z-50 border-b bg-white shadow-sm h-[55px]">
+            {!isOpen ? <Logo /> : <SearchBarCloseButton handleClose={handleClose} />}
+            <div className="flex justify-end items-center gap-2 pe-2 w-full">
+                {!isOpen ? <SearchBarOpenButton handleOpen={handleOpen} /> : <MobileSearchInput />}
+                {hideMobileBottom && (
+                    <Link href="/cart">
+                        <ShoppingCart strokeWidth={2} size="28px" fill="black" />
+                    </Link>
+                )}
+            </div>
+        </div>
+    )
+}
+
 export default function SearchInputMain() {
-    const [inputValue, setInputValue] = useState('') // Use state to manage the input value
+    const [inputValue, setInputValue] = useState('')
     const router = useRouter()
 
     const onKeyDownHandler = (event: { key: string }) => {
         if (event.key === 'Enter' && inputValue) {
-            router.push(`/search?q=${inputValue}`, { scroll: false })
+            router.push(`/search?keyword=${inputValue}`, { scroll: false })
         }
     }
 
     const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInputValue(e.target.value) // Update the state on input change
+        setInputValue(e.target.value)
     }
 
     return (
         <div className="flex gap-2 items-center h-[50px] relative border-b">
             <Search className="text-gray-500" size="18px" />
             <input
-                value={inputValue} // Bind the input value to the state
+                value={inputValue}
                 onChange={onChangeHandler}
-                className=" placeholder h-full text-sm text-gray-500 placeholder focus:outline-none focus-visible:outline-0 "
+                className="placeholder h-full text-sm text-gray-500 placeholder focus:outline-none focus-visible:outline-0 "
                 onKeyDown={onKeyDownHandler}
             />
         </div>
     )
 }
 
-function Icons({ userName }: { userName?: string }) {
+function Icons({ userName }: { userName?: string | undefined }) {
     return (
         <div className="flex gap-4">
             <Link href="/mypage" className="flex-center gap-1 ">
-                <div className="text-sm font-medium">{userName && userName.slice(1, 3)}</div>
+                <div className="text-sm font-medium">{userName && userName}</div>
                 <User className="text-black" fill="black" size="28px" />
             </Link>
             <Link href="/cart">

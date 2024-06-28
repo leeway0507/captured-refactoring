@@ -1,30 +1,65 @@
 'use server'
 
-import { OrderInfoProps, OrderProductProps } from './type'
+import { fetchWithAuth, handleFetchError } from '@/utils/fetch-boilerplate'
+import {
+    OrderHistoryProps,
+    OrderItemProps,
+    ProductCartProps,
+    CheckCartItemResultProps,
+} from './type'
 
-export const getOrderInfo = async (accessToken: string) => {
-    const res = await fetch(`${process.env.AUTH_API_URL}/api/order/get-order-history`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-        },
-    })
-
-    return { status: res.status, data: (await res.json()) as OrderInfoProps[] }
+export const getOrderHistory = async (accessToken: string) => {
+    const url = `${process.env.AUTH_API_URL}/api/order/get-order-history`
+    const fetchFn = () => fetchWithAuth<OrderHistoryProps[]>(url, 'GET', accessToken)
+    const errorCase = { 401: '권한이 없습니다.' }
+    return handleFetchError(fetchFn, errorCase)
 }
 
-export const getOrderRow = async (ordreId: string, accessToken: string) => {
-    const res = await fetch(
-        `${process.env.AUTH_API_URL}/api/order/get-order-row?order_id=${ordreId}`,
-        {
-            method: 'GET',
+export const getOrderItem = async (orderId: string, accessToken: string) => {
+    const url = `${process.env.AUTH_API_URL}/api/order/get-order-row?order_id=${orderId}`
+    const fetchFn = () => fetchWithAuth<OrderItemProps[]>(url, 'GET', accessToken)
+    const errorCase = { 401: '권한이 없습니다.' }
+    return handleFetchError(fetchFn, errorCase)
+}
+
+export const checkCartItems = async (cartItems: ProductCartProps[]) => {
+    const data = {
+        form: cartItems.map((v) => `${v.product.sku}-${v.product.size}`),
+        sku: cartItems.map((v) => v.product.sku),
+    }
+
+    const fetchFn = async () => {
+        const res = await fetch(`${process.env.AUTH_API_URL}/api/order/check-size`, {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${accessToken}`,
             },
-        },
-    )
+            body: JSON.stringify(data),
+        })
+        return { status: res.status, data: (await res.json()) as CheckCartItemResultProps }
+    }
 
-    return { status: res.status, data: (await res.json()) as OrderProductProps[] }
+    const errorCase = { 401: '권한이 없습니다.' }
+    return handleFetchError(fetchFn, errorCase)
 }
+
+// export const checkCartItems = async (cartItems: RequestItemCheckProps[]) => {
+//     const data = {
+//         form: cartItems.map((v) => `${v.sku}-${v.size}`),
+//         sku: cartItems.map((v) => v.sku),
+//     }
+
+//     const fetchFn = async () => {
+//         const res = await fetch(`${process.env.AUTH_API_URL}/api/order/check-size`, {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify(data),
+//         })
+//         return { status: res.status, data: (await res.json()) as CheckCartItemResultProps }
+//     }
+
+//     const errorCase = { 401: '권한이 없습니다.' }
+//     return handleFetchError(fetchFn, errorCase)
+// }

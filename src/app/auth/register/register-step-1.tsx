@@ -1,13 +1,13 @@
 'use client'
 
-import { UserNameField, EmailField, PasswordConfirmField, PasswordField } from '@/components/form'
+import { UserNameField, FormField, PasswordConfirmField, PasswordField } from '@/components/form'
 import { ConfirmButton } from '@/components/button'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, FormProvider } from 'react-hook-form'
 import { z } from 'zod'
 import { useState } from 'react'
-import EmailVerificationButton from './_components/email-verification'
-import PolicyCheckbox from './_components/policy-checkbox'
+import EmailVerificationButton from './components/email-verification'
+import PolicyCheckbox from './components/policy-checkbox'
 import { Step1State } from './type'
 
 export default function Step1({ setStep1Data }: { setStep1Data: (b: Step1State) => void }) {
@@ -67,7 +67,14 @@ export default function Step1({ setStep1Data }: { setStep1Data: (b: Step1State) 
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full">
                 <div className="flex items-end w-full gap-3">
                     <div className="flex-auto">
-                        <EmailField form={form} />
+                        <FormField
+                            form={form}
+                            formName="email"
+                            label="이메일 주소"
+                            type="text"
+                            autoComplete="username"
+                            disabled={isVerfied}
+                        />
                     </div>
                     <EmailVerificationButton isVerfied={isVerfied} setIsverfied={setIsverfied} />
                 </div>

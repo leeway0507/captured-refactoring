@@ -5,13 +5,7 @@ import useProductDataStore from '@/hooks/data/product-list-stores'
 import useIntersectionObserver from '@/hooks/interaction/infinite-scroll'
 import { ScrollDirectionProps } from '@/hooks/interaction/scroll-direction'
 import { ProductCard } from '@/components/product-card'
-import {
-    ProductProps,
-    ProductFetchResponseProps,
-    ProductPagesProps,
-    ProductSearchParmasProps,
-} from '@/hooks/data/type'
-import Filter, { MobileCategoryNav } from './filter'
+import { ProductProps, ProductFetchResponseProps, ProductPagesProps } from '@/hooks/data/type'
 
 export const getNextPageNum = (scrollDirection: ScrollDirectionProps, currPage: string) =>
     scrollDirection && scrollDirection === 'up' ? currPage : String(Number(currPage) + 1)
@@ -36,7 +30,7 @@ export const updatePageParams = (
     }
 }
 
-function NoData() {
+export function NoData() {
     return (
         <div className="flex flex-col mx-auto h-full grow lg:p-16 ">
             <div className="text-2xl lg:text-3xl pb-2 m-auto">요청 결과가 존재하지 않습니다.</div>
@@ -44,7 +38,7 @@ function NoData() {
     )
 }
 
-function ProductCardGrid({ children }: { children: React.ReactNode }) {
+export function ProductCardGrid({ children }: { children: React.ReactNode }) {
     const productGrid = 'grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3'
     return <div className={`${productGrid}`}>{children}</div>
 }
@@ -96,27 +90,18 @@ function ProductComponent({
     ))
 }
 
-export default function ProductList({
-    productFilter,
+export default function ProductList<T>({
+    searchKey,
     productResponse,
 }: {
-    productFilter: ProductSearchParmasProps
+    searchKey: T
     productResponse: ProductFetchResponseProps
 }) {
-    const ProductStores = useProductDataStore(productFilter, productResponse)
+    const ProductStores = useProductDataStore(searchKey, productResponse)
     const productData = ProductStores.data[1]
-    return (
-        <>
-            <MobileCategoryNav />
-            <Filter />
-            {productData ? (
-                <ProductComponent
-                    productPages={ProductStores.data}
-                    lastPage={ProductStores.lastPage}
-                />
-            ) : (
-                <NoData />
-            )}
-        </>
+    return productData ? (
+        <ProductComponent productPages={ProductStores.data} lastPage={ProductStores.lastPage} />
+    ) : (
+        <NoData />
     )
 }
