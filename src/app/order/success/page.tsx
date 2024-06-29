@@ -1,12 +1,12 @@
+import { auth } from '@/auth'
+import { Session } from 'next-auth'
+import { redirect } from 'next/navigation'
+import { OrderHistoryRequestProps } from '@/types'
 import {
     getPaymentVerification,
     confirmPaymentFromTossServer,
     createOrderHistory,
-} from '@/hooks/data/payment-fetch'
-import { auth } from '@/auth'
-import { Session } from 'next-auth'
-import { redirect } from 'next/navigation'
-import { OrderHistoryRequestProps } from '@/hooks/data/type'
+} from '@/actions/payment'
 import Success from './client'
 
 interface PaymentSuccessParams {

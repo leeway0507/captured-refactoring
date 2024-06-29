@@ -1,8 +1,8 @@
 import { PaymentWidgetInstance, loadPaymentWidget } from '@tosspayments/payment-widget-sdk'
 import { useEffect, useRef } from 'react'
 import { CustomUser } from '@/auth'
-import { savePaymentInfo } from '../data/payment-fetch'
-import { ProductCartProps } from '../data/type'
+import { ProductCartProps } from '@/types'
+import { savePaymentInfo } from '@/actions/payment'
 
 export interface TossPaymentsProps {
     orderId: string

@@ -6,7 +6,7 @@ import useProductDataStore, {
     loadUpdatedProductDataStore,
 } from '@/hooks/data/use-product-data-stores'
 import { simpleHash } from '@/utils/simple-hash'
-import { ProductDataStoreProps } from '@/hooks/data/type'
+import { ProductDataStoreProps } from '@/types'
 
 describe('product-store', () => {
     const filterParams = { brand: 'a,b', page: 'c' }

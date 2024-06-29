@@ -3,7 +3,7 @@
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 import { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { ProductFilterParamsProps } from './type'
+import { ProductFilterParamsProps } from '@/types'
 
 export const applyFilterToURLFn = (
     filterParams: ProductFilterParamsProps,

@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic'
-import { fetchProductList } from '@/hooks/data/product-list-fetch'
-import { ProductFilterSearchParamsProps } from '@/hooks/data/type'
+import { fetchProductList } from '@/actions/product'
+import { ProductFilterSearchParamsProps } from '@/types'
 import { Suspense } from 'react'
 import Spinner from '@/components/spinner/spinner'
 import Footer from '../../components/common/footer'

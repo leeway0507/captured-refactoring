@@ -1,4 +1,5 @@
-import { ProductProps } from '@/hooks/data/type'
+import { ProductProps } from '@/types'
+import { fetchProduct } from '@/actions/product'
 
 const generateTitle = (product: ProductProps) =>
     `${product.korBrand} ${product.korProductName} | ${product.productId}`
@@ -19,7 +20,8 @@ export async function productMetaData(product: ProductProps) {
     return { title, description, openGraph }
 }
 
-export function JsonLDComponent({ product }: { product: ProductProps }) {
+export async function JsonLDComponent({ sku }: { sku: string }) {
+    const product = await fetchProduct(sku)
     const name = generateTitle(product)
     const description = generateDescription(product)
     const image = `${process.env.NEXT_PUBLIC_MOBILE_IMAGE_URL}/product/${product.sku}/main.webp`

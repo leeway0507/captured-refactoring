@@ -3,10 +3,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import cn from '@/utils/cn'
-import { ProductProps } from '@/hooks/data/type'
+import { ProductProps } from '@/types'
 import EmblaCarousel from '../carousel/carousel'
 import styles from '../carousel/styles.module.css'
-import { ProductImage, Description } from '../product-card'
+import { ProductImage, Description } from '../product/product-card'
 import { CancelButton } from '../button'
 
 export function MoreButton({ link }: { link: string }) {

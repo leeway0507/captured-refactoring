@@ -2,7 +2,7 @@ import calcTotalPrice, {
     calculateProductPrice,
     calculateDomeShippingFee,
     calculateIntlShippingFee,
-} from '@/app/cart/calculate-price'
+} from '@/components/order/calculate-price'
 
 import productMock from '@/__mocks__/product-data-api'
 

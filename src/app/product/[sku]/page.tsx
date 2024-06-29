@@ -1,9 +1,8 @@
-import fetchProduct from '@/hooks/data/product-fetch'
+import { fetchProduct } from '@/actions/product'
 import { Suspense } from 'react'
 import Spinner from '@/components/spinner/spinner'
 import { productMetaData, JsonLDComponent } from './metadata'
-import Nav from '../../../components/common/nav'
-import Product from './product'
+import Product from './components'
 
 interface ParamsProps {
     sku: string
@@ -14,17 +13,23 @@ export async function generateMetadata({ params }: { params: ParamsProps }) {
     return productMetaData(product)
 }
 
+async function ProductWrapper({ sku }: { sku: string }) {
+    const product = await fetchProduct(sku)
+    return <Product product={product} />
+}
+
 async function Page({ params }: { params: ParamsProps }) {
-    const product = await fetchProduct(params.sku)
+    const { sku } = params
     return (
         <>
-            <JsonLDComponent product={product} />
-            <Nav hideMobileBottom />
-            <main className="page-container page-max-frame px-2">
+            <Suspense>
+                <JsonLDComponent sku={sku} />
+            </Suspense>
+            <div className="page-container page-max-frame">
                 <Suspense fallback={<Spinner />}>
-                    <Product product={product} />
+                    <ProductWrapper sku={sku} />
                 </Suspense>
-            </main>
+            </div>
         </>
     )
 }

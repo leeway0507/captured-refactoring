@@ -5,7 +5,7 @@ import { NavBottom, NavMobileCard, NavMobileTop } from './nav-client'
 
 function NavMobileBottom() {
     return (
-        <nav className="tb:hidden fixed bottom-0 z-50 grid grid-cols-5 w-full border bg-white py-3">
+        <nav className="tb:hidden fixed bottom-0 z-50 grid grid-cols-5 w-screen border bg-white py-3">
             <NavMobileCard type="home" link="/" />
             <NavMobileCard type="brand" link="/brand" />
             <NavMobileCard type="shop" link="/shop" />

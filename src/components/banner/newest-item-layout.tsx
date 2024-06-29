@@ -1,4 +1,4 @@
-import { fetchProductList } from '@/hooks/data/product-list-fetch'
+import { fetchProductList } from '@/actions/product'
 import { ProductCardCarousel, Container, MoreButton } from './_component'
 
 async function NewestItem() {

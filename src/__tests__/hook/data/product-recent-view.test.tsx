@@ -1,7 +1,7 @@
 import productMock from '@/__mocks__/product-data-api'
 import { loadFromLocal, saveToLocal } from '@/utils/storage'
-import useRecentView, { addProductToRecentView } from '@/hooks/data/product-recent-view'
-import { ProductProps } from '@/hooks/data/type'
+import { ProductProps } from '@/types'
+import useRecentView, { addProductToRecentView } from '@/hooks/data/use-recent-view'
 
 describe('product-recent-view', () => {
     // init Stack

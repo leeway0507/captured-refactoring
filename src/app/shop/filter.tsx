@@ -15,14 +15,14 @@ import SlideComponent from '@/components/slider/slider'
 import { useFilterParams, useCategoryType } from '@/hooks/data/use-filter'
 import { useSearchParams } from 'next/navigation'
 import cn from '@/utils/cn'
-import { filterMetaData } from '../../data/metadata'
+import { filterMetaData } from '../../metadata'
 
 export function MobileCategoryNav() {
     const params = useSearchParams()
     const pageType = params.get('category')
-    const customUnderLine = 'font-medium underline underline-offset-[5px] decoration-2'
+    const customUnderLine = 'font-medium underline underline-offset-[4px] decoration-2'
     return (
-        <div className="flex md:hidden gap-5 px-3 w-full h-[25px] ">
+        <div className="flex items-end md:hidden gap-5 px-3 w-full h-[25px] ">
             <Link href="/shop" className={` ${!pageType && customUnderLine}`}>
                 All
             </Link>
@@ -117,9 +117,9 @@ export function FilterOptions({
             <DropdownComponent
                 key="배송"
                 defaultData={filterMetaData['배송']}
-                selectedData={filterState?.delivery || []}
+                selectedData={filterState?.intl || []}
                 setSelectedData={(update: string[]) =>
-                    setFilterState((old) => ({ ...old, delivery: update }))
+                    setFilterState((old) => ({ ...old, intl: update }))
                 }
             />
         ),

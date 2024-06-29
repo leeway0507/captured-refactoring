@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { saveToLocal, loadFromLocal } from '@/utils/storage'
-import { ProductProps, ProductCartProps } from './type'
+import { ProductProps, ProductCartProps } from '@/types'
 
 // localStorage 저장에 사용되는 key
 const localKey = process.env.NEXT_PUBLIC_CART_LOCAL_STORAGE_KEY!

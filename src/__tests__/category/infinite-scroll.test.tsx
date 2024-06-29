@@ -3,7 +3,7 @@ import '@/__mocks__/useRouter-mock'
 import { changeUrlMock } from '@/__mocks__/url-mock'
 import { renderHook, render } from '@testing-library/react'
 import { useRouter } from 'next/navigation'
-import useIntersectionObserver from '@/hooks/interaction/infinite-scroll'
+import useIntersectionObserver from '@/hooks/interaction/use-infinite-scroll'
 import { getNextPageNum, updatePageParams } from '@/app/shop/product-list'
 
 jest.mock('../../hooks/interaction/scroll-direction', () => ({

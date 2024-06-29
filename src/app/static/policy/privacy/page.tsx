@@ -1,15 +1,9 @@
-import Logo from '../../../../components/common/logo'
-import PrivacyPolicy from './privacy-policy'
+import PrivacyPolicy from '.'
 
 export default function page() {
     return (
-        <>
-            <header className="flex-center py-8 ">
-                <Logo />
-            </header>
-            <main className="max-w-3xl  text-justify mx-auto">
-                <PrivacyPolicy />
-            </main>
-        </>
+        <div className="max-w-3xl text-justify mx-auto">
+            <PrivacyPolicy />
+        </div>
     )
 }

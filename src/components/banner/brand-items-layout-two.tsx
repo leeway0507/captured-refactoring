@@ -1,4 +1,4 @@
-import { fetchProductList } from '@/hooks/data/product-list-fetch'
+import { fetchProductList } from '@/actions/product'
 import { ProductCardCarousel, Container, ResponsiveCardTitle } from './_component'
 
 export default async function BrandItemsLayOutTop({ brandName }: { brandName: string }) {

@@ -14,7 +14,7 @@ import {
 } from 'lucide-react'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import cn from '@/utils/cn'
-import useElementHide from '@/hooks/interaction/element-hide'
+import useElementHide from '@/hooks/interaction/use-element-hide'
 import { Session } from 'next-auth'
 import { useState, useRef } from 'react'
 import Logo from './logo'
@@ -70,12 +70,12 @@ export function MobileSearchInput() {
     const onKeyDownHandler = (event: { key: string }) => {
         const inputValue = ref.current?.value
         if (event.key === 'Enter' && inputValue !== '') {
-            router.push(`/search?keyword=${inputValue}`, { scroll: false })
+            router.push(`/shop/search?keyword=${inputValue}`, { scroll: false })
         }
     }
     const onClickHandler = () => {
         const inputValue = ref.current?.value
-        if (inputValue !== '') router.push(`/search?keyword=${inputValue}`, { scroll: false })
+        if (inputValue !== '') router.push(`/shop/search?keyword=${inputValue}`, { scroll: false })
     }
 
     return (
@@ -104,7 +104,7 @@ export function NavMobileTop({ hideMobileBottom }: { hideMobileBottom: boolean }
     const handleOpen = () => setIsOpen(true)
     const handleClose = () => setIsOpen(false)
     return (
-        <div className="fixed top-0 flex space-x-2 justify-between items-center w-full p-3 z-50 border-b bg-white shadow-sm h-[55px]">
+        <div className="fixed top-0 flex space-x-2 justify-between items-center w-screen p-3 z-50 border-b bg-white shadow-sm h-[55px]">
             {!isOpen ? <Logo /> : <SearchBarCloseButton handleClose={handleClose} />}
             <div className="flex justify-end items-center gap-2 pe-2 w-full">
                 {!isOpen ? <SearchBarOpenButton handleOpen={handleOpen} /> : <MobileSearchInput />}

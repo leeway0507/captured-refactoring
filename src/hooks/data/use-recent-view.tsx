@@ -1,7 +1,7 @@
 'use client'
 
 import { saveToLocal, loadFromLocal } from '@/utils/storage'
-import { ProductProps } from './type'
+import { ProductProps } from '@/types'
 
 const localKey = 'rc_v'
 

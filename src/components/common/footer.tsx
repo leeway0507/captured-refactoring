@@ -40,9 +40,7 @@ function Policy() {
         <section className="flex gap-1 mb:gap-4 ">
             <Link href="/static/policy/service">서비스 이용약관 |</Link>
             <Link href="/static/policy/privacy">개인정보 처리방침 |</Link>
-            <Link href="/static/policy/privacy/agreement-third-party">
-                개인정보 제3자 제공 동의
-            </Link>
+            <Link href="/static/policy/agreement-third-party">개인정보 제3자 제공 동의</Link>
         </section>
     )
 }

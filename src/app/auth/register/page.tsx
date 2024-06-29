@@ -1,17 +1,11 @@
-import Nav from '@/components/common/nav'
-import Footer from '@/components/common/footer'
-import Register from './register'
+import Register from './components'
 
 async function Page() {
     return (
-        <>
-            <Nav />
-            <main className="page-container max-w-lg flex-center flex-col ">
-                <h1 className="text-2xl pt-8 pb-12">회원정보 입력</h1>
-                <Register />
-            </main>
-            <Footer />
-        </>
+        <div className="max-w-lg w-full mx-auto">
+            <h1 className="text-2xl pt-8 pb-12 text-center">회원정보 입력</h1>
+            <Register />
+        </div>
     )
 }
 

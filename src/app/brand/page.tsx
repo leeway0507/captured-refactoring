@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import { brandIndex } from '../../data/metadata'
-import Nav from '../../components/common/nav'
-import Footer from '../../components/common/footer'
+import { brandIndex } from '../../metadata'
+
+export const dynamic = 'force-static'
 
 function Brand({ brandName }: { brandName: string }) {
     return (
@@ -29,18 +29,14 @@ async function Page() {
         'grid grid-cols-1 md:grid-cols-4 py-4 md:py-8 w-full gap-1 mx-auto max-w-5xl'
     return (
         <>
-            <Nav />
-            <main className="page-container">
-                <h1 className="flex-center text-3xl md:text-4xl py-4 md:py-8 tracking-[.15em]">
-                    BRAND
-                </h1>
-                <div className={`${brandIndexBox}`}>
-                    {Object.entries(brandIndex).map(([alphabet, brandArr]) => (
-                        <BrandIndex key={alphabet} alphabet={alphabet} brandArr={brandArr} />
-                    ))}
-                </div>
-            </main>
-            <Footer />
+            <h1 className="flex-center text-3xl md:text-4xl py-4 md:py-8 tracking-[.15em]">
+                BRAND
+            </h1>
+            <div className={`${brandIndexBox}`}>
+                {Object.entries(brandIndex).map(([alphabet, brandArr]) => (
+                    <BrandIndex key={alphabet} alphabet={alphabet} brandArr={brandArr} />
+                ))}
+            </div>
         </>
     )
 }

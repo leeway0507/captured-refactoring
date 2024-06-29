@@ -4,10 +4,10 @@ import { ChevronDown, ChevronRight, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 import { DialogWrapper } from '@/components/dialog'
-import PersonalPolicy from '@/app/static/policy/privacy/agreement-personal-info/agreement-personal-info'
-import ServicePolicy from '@/app/static/policy/service/service-policy'
-import ThirdPartyPolicy from '@/app/static/policy/privacy/agreement-third-party/third-party-policy'
+import ServicePolicy from '@/app/static/policy/service'
+import ThirdPartyPolicy from '@/app/static/policy/agreement-third-party'
 import { Button } from '@/components/shadcn-ui/button'
+import PersonalPolicy from '@/app/static/policy/agreement-personal-info'
 
 const policyComponents = {
     personal: <PersonalPolicy />,

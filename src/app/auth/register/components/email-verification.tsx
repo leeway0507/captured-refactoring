@@ -8,9 +8,9 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useFormContext, useForm } from 'react-hook-form'
 import { DialogWrapper } from '@/components/dialog'
-import { checkEmailDuplication, verifyEmailCode, sendEmailCode } from '@/hooks/data/auth-fetch'
-import useCountDown from '@/hooks/interaction/countdown'
+import useCountDown from '@/hooks/interaction/use-count-down'
 import { toast } from 'react-toastify'
+import { checkEmailDuplication, verifyEmailCode, sendEmailCode } from '@/actions/auth'
 
 function EmailVerificationDialog({
     email,
@@ -95,6 +95,7 @@ export default function EmailVerificationButton({
     const state = form.getFieldState('email')
     const verified = state.isDirty && !state.error
     const { email } = form.getValues()
+    form.watch('email')
 
     const checkEmail = async () =>
         checkEmailDuplication(email)

@@ -1,17 +1,7 @@
-import Cart from './cart'
-import Nav from '../../components/common/nav'
-import Footer from '../../components/common/footer'
+import Cart from './components'
 
 async function Page() {
-    return (
-        <>
-            <Nav />
-            <main className="page-container max-w-5xl flex">
-                <Cart />
-            </main>
-            <Footer />
-        </>
-    )
+    return <Cart />
 }
 
 export default Page
