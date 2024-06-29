@@ -72,7 +72,7 @@ function EmailVerificationDialog({
                 </Button>
             </form>
 
-            <section className="flex justify-between text-sm px-2">
+            <section className="flex justify-between  px-2">
                 <div>{defaultTimeFormat(seconds)}</div>
                 <button type="button" className="underline text-gray-500" onClick={resendEmail}>
                     인증코드 재발송
@@ -105,12 +105,7 @@ export default function EmailVerificationButton({
 
     return (
         <>
-            <Button
-                className="text-xs"
-                type="button"
-                onClick={checkEmail}
-                disabled={!verified || isVerfied}
-            >
+            <Button type="button" onClick={checkEmail} disabled={!verified || isVerfied}>
                 {isVerfied ? '인증 확인' : '이메일 인증'}
             </Button>
             <DialogWrapper isOpen={isOpen}>

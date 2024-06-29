@@ -15,7 +15,7 @@ function NaverLoginButton() {
                     unoptimized
                 />
             </div>
-            <span className="font-semibold">네이버 로그인</span>
+            <span>네이버 로그인</span>
         </Button>
     )
 }
@@ -32,7 +32,7 @@ function KakaoLoginButton() {
                     unoptimized
                 />
             </div>
-            <span className="text-black/80 font-semibold">카카오 로그인</span>
+            <span className="text-black/80">카카오 로그인</span>
         </Button>
     )
 }
@@ -48,7 +48,7 @@ export function OauthButton() {
 
 export function RegisterAndResetPassword() {
     return (
-        <div className="flex justify-between w-full text-sm px-10">
+        <div className="flex justify-between w-full  px-10">
             <Link href="/auth/register">회원가입</Link>
             <Link href="/auth/resetpassword">비밀번호 찾기</Link>
         </div>

@@ -27,7 +27,7 @@ export default function SlideComponent({
                 step={10000}
                 onChange={(value) => setSelectedData(value)}
             />
-            <div className="grid grid-cols-5 text-center text-sm py-2">
+            <div className="grid grid-cols-5 text-center  py-2">
                 <div className="text-left col-span-2">
                     {KRW(SelectedDataNum[0] || defaultData[0])}
                 </div>

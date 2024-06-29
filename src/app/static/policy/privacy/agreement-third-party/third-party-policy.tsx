@@ -1,5 +1,5 @@
 function ThirdPartyPolicy() {
-    const title = 'text-base font-bold py-4'
+    const title = 'text-base font-medium py-4'
     return (
         <div>
             <div className={`${title}`}>4. 개인정보의 제3자 제공에 관한 사항</div>

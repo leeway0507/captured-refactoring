@@ -69,7 +69,7 @@ function DeleteAddressButton({ addressId }: { addressId: string }) {
 function ButtonGroup({ address }: { address: AddressProps }) {
     const isInitAddress = address.addressId?.endsWith('-0')
     return (
-        <div className="underline absolute top-4 right-8 text-sm flex gap-4">
+        <div className="underline absolute top-4 right-8  flex gap-4">
             {!isInitAddress && <DeleteAddressButton addressId={address.addressId!} />}
             <UpdateAddressButton addressId={address.addressId!} />
         </div>
@@ -96,7 +96,7 @@ function NoAddress() {
 
 export async function UpdateAddressForm({ addressId }: { addressId: string | 'new' }) {
     const session = await auth()
-    const addresses = (await getAddressAll(session?.user.accessToken!))
+    const addresses = await getAddressAll(session?.user.accessToken!)
 
     const defaultValue = addressId === 'new' ? {} : addresses.find((a) => a.addressId === addressId)
 

@@ -6,7 +6,7 @@ import { signOutAction } from '../../auth/actions/action'
 
 export function LogoutButton() {
     const triggerClass = cn(
-        'w-full flex-center whitespace-nowrap text-sm h-7',
+        'w-full flex-center whitespace-nowrap  h-7',
         'md:px-8 lg:px-12 md:h-12 md:rounded md:tracking-wider md:text-lg',
     )
     return (

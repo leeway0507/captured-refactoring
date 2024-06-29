@@ -66,6 +66,7 @@ export function ToggleButton<T extends React.ReactNode>({
             disabled={status === 'disabled'}
             variant={buttonDesign[status] as 'default' | 'outline'}
             onClick={() => setSelected(data)}
+            className='font-normal'
         >
             <span className="flex gap-1 items-center">
                 {data} {icon}

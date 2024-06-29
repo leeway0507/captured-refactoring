@@ -4,7 +4,7 @@ import * as faq from './contents'
 export function GeneralAccordion() {
     return (
         <>
-            <h1 className="text-xl font-semibold pt-4 pb-2">일반</h1>
+            <h1 className="text-xl font-medium pt-4 pb-2">일반</h1>
             <AccordionWrapper>
                 <AccordionComponent
                     title="상세 사이즈 문의가 가능한가요?"
@@ -29,7 +29,7 @@ export function GeneralAccordion() {
 export function ShipmentAccordion() {
     return (
         <>
-            <div className="text-xl font-semibold pt-4 pb-2">배송 문의</div>
+            <div className="text-xl font-medium pt-4 pb-2">배송 문의</div>
             <AccordionWrapper>
                 <AccordionComponent
                     title="해외 배송과 국내 배송 차이가 궁금해요."

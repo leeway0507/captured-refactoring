@@ -5,7 +5,7 @@ import { Plus, Minus, Trash2, ChevronRight, ChevronDown } from 'lucide-react'
 import { useState } from 'react'
 import { Button } from '@/components/shadcn-ui/button'
 import { ConfirmButton } from '@/components/button'
-import useCart from '@/hooks/data/product-cart'
+import useCart from '@/hooks/data/use-cart'
 import { ProductCartProps, ProductProps } from '@/hooks/data/type'
 import { ProductImage } from '@/components/product-card'
 import { KRW } from '@/utils/currency'
@@ -46,7 +46,7 @@ function ProductQtyUpdate({
             >
                 <Minus size="12px" strokeWidth="3" />
             </Button>
-            <div className="text-sm">{quantity}</div>
+            <div>{quantity}</div>
             <Button
                 size="icon-sm"
                 variant="ghost"
@@ -78,7 +78,7 @@ function ProductDescription({
     }
 
     return (
-        <div className="flex flex-col w-full justify-center text-xs md:text-sm ">
+        <div className="flex flex-col w-full justify-center  md: ">
             <div className="flex justify-between items-center">
                 <span className="text-base md:text-lg">{product.brand}</span>
                 <Button variant="ghost" size="icon-sm" onClick={handleRemoveProduct}>
@@ -178,7 +178,7 @@ function ShippingBox({
                 </div>
                 <span> {KRW(totalShippingFee)}</span>
             </button>{' '}
-            <div className={`${isOpen ? 'block' : 'hidden '} text-xs text-gray-500`}>
+            <div className={`${isOpen ? 'block' : 'hidden '}  text-gray-500`}>
                 <div className="flex justify-between w-full">
                     <span>국내 배송비</span>
                     <span>{KRW(intlShippingFee)}</span>
@@ -198,7 +198,7 @@ export function PriceBox({ cartData }: { cartData: ProductCartProps[] }) {
     const totalPrice = totalProductPrice + totalShippingFee
 
     return (
-        <div className="flex flex-col gap-2 text-sm">
+        <div className="flex flex-col gap-2 ">
             <div className="flex justify-between ">
                 <div>물품가격</div>
                 <div>{KRW(totalProductPrice)}</div>

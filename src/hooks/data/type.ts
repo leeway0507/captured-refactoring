@@ -32,6 +32,7 @@ export interface ProductFilterParamsProps {
     price?: string[]
 }
 export interface ProductFilterSearchParamsProps {
+    page?: string
     pageType?: string
     sortBy?: string
     brand?: string

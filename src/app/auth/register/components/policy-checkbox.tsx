@@ -46,7 +46,7 @@ function PolicyPageDialogButton({ policy }: { policy: 'personal' | 'service' | '
                 type="button"
                 data-policy={policy}
                 onClick={handleOpen}
-                className="text-xs text-gray-500 ps-1"
+                className=" text-gray-500 ps-1"
             >
                 (약관보기)
             </button>
@@ -69,7 +69,7 @@ function PolicyDetails({
     handlePolicyCheck: (e: React.ChangeEvent<HTMLInputElement>) => void
 }) {
     return (
-        <section className={`${isOpen ? 'block' : 'hidden'} flex flex-col text-xs gap-1  py-1`}>
+        <section className={`${isOpen ? 'block' : 'hidden'} flex flex-col  gap-1  py-1`}>
             <label htmlFor="personal">
                 <input
                     type="checkbox"
@@ -155,7 +155,7 @@ function PolicyCheck({
 
     return (
         <>
-            <label htmlFor="all" className="text-sm">
+            <label htmlFor="all">
                 <input
                     type="checkbox"
                     id="all"
@@ -189,7 +189,7 @@ function AgeCheck({
     }
 
     return (
-        <label htmlFor="age" className="pt-2 text-sm">
+        <label htmlFor="age" className="pt-2 ">
             <input
                 type="checkbox"
                 id="age"

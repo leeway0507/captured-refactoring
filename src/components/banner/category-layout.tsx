@@ -1,7 +1,7 @@
 import { Container, ResponsiveCardTitle } from './_component'
 
 export function LocalCardTitle({ name }: { name: string }) {
-    const aspect = 'md:aspect-[4/5]'
+    const aspect = 'aspect-[4/5]'
     return (
         <ResponsiveCardTitle
             src={`layout/${name}.webp`}

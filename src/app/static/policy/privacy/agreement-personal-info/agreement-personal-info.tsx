@@ -1,8 +1,8 @@
 function PersonalPolicy() {
-    const title = 'text-base font-bold py-4'
+    const title = 'text-base font-medium py-4'
     return (
         <>
-            <div className="text-2xl font-bold">개인정보 수집 및 이용 동의</div>
+            <div className="text-2xl font-medium">개인정보 수집 및 이용 동의</div>
             <>
                 <div className={`${title}`}>1. 수집하는 개인정보 항목</div>
                 <div className="flex flex-col gap-2">

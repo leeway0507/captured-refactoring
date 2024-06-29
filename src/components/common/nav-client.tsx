@@ -82,7 +82,7 @@ export function MobileSearchInput() {
         <div className="grow relative flex items-center w-full h-[45px] border rounded-full z-50">
             <input
                 placeholder="제품명, 제품번호를 검색하세요"
-                className="grow placeholder:text-black/90 shadow-none rounded-full ps-6 pe-8 placeholder h-full text-sm placeholder:text-sm outline-rose-500"
+                className="grow placeholder:text-black/90 shadow-none rounded-full ps-6 pe-8 placeholder h-full  placeholder: outline-rose-500"
                 onKeyDown={onKeyDownHandler}
                 ref={ref}
                 defaultValue={keyword}
@@ -138,7 +138,7 @@ export default function SearchInputMain() {
             <input
                 value={inputValue}
                 onChange={onChangeHandler}
-                className="placeholder h-full text-sm text-gray-500 placeholder focus:outline-none focus-visible:outline-0 "
+                className="placeholder h-full  text-gray-500 placeholder focus:outline-none focus-visible:outline-0 "
                 onKeyDown={onKeyDownHandler}
             />
         </div>
@@ -149,7 +149,7 @@ function Icons({ userName }: { userName?: string | undefined }) {
     return (
         <div className="flex gap-4">
             <Link href="/mypage" className="flex-center gap-1 ">
-                <div className="text-sm font-medium">{userName && userName}</div>
+                <div className=" font-medium">{userName && userName}</div>
                 <User className="text-black" fill="black" size="28px" />
             </Link>
             <Link href="/cart">

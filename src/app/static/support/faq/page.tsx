@@ -7,9 +7,7 @@ export default function Page() {
         <>
             <Nav />
             <main className="page-container max-w-xl mt-8">
-                <h1 className="text-3xl font-semibold mb-4 w-full me-8 flex-center">
-                    자주 묻는 질문
-                </h1>
+                <h1 className="text-3xl mb-4 w-full me-8 flex-center">자주 묻는 질문</h1>
                 <ShipmentAccordion />
                 <GeneralAccordion />
             </main>

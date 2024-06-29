@@ -39,11 +39,15 @@ export function ProductImage({
 export function Description({ product }: { product: ProductProps }) {
     const { brand, productName, price, productId, intl } = product
     return (
-        <div className="flex-col flex-center text-sub-black px-2 w-full text-center font-medium">
-            <div className="capitalize py-1 ">{`${brand} | ${productId}`}</div>
+        <div className="flex-col flex-center text-sub-black px-2 w-full text-center space-y-1">
+            <div className="capitalize line-clamp-1 space-x-1">
+                <span className="font-semibold">{brand}</span>
+                <span> {productId}</span>
+            </div>
             <div className="text-gray-500 line-clamp-1">{productName}</div>
-            <div className="py-2">
-                {intl ? '해외배송' : '국내배송'} | {KRW(price)}
+            <div className="space-x-1">
+                <span>{intl ? '해외배송' : '국내배송'} </span>
+                <span>{KRW(price)}</span>
             </div>
         </div>
     )
@@ -53,7 +57,7 @@ export function ProductCard({ product }: { product: ProductProps }) {
     const { sku } = product
 
     return (
-        <Link href={`/product/${sku}`} className="text-sub-black text-xs font-light z-1 ">
+        <Link href={`/product/${sku}`} className="text-sub-black z-1 space-y-3">
             <ProductImage sku={String(sku)} imgName="main" />
             <Description product={product} />
         </Link>

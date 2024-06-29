@@ -10,7 +10,8 @@ import Filter from './filter'
 async function Product({ filterParams }: { filterParams: ProductFilterSearchParamsProps }) {
     const res = await fetchProductList(filterParams)
     const ProductList = dynamic(() => import('./product-list'), { ssr: false })
-    return <ProductList searchKey={filterParams} productResponse={res} />
+    const { page, ...pageParamsWithoutPage } = filterParams
+    return <ProductList searchKey={pageParamsWithoutPage} productResponse={res} />
 }
 
 async function Page({ searchParams }: { searchParams: ProductFilterSearchParamsProps }) {

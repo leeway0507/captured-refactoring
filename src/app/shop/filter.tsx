@@ -12,7 +12,7 @@ import {
 } from '@/components/button'
 import DropdownComponent from '@/components/dropdown'
 import SlideComponent from '@/components/slider/slider'
-import { useFilterParams, useCategoryType } from '@/hooks/data/product-filter'
+import { useFilterParams, useCategoryType } from '@/hooks/data/use-filter'
 import { useSearchParams } from 'next/navigation'
 import cn from '@/utils/cn'
 import { filterMetaData } from '../../data/metadata'
@@ -20,9 +20,9 @@ import { filterMetaData } from '../../data/metadata'
 export function MobileCategoryNav() {
     const params = useSearchParams()
     const pageType = params.get('category')
-    const customUnderLine = 'font-bold underline underline-offset-[5px] decoration-2'
+    const customUnderLine = 'font-medium underline underline-offset-[5px] decoration-2'
     return (
-        <div className="flex md:hidden gap-5 px-3 w-full h-[25px] text-sm">
+        <div className="flex md:hidden gap-5 px-3 w-full h-[25px] ">
             <Link href="/shop" className={` ${!pageType && customUnderLine}`}>
                 All
             </Link>

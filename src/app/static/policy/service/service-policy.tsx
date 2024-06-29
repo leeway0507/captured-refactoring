@@ -1,8 +1,8 @@
 function ServicePolicy() {
-    const title = 'text-base font-bold py-4'
+    const title = 'text-base font-medium py-4'
     return (
         <>
-            <div className="text-2xl py-2 font-bold">CAPTURED 서비스 이용약관</div>
+            <div className="text-2xl py-2 font-medium">CAPTURED 서비스 이용약관</div>
             <>
                 <div className={`${title}`}>제 1 조 ( 목적 ) </div>
                 <div>

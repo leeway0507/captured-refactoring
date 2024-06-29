@@ -18,7 +18,7 @@ export function FormField<T extends UseFormReturn<any>>({
 }: CustomFormFieldProps<T>) {
     const error = form.formState.errors[formName]
     return (
-        <div className="text-xs w-full">
+        <div className="w-full">
             <label htmlFor={formName}>
                 <div className="flex items-center justify-between w-full gap-4">
                     <div className="pb-2">{label}</div>

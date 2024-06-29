@@ -1,4 +1,4 @@
-import { logError } from '@/utils/log-error'
+import { handleFetchError } from '@/utils/fetch-boilerplate'
 import { ProductFetchResponseProps, ProductFilterSearchParamsProps, ProductProps } from './type'
 
 export function convertObjToProductFilter(searchParams: ProductFilterSearchParamsProps) {
@@ -24,9 +24,9 @@ export function convertObjToProductFilter(searchParams: ProductFilterSearchParam
 export const fetchProductList = async (
     searchParams: ProductFilterSearchParamsProps,
 ): Promise<ProductFetchResponseProps> => {
-    try {
+    const fetchFn = async () => {
         const { pageNum, productFilter } = convertObjToProductFilter(searchParams)
-        const response = await fetch(
+        const res = await fetch(
             `${process.env.PRODUCT_API_URL}/api/product/category?page=${pageNum}`,
             {
                 method: 'POST',
@@ -36,33 +36,17 @@ export const fetchProductList = async (
                 body: productFilter,
             },
         )
-
-        const data = await response.json()
-        if (!response.ok) throw new Error(`fetchProductList: ${JSON.stringify(data)}`)
-
-        return data
-    } catch (error) {
-        logError(error)
-        return {
-            data: [],
-            currentPage: 1,
-            lastPage: 1,
-        }
+        return { status: res.status, data: (await res.json()) as ProductFetchResponseProps }
     }
+    return handleFetchError(fetchFn)
 }
 
 export const fetchSearchList = async (keyword: string): Promise<ProductProps[]> => {
-    try {
+    const fetchFn = async () => {
         const res = await fetch(
             `${process.env.PRODUCT_API_URL}/api/product/search?keyword=${keyword}`,
         )
-        const j = await res.json()
-        if (!res.ok) {
-            throw new Error(`fetchProductList : ${JSON.stringify(j.data)}`)
-        }
-        return j.data
-    } catch (error) {
-        logError(error)
-        return []
+        return { status: res.status, data: (await res.json()) as ProductProps[] }
     }
+    return handleFetchError(fetchFn)
 }

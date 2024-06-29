@@ -49,7 +49,7 @@ export async function OrderTab({ orderId }: { orderId: string | undefined }) {
 function TriggerGroup() {
     const triggerGroup = cn('flex', 'md:flex-col md:text-lg')
     const triggerClass = cn(
-        'w-full flex-center whitespace-nowrap text-sm h-7',
+        'w-full flex-center whitespace-nowrap  h-7',
         'md:px-8 lg:px-12 md:h-12 md:rounded md:tracking-wider md:text-lg',
         'data-[state=active]:font-medium data-[state=active]:border-b data-[state=active]:border-black/90',
         'md:data-[state=active]:font-medium md:data-[state=active]:bg-black/90 md:data-[state=active]:text-white/90',

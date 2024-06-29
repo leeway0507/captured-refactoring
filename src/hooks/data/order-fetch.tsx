@@ -42,24 +42,3 @@ export const checkCartItems = async (cartItems: ProductCartProps[]) => {
     const errorCase = { 401: '권한이 없습니다.' }
     return handleFetchError(fetchFn, errorCase)
 }
-
-// export const checkCartItems = async (cartItems: RequestItemCheckProps[]) => {
-//     const data = {
-//         form: cartItems.map((v) => `${v.sku}-${v.size}`),
-//         sku: cartItems.map((v) => v.sku),
-//     }
-
-//     const fetchFn = async () => {
-//         const res = await fetch(`${process.env.AUTH_API_URL}/api/order/check-size`, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//             body: JSON.stringify(data),
-//         })
-//         return { status: res.status, data: (await res.json()) as CheckCartItemResultProps }
-//     }
-
-//     const errorCase = { 401: '권한이 없습니다.' }
-//     return handleFetchError(fetchFn, errorCase)
-// }

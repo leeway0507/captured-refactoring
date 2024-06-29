@@ -1,4 +1,4 @@
-import useRecentView from '@/hooks/data/product-recent-view'
+import useRecentView from '@/hooks/data/use-recent-view'
 import EmblaCarousel, { CarouselImage } from '@/components/carousel/carousel'
 import { Description } from '@/components/product-card'
 import { ProductProps } from '@/hooks/data/type'
@@ -26,7 +26,7 @@ export default function RecentView({ product }: { product: ProductProps }) {
     if (!recentView) return null
     return (
         <div className="grow flex flex-col pt-10">
-            <div className="text-xl pb-6 font-semibold">최근 본 아이템</div>
+            <div className="text-xl pb-6 font-medium">최근 본 아이템</div>
             <EmblaCarousel type="multi">
                 {recentView.map((recentProduct: ProductProps) => (
                     <RecentViewProduct key={recentProduct.sku} product={recentProduct} />

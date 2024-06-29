@@ -37,11 +37,11 @@ export const ShippingFee = (
 export const RefundAndExchange = (
     <div className="flex flex-col gap-2 ">
         <div className="py-1">
-            <div className="font-semibold pb-1">교환 및 수리</div>
+            <div className="font-medium pb-1">교환 및 수리</div>
             <div>구매대행 특성 상 수리 및 교환은 불가합니다.</div>
         </div>
         <div className="py-1">
-            <div className="font-semibold pb-1">반품 및 취소 정책</div>
+            <div className="font-medium pb-1">반품 및 취소 정책</div>
             <div>
                 <div>
                     <div>
@@ -49,7 +49,7 @@ export const RefundAndExchange = (
                         배송비 및 국내 배송비가 발생 됩니다.
                     </div>
                     <div>
-                        <div className="pt-2 pb-2  font-semibold">단순 변심에 해당하는 사유</div>
+                        <div className="pt-2 pb-2  font-medium">단순 변심에 해당하는 사유</div>
                         <div className=" ps-2 flex flex-col gap-1">
                             <div>• 주문 실수 및 단순 변심</div>
                             <div>• 모니터 해상도 차이에 의해 발생하는 색상 불일치</div>
@@ -72,7 +72,7 @@ export const RefundAndExchange = (
                             </div>
                         </div>
                     </div>
-                    <div className="pt-2 pb-2  font-semibold">기타</div>
+                    <div className="pt-2 pb-2  font-medium">기타</div>
                     <div className="ps-2 ">
                         • 현지 판매처에 의한 배송지연(기상악화, 배송 급증, 현지 공휴일 등)
                     </div>
@@ -80,37 +80,37 @@ export const RefundAndExchange = (
             </div>
         </div>
         <div className="py-1 ">
-            <div className="font-semibold pb-1 py-2">반품 및 취소 건에 대한 배송비 </div>
+            <div className="font-medium pb-1 py-2">반품 및 취소 건에 대한 배송비 </div>
             <ul className="list-inside flex flex-col gap-1  ps-2">
                 <li>• 물품 구매 및 현지 배송 : 판매처 발송 여부에 따라 무료 또는 2만원</li>
                 <li>• 국제 배송 및 세관 통과 이후 : 5만원</li>
             </ul>
         </div>
         <div className="py-1 ">
-            <div className="font-semibold pb-1">반품 및 취소 신청</div>
+            <div className="font-medium pb-1">반품 및 취소 신청</div>
             <div className=" pb-1">
                 물품 수령 후 7일 이전의 경우 반품 및 취소 신청 가능합니다. 아래의 양식으로 고객센터
                 메일(
                 <span className="underline text-blue-500 ">{process.env.CUSTOMER_EMAIL}</span>
                 )로 보내주시면 관련 내용 안내드리겠습니다.{' '}
             </div>
-            <div className="border rounded-md py-3 my-2 text-sm px-2 border-gray-500">
+            <div className="border rounded-md py-3 my-2  px-2 border-gray-500">
                 <div className="grid grid-cols-7 py-1">
-                    <div className="font-semibold col-span-2">주문자 성명</div>
+                    <div className="font-medium col-span-2">주문자 성명</div>
                     <div className="col-span-5">주문 시 기입한 성명</div>
                 </div>
                 <div className="grid grid-cols-7 py-1">
-                    <div className="font-semibold col-span-2">결제코드</div>
+                    <div className="font-medium col-span-2">결제코드</div>
                     <div className="col-span-5">
                         마이페이지 → 주문배송 → 상세주문정보 항목에서 결제코드 확인 가능
                     </div>
                 </div>
                 <div className="grid grid-cols-7 py-1">
-                    <div className="font-semibold col-span-2">환불 방식</div>
+                    <div className="font-medium col-span-2">환불 방식</div>
                     <div className="col-span-5">희망 환불 절차(반품 또는 취소) 기입</div>
                 </div>
                 <div className="grid grid-cols-7 py-1">
-                    <div className="font-semibold col-span-2">상세 내용</div>
+                    <div className="font-medium col-span-2">상세 내용</div>
                     <div className="col-span-5">반품 및 취소 사유 및 이미지 등 상세 내용 작성</div>
                 </div>
             </div>
@@ -127,9 +127,8 @@ export const CustomFee = (
 export const NotYetShipped = (
     <div className="flex flex-col gap-2 ">
         <div className="pb-1">
-            배송 정보는{' '}
-            <span className="font-semibold">마이페이지 ❯ 주문배송 ❯ 상세 주문 내역</span>에서
-            확인하실 수 있습니다.{' '}
+            배송 정보는 <span className="font-medium">마이페이지 ❯ 주문배송 ❯ 상세 주문 내역</span>
+            에서 확인하실 수 있습니다.{' '}
         </div>
         <div className="pb-1">
             주문일이 15일 이상 경과한 경우 고객센터 메일(

@@ -6,7 +6,7 @@ interface InputWithLabelProps extends React.InputHTMLAttributes<HTMLInputElement
 
 export function InputWithLabel({ labelName, ...props }: InputWithLabelProps) {
     return (
-        <div className="text-xs">
+        <div>
             <label htmlFor={labelName}>
                 <div className="flex items-center justify-between w-full gap-4">
                     <div className="pb-2">{labelName}</div>

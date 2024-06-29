@@ -1,10 +1,10 @@
 import ThirdPartyPolicy from './agreement-third-party/third-party-policy'
 
 function PrivacyPolicy() {
-    const title = 'text-base font-bold py-4'
+    const title = 'text-base font-medium py-4'
     return (
         <>
-            <div className="text-2xl py-2 font-bold">개인정보 처리방침</div>
+            <div className="text-2xl py-2 font-medium">개인정보 처리방침</div>
             <div>
                 스톡헌터스(이하 ‘회사’라 한다)는 「개인정보 보호법」 제30조에 따라 정보주체에게
                 개인정보 처리에 관한 절차 및 기준을 안내하고, 이와 관련한 고충을 신속하고 원활하게
@@ -161,7 +161,7 @@ function PrivacyPolicy() {
                         쿠키를 허용하거나 쿠키가 저장될 때마다 확인을 거치거나 혹은 모든 쿠키의
                         저장을 거부할 수 있습니다.
                     </div>
-                    <div className="font-bold">쿠키(cookie) 저장 차단에 대한 안내</div>
+                    <div className="font-medium">쿠키(cookie) 저장 차단에 대한 안내</div>
                     <div>
                         [Chrome] 웹 브라우저 우측의 설정 메뉴 &gt; 화면 하단의 고급 설정 표시 &gt;
                         개인정보의 콘텐츠 설정 버튼 &gt; 쿠키
@@ -194,34 +194,34 @@ function PrivacyPolicy() {
                         맞춤형 광고를 일괄적으로 차단·허용할 수 있습니다. 다만, 쿠키 설정 변경은
                         웹사이트 자동로그인 등 일부 서비스의 이용에 영향을 미칠 수 있습니다.
                     </div>
-                    <div className="font-bold">가. 행태정보 수집 항목</div>
+                    <div className="font-medium">가. 행태정보 수집 항목</div>
                     <ul className="list-inside flex flex-col gap-1">
                         <li>
                             <span className="px-2">•</span>웹/앱 서비스 방문 기록, 검색·클릭 등
                             사용기록
                         </li>
                     </ul>
-                    <div className="font-bold">나. 행태정보 수집 방법</div>
+                    <div className="font-medium">나. 행태정보 수집 방법</div>
                     <ul className="list-inside flex flex-col gap-1">
                         <li>
                             <span className="px-2">•</span> 구글 애널리틱스(Google analytics),
                             픽셀(Pixel)을 이용하여 이용자의 방문 빈도, 방문 페이지 등의 정보를 수집
                         </li>
                     </ul>
-                    <div className="font-bold">다. 행태정보 수집 목적</div>
+                    <div className="font-medium">다. 행태정보 수집 목적</div>
                     <ul className="list-inside flex flex-col gap-1">
                         <li>
                             <span className="px-2">•</span>사이트 이용 패턴 분석
                         </li>
                     </ul>
-                    <div className="font-bold">라. 보유·이용기간 및 이후 정보처리 방법</div>
+                    <div className="font-medium">라. 보유·이용기간 및 이후 정보처리 방법</div>
                     <ul className="list-inside flex flex-col gap-1">
                         <li>
                             <span className="px-2">•</span>수집일로부터 최대 1년간 보유·이용되며,
                             이후 지체없이 삭제
                         </li>
                     </ul>
-                    <div className="font-bold">행태 정보 수집 차단에 대한 안내</div>
+                    <div className="font-medium">행태 정보 수집 차단에 대한 안내</div>
                     <ul className="list-inside flex flex-col gap-1">
                         <li>
                             [Chrome] 웹 브라우저 우측의 설정 메뉴 &gt; 화면 하단의 고급 설정 표시
@@ -293,7 +293,7 @@ function PrivacyPolicy() {
                         있습니다. 이 밖에 기타 개인정보침해의 신고, 상담에 대하여는 아래의 기관에
                         문의하시기 바랍니다
                     </div>
-                    <div className="font-bold">행태 정보 수집 차단에 대한 안내</div>
+                    <div className="font-medium">행태 정보 수집 차단에 대한 안내</div>
                     <ul className="list-inside flex flex-col gap-1">
                         <li>
                             <span className="px-2">•</span>개인정보분쟁조정위원회 : (국번없이)

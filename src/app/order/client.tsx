@@ -40,7 +40,7 @@ export function PaymentBox({
                 <button
                     type="button"
                     onClick={closePaymentMobile}
-                    className="lg:hidden flex items-center text-sm"
+                    className="lg:hidden flex items-center "
                 >
                     <ChevronLeft size="22px" />
                     뒤로가기
@@ -63,7 +63,7 @@ function AddressItem({
             <Button
                 size="sm"
                 onClick={() => setAddress(address)}
-                className="absolute text-sm top-4 right-4"
+                className="absolute  top-4 right-4"
             >
                 선택
             </Button>
@@ -92,7 +92,7 @@ function Address({ address }: { address: AddressProps }) {
     return (
         <>
             <div className="relative">
-                <div className="absolute top-4 right-8 underline text-sm">
+                <div className="absolute top-4 right-8 underline ">
                     <UpdateAddressButton addressId={address.addressId!} />
                 </div>
                 <AddressInfo address={address} />
@@ -136,7 +136,7 @@ function SelectAddress({
     return (
         <>
             <button
-                className="flex items-center justify-end pb-2 text-sm w-full"
+                className="flex items-center justify-end pb-2  w-full"
                 type="button"
                 onClick={() => setOpenDialog(true)}
             >

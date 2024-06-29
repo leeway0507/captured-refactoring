@@ -4,8 +4,8 @@ import { ChevronRight } from 'lucide-react'
 import { toast } from 'react-toastify'
 
 import { KRW } from '@/utils/currency'
-import useCart from '@/hooks/data/product-cart'
-import useRecentView from '@/hooks/data/product-recent-view'
+import useCart from '@/hooks/data/use-cart'
+import useRecentView from '@/hooks/data/use-recent-view'
 import { ProductProps } from '@/hooks/data/type'
 import SideModal from '@/components/side-modal'
 import { ProductImage, ProductCard } from '@/components/product-card'
@@ -71,21 +71,18 @@ export function ProductInfo({ product }: { product: ProductProps }) {
 
     return (
         <div className="flex flex-col text-main-black tracking-tidest gap-1">
-            <Link
-                href={`/shop/?brand=${brand}`}
-                className="uppercase lg:text-sm text-zinc-400 underline"
-            >
+            <Link href={`/shop/?brand=${brand}`} className="uppercase lg: text-zinc-400 underline">
                 {brand}
             </Link>
 
-            <div className="flex items-left justify-between lg:text-xl capitalize font-semibold">
+            <div className="flex items-left justify-between lg:text-xl capitalize font-medium">
                 {productName}
             </div>
             <div className="flex-left justify-between gap-2 text ">{productId.toUpperCase()}</div>
 
             <div className="whitespace-nowrap relative py-3">
                 <div>{KRW(price)} </div>
-                <div className="text-xs mx-2 text-blue-black">{intl && '관·부가세 포함'}</div>
+                <div className=" mx-2 text-blue-black">{intl && '관·부가세 포함'}</div>
             </div>
             <hr />
         </div>
@@ -185,7 +182,7 @@ export function Info() {
             <button
                 type="button"
                 onClick={hadnleClick}
-                className="ps-1 pe-4 flex items-center w-full text-xl font-semibold"
+                className="ps-1 pe-4 flex items-center w-full text-xl font-medium"
             >
                 <span>배송 및 반품 안내</span>
                 <span>
@@ -217,7 +214,7 @@ export function RecentView({ product }: { product: ProductProps }) {
     if (!recentView) return null
     return (
         <div className="grow flex flex-col pt-10">
-            <div className="text-xl pb-6 font-semibold">최근 본 아이템</div>
+            <div className="text-xl pb-6 font-medium">최근 본 아이템</div>
             <RecentViewProduct recentView={recentView} />
         </div>
     )

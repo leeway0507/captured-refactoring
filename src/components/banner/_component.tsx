@@ -42,7 +42,7 @@ export function ResponsiveBanner({
     imgClassName?: string
     aspect?: string
 }) {
-    const defaultOptions = 'relative w-full mx-auto vignette rounded'
+    const defaultOptions = 'relative w-full mx-auto vignette rounded '
 
     return (
         <div className={cn(defaultOptions, className, aspect)}>
@@ -50,7 +50,7 @@ export function ResponsiveBanner({
                 src={src}
                 alt={alt}
                 fill
-                className={cn('object-cover', imgClassName)}
+                className={cn('object-cover ', imgClassName)}
                 unoptimized
             />
         </div>
@@ -66,7 +66,7 @@ export function FixedBanner({
     alt: string
     className?: string
 }) {
-    const defaultOptions = 'w-full mx-auto vignette rounded'
+    const defaultOptions = 'w-full mx-auto vignette rounded '
 
     return (
         <div className={cn(defaultOptions, className)}>
@@ -78,7 +78,7 @@ export function FixedBanner({
 export function CardTitleOverlay({ name }: { name: string }) {
     return (
         <div className="absolute text-white z-10 flex-col flex-center gap-2 bg-black/20 w-full h-full">
-            <div className="text-3xl font-bold capitalize">{name}</div>
+            <div className="text-3xl font-medium capitalize">{name}</div>
         </div>
     )
 }
@@ -95,7 +95,7 @@ export function FixedCardTitle({
     aspect?: string
 }) {
     return (
-        <Link href={`${href}`} className="relative hover:opacity-95 w-full h-full flex">
+        <Link href={`${href}`} className="relative hover:opacity-95 w-full h-full flex ">
             <CardTitleOverlay name={name} />
             <FixedBanner src={src} alt={name} className={`${aspect}`} />
         </Link>
@@ -113,7 +113,10 @@ export function ResponsiveCardTitle({
     aspect?: string
 }) {
     return (
-        <Link href={`${href}`} className="relative hover:opacity-95 w-full h-full">
+        <Link
+            href={`${href}`}
+            className="relative hover:opacity-95 w-full h-full max-h-[400px] md:max-h-full overflow-hidden"
+        >
             <CardTitleOverlay name={name} />
             <ResponsiveBanner src={src} alt={name} className={`${aspect}`} />
         </Link>
@@ -133,7 +136,7 @@ export function ProductCardArr({
         <Link
             href={`/product/${product.sku}`}
             key={product.sku}
-            className={cn('flex-center flex-col w-full text-sm', className)}
+            className={cn('flex-center flex-col w-full ', className)}
         >
             <ProductImage
                 sku={String(product.sku)}
@@ -144,6 +147,7 @@ export function ProductCardArr({
         </Link>
     ))
 }
+
 export function ProductCardCarousel({
     productArr,
     maxItems = -1,

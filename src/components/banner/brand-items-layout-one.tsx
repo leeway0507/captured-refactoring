@@ -18,7 +18,7 @@ export default async function BrandItemsLayOut({
         'mx-auto w-full layout-max-frame flex flex-col gap-2 md:grid md:auto-cols-auto md:grid-flow-col md:px-4 px-1'
 
     const productCardBox =
-        'grid grid-cols-2 md:grid-cols-3 md:px-2 gap-1 place-content-between h-full'
+        'grid grid-cols-2 xl:grid-cols-3 xl:px-2 gap-1 place-content-between h-full'
     return (
         <Container className={`${container}`}>
             <section className="w-full max-w-[400px] md:max-w-[600px] 2xl:max-w-[650px]">
@@ -29,10 +29,12 @@ export default async function BrandItemsLayOut({
                 />
             </section>
 
-            <section>
-                <div className={`${productCardBox}`}>
-                    <ProductCardArr data={data} maxItems={maxItems} />
-                </div>
+            <section className={`${productCardBox}`}>
+                <ProductCardArr
+                    data={data}
+                    className="[&:nth-child(n+5)]:hidden xl:[&:nth-child(n+5)]:flex"
+                    maxItems={maxItems}
+                />
             </section>
         </Container>
     )

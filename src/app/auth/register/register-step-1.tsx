@@ -82,11 +82,7 @@ export default function Step1({ setStep1Data }: { setStep1Data: (b: Step1State) 
                 <PasswordField form={form} />
                 <PasswordConfirmField form={form} />
                 <PolicyCheckbox setTermCheck={setTermCheck} />
-                <ConfirmButton
-                    type="submit"
-                    className="w-full text-sm"
-                    disabled={!nextStepCondition}
-                >
+                <ConfirmButton type="submit" className="w-full " disabled={!nextStepCondition}>
                     배송지 입력하기
                 </ConfirmButton>
             </form>

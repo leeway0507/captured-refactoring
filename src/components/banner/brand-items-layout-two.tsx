@@ -9,14 +9,14 @@ export default async function BrandItemsLayOutTop({ brandName }: { brandName: st
 
     const productResponse = await fetchProductList(filter)
 
-    const container = 'layout-max-frame flex flex-col w-full bg-gray-50 py-4 mx-auto'
+    const container = 'layout-max-frame flex flex-col w-full  bg-gray-50 py-4 mx-auto'
     return (
         <Container className={`${container}`}>
             <ResponsiveCardTitle
                 src={`/layout/${brandName}.webp`}
                 href={`/shop/?brand=${brandName}`}
                 name={brandName}
-                aspect="aspect-[4/1] lg:aspect-[4/1]"
+                aspect="md:aspect-[2/1]"
             />
             <ProductCardCarousel productArr={productResponse.data} maxItems={10} />
         </Container>

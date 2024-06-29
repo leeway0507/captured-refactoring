@@ -1,7 +1,7 @@
 'use client'
 
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
-import useProductDataStore from '@/hooks/data/product-list-stores'
+import useProductDataStore from '@/hooks/data/use-product-data-stores'
 import useIntersectionObserver from '@/hooks/interaction/infinite-scroll'
 import { ScrollDirectionProps } from '@/hooks/interaction/scroll-direction'
 import { ProductCard } from '@/components/product-card'
@@ -98,8 +98,8 @@ export default function ProductList<T>({
     productResponse: ProductFetchResponseProps
 }) {
     const ProductStores = useProductDataStore(searchKey, productResponse)
-    const productData = ProductStores.data[1]
-    return productData ? (
+    const isItemExist = ProductStores.data[1] // page 1
+    return isItemExist ? (
         <ProductComponent productPages={ProductStores.data} lastPage={ProductStores.lastPage} />
     ) : (
         <NoData />

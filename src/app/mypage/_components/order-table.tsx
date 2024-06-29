@@ -15,7 +15,7 @@ function OrderHistoryTableHeader() {
 
 function OrderHistoryTableRow({ data }: { data: OrderHistoryProps }) {
     const row =
-        'hover:bg-gray-100 odd:bg-slate-50 hover:cursor-pointer grid grid-cols-4 place-items-center text-xs'
+        'hover:bg-gray-100 odd:bg-slate-50 hover:cursor-pointer grid grid-cols-4 place-items-center '
     return (
         <Link href={`?orderId=${data.orderId}`} className={`${row}`}>
             <div className="text-nowrap p-4">{data.userOrderNumber}</div>
@@ -30,7 +30,7 @@ function OrderHistoryTableBody({ data }: { data: OrderHistoryProps[] }) {
     return data.map((d) => <OrderHistoryTableRow key={d.userOrderNumber} data={d} />)
 }
 
-const tableClass = 'w-full text-sm text-center mx-auto'
+const tableClass = 'w-full  text-center mx-auto'
 export default function OrderHistoryTable({ orderHistory }: { orderHistory: OrderHistoryProps[] }) {
     return (
         <div className={`${tableClass}`} key="order">

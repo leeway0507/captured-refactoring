@@ -51,7 +51,7 @@ export default function AddressFormCasting<T>({
             </div>
             <FormField form={form} label="휴대폰번호" formName="phone" type="text" />
             <FormField form={form} label="개인통관고유부호" formName="customId" type="text" />
-            <div className=" flex-center text-sm bg-gray-100 rounded-md border px-5 py-3 mb-2 ">
+            <div className=" flex-center  bg-gray-100 rounded-md border px-5 py-3 mb-2 ">
                 개인통관고유부호 불일치는 통관지연, 오배송의 원인이 됩니다.
             </div>
             <div className="flex items-end w-full gap-3">
@@ -63,7 +63,7 @@ export default function AddressFormCasting<T>({
                     disabled
                 />
                 <Button
-                    className="text-xs"
+                    
                     variant="secondary"
                     type="button"
                     onClick={openAddressDialog}
@@ -86,7 +86,7 @@ export default function AddressFormCasting<T>({
                     disabled
                 />
                 <Button
-                    className="text-xs"
+                    
                     variant="secondary"
                     type="button"
                     onClick={openAddressDialog}

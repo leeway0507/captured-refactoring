@@ -34,7 +34,7 @@ interface ProductHorizontalCardProps {
 function OrderProductDescription(props: Omit<ProductHorizontalCardProps, 'sku'>) {
     const { brand, productName, price, productId, intl, size, quantity } = props
     return (
-        <div className="flex flex-col w-full justify-center text-xs md:text-sm ">
+        <div className="flex flex-col w-full justify-center  md: ">
             <span className="text-base md:text-lg">{brand}</span>
             <span className="text-gray-500 line-clamp-1">{productName}</span>
             <span className="uppercase text-gray-500">{productId}</span>
@@ -130,7 +130,7 @@ export default function OrderDetail({
     if (orderItems.length === 0 && !address) return <Spinner />
 
     return (
-        <div className="space-y-8 text-sm max-w-xl mx-auto">
+        <div className="space-y-8  max-w-xl mx-auto">
             <ChevronLeft onClick={handleOnClick} className="cursor-pointer" />
             <section>
                 <OrderTitle>주문상태</OrderTitle>

@@ -16,7 +16,7 @@ export function ItemRow({
     nameBasis?: string
     valueBasis?: string
 }) {
-    const container = 'text-xs md:text-sm flex items-center py-1'
+    const container = ' md: flex items-center py-1'
     const defaultNameBasis = 'basis-1/4 whitespace-nowrap px-2'
     const defaultValueBasis = 'px-2 '
     return (

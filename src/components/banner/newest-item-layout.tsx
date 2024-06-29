@@ -7,7 +7,7 @@ async function NewestItem() {
     return (
         <Container className={`${container}`}>
             <section className="layout-max-frame lg:px-4 lg:mx-auto">
-                <h1 className="text-lg lg:text-xl px-2 font-semibold pb-2">추천 아이템</h1>
+                <h1 className="text-lg lg:text-xl px-2 font-medium pb-2">추천 아이템</h1>
                 <ProductCardCarousel productArr={productResponse.data} maxItems={10} />
                 <MoreButton link="/shop" />
             </section>
