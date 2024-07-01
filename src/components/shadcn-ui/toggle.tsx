@@ -3,6 +3,7 @@
 import * as React from 'react'
 import * as TogglePrimitive from '@radix-ui/react-toggle'
 import { cva, type VariantProps } from 'class-variance-authority'
+import { memo } from 'react'
 
 import cn from '@/utils/cn'
 
@@ -43,4 +44,4 @@ const Toggle = React.forwardRef<
 
 Toggle.displayName = TogglePrimitive.Root.displayName
 
-export { Toggle, toggleVariants }
+export default memo(Toggle)

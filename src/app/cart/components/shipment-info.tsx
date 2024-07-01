@@ -1,6 +1,7 @@
+import { memo } from 'react'
 import { PlaneTakeoff } from 'lucide-react'
 
-export function CartShipmentInfo() {
+function CartShipmentInfo() {
     return (
         <div className="text-sub-black">
             <div className="flex">
@@ -24,3 +25,4 @@ export function CartShipmentInfo() {
         </div>
     )
 }
+export default memo(CartShipmentInfo)

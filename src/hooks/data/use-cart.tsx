@@ -73,23 +73,18 @@ export const addToCartFn = (
 }
 
 export const removeToCartFn = (
-    cartData: ProductCartProps[] | undefined,
-    setCartData: (a: ProductCartProps[]) => void,
+    setCartData: React.Dispatch<React.SetStateAction<ProductCartProps[] | undefined>>,
     product: ProductProps,
     selectedSize: string,
-) => {
-    // cartData undefined
-    if (!cartData || cartData.length === 0) return null
-
-    // product && size already in cart
-    const idx = findProductIndex(cartData, product, selectedSize)
-    const removeProduct = [...cartData.slice(0, idx), ...cartData.slice(idx + 1)]
-    return setCartData(removeProduct)
-}
+) =>
+    setCartData((old) => {
+        const idx = findProductIndex(old!, product, selectedSize)
+        return [...old!.slice(0, idx), ...old!.slice(idx + 1)]
+    })
 
 export const decreaseQtyFn = (
     cartData: ProductCartProps[],
-    setCartData: (a: ProductCartProps[]) => void,
+    setCartData: React.Dispatch<React.SetStateAction<ProductCartProps[] | undefined>>,
     product: ProductProps,
     selectedSize: string,
 ) => {
@@ -97,7 +92,7 @@ export const decreaseQtyFn = (
     const target = { ...cartData[idx] }
 
     if (target.quantity < 2) {
-        removeToCartFn(cartData, setCartData, target.product, target.size)
+        removeToCartFn(setCartData, target.product, target.size)
     } else {
         updateProductQty('decrease', cartData, idx, setCartData)
     }
@@ -105,7 +100,7 @@ export const decreaseQtyFn = (
 
 export const toggleCheckStateFn = (
     cartData: ProductCartProps[],
-    setCartData: (a: ProductCartProps[]) => void,
+    setCartData: React.Dispatch<React.SetStateAction<ProductCartProps[] | undefined>>,
     product: ProductProps,
     selectedSize: string,
 ) => {
@@ -117,6 +112,16 @@ export const toggleCheckStateFn = (
         ...cartData.slice(idx + 1),
     ]
     return setCartData(updatedCartData)
+}
+
+export interface CartProps {
+    cartData: ProductCartProps[] | undefined
+    addToCart: (product: ProductProps, selectedSize: string) => void
+    removeToCart: (product: ProductProps, selectedSize: string) => void
+    increaseQty: (product: ProductProps, selectedSize: string) => void
+    decreaseQty: (product: ProductProps, selectedSize: string) => void
+    toggleCheckState: (product: ProductProps, selectedSize: string) => void
+    initCart: () => void
 }
 
 const useCart = () => {
@@ -135,7 +140,7 @@ const useCart = () => {
         addToCartFn(cartData, setCartData, product, selectedSize)
     }
     const removeToCart = (product: ProductProps, selectedSize: string) => {
-        removeToCartFn(cartData, setCartData, product, selectedSize)
+        removeToCartFn(setCartData, product, selectedSize)
     }
 
     const increaseQty = (product: ProductProps, selectedSize: string) => {

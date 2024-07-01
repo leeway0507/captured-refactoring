@@ -1,21 +1,8 @@
 'use client'
 
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 import { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { ProductFilterParamsProps } from '@/types'
-
-export const applyFilterToURLFn = (
-    filterParams: ProductFilterParamsProps,
-    router: AppRouterInstance,
-) => {
-    const urlWithoutSearchParams = window.location.href.split('?')[0]
-    const newURL = new URL(urlWithoutSearchParams)
-
-    // update SearchParams
-    Object.entries(filterParams).map(([k, v]) => newURL.searchParams.set(k, v.join()))
-    router.push(newURL.href, { scroll: false })
-}
 
 export const getFilterParams = (): ProductFilterParamsProps | undefined => {
     if (typeof window !== 'undefined') {
@@ -42,7 +29,14 @@ export const useFilterParams = () => {
     const prevFilterSate = getFilterParams() || {}
 
     const applyFilterToURL = () => {
-        if (filterState) applyFilterToURLFn(filterState, router)
+        if (filterState) {
+            const urlWithoutSearchParams = window.location.href.split('?')[0]
+            const newURL = new URL(urlWithoutSearchParams)
+
+            // update SearchParams
+            Object.entries(filterState).map(([k, v]) => newURL.searchParams.set(k, v.join()))
+            router.push(newURL.href, { scroll: false })
+        }
     }
     const resetFilterState = () => {
         if (filterState) setFilterState(prevFilterSate)

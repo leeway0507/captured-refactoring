@@ -1,4 +1,5 @@
 import productMock from '@/__mocks__/product-data-api'
+import { renderHook, act } from '@testing-library/react'
 import useCart, {
     addToCartFn,
     findProductIndex,
@@ -6,9 +7,10 @@ import useCart, {
     increaseQtyFn,
     decreaseQtyFn,
     addNewProductToCart,
-    ProductCartProps,
-} from '@/hooks/data/product-cart'
-import { renderHook, act } from '@testing-library/react'
+} from '@/hooks/data/use-cart'
+import { ProductCartProps } from '@/types'
+
+const mockSetCartData = jest.fn()
 
 describe('Product Cart', () => {
     // env 세팅
@@ -18,6 +20,7 @@ describe('Product Cart', () => {
     const selectedSize = product.size[0]
 
     let cart: ProductCartProps[] = []
+
     const setCart = (newCart: ProductCartProps[]) => {
         cart = newCart
     }
@@ -35,10 +38,15 @@ describe('Product Cart', () => {
     })
     it('should remove the cart', () => {
         cart = [{ product, size: selectedSize, quantity: 3, checked: true }]
-        removeToCartFn(cart, setCart, product, selectedSize)
+
+        removeToCartFn(mockSetCartData, product, selectedSize)
+
+        expect(mockSetCartData).toHaveBeenCalledWith(expect.any(Function))
+        const stateUpdater = mockSetCartData.mock.calls[0][0]
+        const newState = stateUpdater(cart)
 
         const expectedResult: any = []
-        expect(cart).toEqual(expectedResult)
+        expect(newState).toEqual(expectedResult)
     })
 
     it('should return product idx', () => {
@@ -63,16 +71,23 @@ describe('Product Cart', () => {
         cart = [{ product, size: selectedSize, quantity: 2, checked: true }]
 
         // quantity 2 -> 1
-        decreaseQtyFn(cart, setCart, product, selectedSize)
+        decreaseQtyFn(cart, mockSetCartData, product, selectedSize)
+
+        expect(mockSetCartData).toHaveBeenCalledWith(expect.any(Function))
+        const newState1 = mockSetCartData.mock.calls[1][0]
 
         const expectedResult1 = [{ product, size: selectedSize, quantity: 1, checked: true }]
-        expect(cart).toEqual(expectedResult1)
+        expect(newState1).toEqual(expectedResult1)
 
         // quantity 1 -> remove Product To Cart
-        decreaseQtyFn(cart, setCart, product, selectedSize)
+        decreaseQtyFn(expectedResult1, mockSetCartData, product, selectedSize)
+
+        expect(mockSetCartData).toHaveBeenCalledWith(expect.any(Function))
+        const stateUpdater = mockSetCartData.mock.calls[0][0]
+        const newState2 = stateUpdater(expectedResult1)
 
         const expectedResult2: any = []
-        expect(cart).toEqual(expectedResult2)
+        expect(newState2).toEqual(expectedResult2)
     })
 
     it('should add and update an item to Cart', () => {

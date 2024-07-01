@@ -1,11 +1,11 @@
 'use client'
 
+import { memo } from 'react'
 import Link from 'next/link'
 import { toast } from 'react-toastify'
 import { Plus, Minus, Trash2 } from 'lucide-react'
 
 import { ProductCartProps, ProductProps } from '@/types'
-import useCart from '@/hooks/data/use-cart'
 import { KRW } from '@/utils/currency'
 import { setCartItemsToCookies } from '@/actions/cart'
 import { Button } from '@/components/shadcn-ui/button'
@@ -13,36 +13,34 @@ import { ConfirmButton } from '@/components/button'
 import { ProductImage } from '@/components/product/product-card'
 import Spinner from '@/components/spinner/spinner'
 import { PriceBox } from '@/components/order/price-box'
+import { CartProvider, useCartContext } from '@/components/context/cart-povider'
 
-import { CartShipmentInfo } from './shipment-info'
+import CartShipmentInfo from './shipment-info'
 import { NoCartData } from './no-cart-data'
 
-function ProductQtyUpdate({
-    quantity,
-    increaseQty,
-    decreaseQty,
-}: {
-    quantity: number
-    increaseQty: () => void
-    decreaseQty: () => void
-}) {
+function ProductQtyUpdate({ product, size }: { product: ProductProps; size: string }) {
+    const { cartData, increaseQty, decreaseQty } = useCartContext()
+    const increaseQuantity = () => increaseQty(product, size)
+    const decreaseQuantity = () => decreaseQty(product, size)
+    const qty = cartData?.find((p) => p.product.sku === product.sku && p.size === size)?.quantity
+
     return (
         <div className="flex gap-2 items-center">
             <Button
                 size="icon-sm"
                 variant="ghost"
                 type="button"
-                onClick={decreaseQty}
+                onClick={decreaseQuantity}
                 aria-label="Decrease quantity"
             >
                 <Minus size="12px" strokeWidth="3" />
             </Button>
-            <div>{quantity}</div>
+            <div>{qty}</div>
             <Button
                 size="icon-sm"
                 variant="ghost"
                 type="button"
-                onClick={increaseQty}
+                onClick={increaseQuantity}
                 aria-label="Decrease quantity"
             >
                 <Plus size="12px" strokeWidth="3" />
@@ -51,95 +49,92 @@ function ProductQtyUpdate({
     )
 }
 
-function ProductDescription({
-    data,
-    increaseQty,
-    decreaseQty,
-    removeToCart,
-}: {
-    data: ProductCartProps
-    increaseQty: (product: ProductProps, size: string) => void
-    decreaseQty: (product: ProductProps, size: string) => void
-    removeToCart: (product: ProductProps, size: string) => void
-}) {
-    const { product, size } = data
+function RemoveCartItemButton({ product, size }: { product: ProductProps; size: string }) {
+    const { removeToCart } = useCartContext()
     const handleRemoveProduct = () => {
         toast('장바구니에서 제거되었습니다.')
         removeToCart(product, size)
     }
 
     return (
-        <div className="flex flex-col w-full justify-center  md: ">
-            <div className="flex justify-between items-center">
-                <span className="text-base md:text-lg">{product.brand}</span>
-                <Button variant="ghost" size="icon-sm" onClick={handleRemoveProduct}>
-                    <Trash2 size="20px" />
-                </Button>
-            </div>
-            <span className="text-gray-500 line-clamp-1">{product.productName}</span>
-            <span className="uppercase text-gray-500">{product.productId}</span>
-            <div className="flex justify-between">
-                <span>{size}</span>
-                <span className=" underline text-gray-500">
-                    {product.intl ? '해외배송' : '국내배송'}
-                </span>
-            </div>
-            <div className="flex justify-between pt-2">
-                <ProductQtyUpdate
-                    quantity={data.quantity}
-                    increaseQty={() => increaseQty(data.product, data.size)}
-                    decreaseQty={() => decreaseQty(data.product, data.size)}
-                />
-                <span>{KRW(product.price)}</span>
-            </div>
-        </div>
+        <Button variant="ghost" size="icon-sm" onClick={handleRemoveProduct}>
+            <Trash2 size="20px" />
+        </Button>
     )
 }
 
-function CartProductBox({
-    cartData,
-    increaseQty,
-    decreaseQty,
-    removeToCart,
-    toggleCheckState,
+const ProductDescription = memo(({ product, size }: { product: ProductProps; size: string }) => (
+    <div className="flex flex-col w-full justify-center  md: ">
+        <div className="flex justify-between items-center">
+            <span className="text-base md:text-lg">{product.brand}</span>
+            <RemoveCartItemButton product={product} size={size} />
+        </div>
+        <span className="text-gray-500 line-clamp-1">{product.productName}</span>
+        <span className="uppercase text-gray-500">{product.productId}</span>
+        <div className="flex justify-between">
+            <span>{size}</span>
+            <span className=" underline text-gray-500">
+                {product.intl ? '해외배송' : '국내배송'}
+            </span>
+        </div>
+        <div className="flex justify-between pt-2">
+            <ProductQtyUpdate product={product} size={size} />
+            <span>{KRW(product.price)}</span>
+        </div>
+    </div>
+))
+
+function CartCheckBox({
+    product,
+    size,
+    checked,
 }: {
-    cartData: ProductCartProps[]
-    increaseQty: (product: ProductProps, size: string) => void
-    decreaseQty: (product: ProductProps, size: string) => void
-    removeToCart: (product: ProductProps, size: string) => void
-    toggleCheckState: (product: ProductProps, size: string) => void
+    product: ProductProps
+    size: string
+    checked: boolean
 }) {
+    const { toggleCheckState } = useCartContext()
+
+    return (
+        <input
+            type="checkbox"
+            className="accent-black md:scale-[115%] w-4 md:mx-2"
+            id={`${product.sku}-${size}`}
+            defaultChecked={checked}
+            onClick={() => toggleCheckState(product, size)}
+        />
+    )
+}
+
+const CartProductCard = memo(
+    ({ product, size, checked }: { product: ProductProps; size: string; checked: boolean }) => (
+        <div key={String(product.sku)} className="flex-center gap-3 border-b py-2 px-2">
+            <CartCheckBox product={product} size={size} checked={checked} />
+            <Link
+                className="flex-center flex-col w-full  max-w-[100px] md:max-w-[125px] lg:max-w-[150px]"
+                href={`/product/${product.sku}`}
+            >
+                <ProductImage sku={String(product.sku)} imgName="main" className="aspect-[1/1]" />
+            </Link>
+            <ProductDescription product={product} size={size} />
+        </div>
+    ),
+)
+
+function CartProductBox() {
+    const { cartData } = useCartContext()
+
+    if (!cartData) return <Spinner />
+    if (cartData.length === 0) return <NoCartData />
     return (
         <section className="basis-3/5">
             {cartData.map((data) => (
-                <div
-                    key={String(data.product.sku)}
-                    className="flex-center gap-3 border-b py-2 px-2"
-                >
-                    <input
-                        type="checkbox"
-                        className="accent-black md:scale-[115%] w-4 md:mx-2"
-                        id={`${data.product.sku}-${data.size}`}
-                        defaultChecked={data.checked}
-                        onClick={() => toggleCheckState(data.product, data.size)}
-                    />
-                    <Link
-                        className="flex-center flex-col w-full  max-w-[100px] md:max-w-[125px] lg:max-w-[150px]"
-                        href={`/product/${data.product.sku}`}
-                    >
-                        <ProductImage
-                            sku={String(data.product.sku)}
-                            imgName="main"
-                            className="aspect-[1/1]"
-                        />
-                    </Link>
-                    <ProductDescription
-                        data={data}
-                        removeToCart={removeToCart}
-                        increaseQty={() => increaseQty(data.product, data.size)}
-                        decreaseQty={() => decreaseQty(data.product, data.size)}
-                    />
-                </div>
+                <CartProductCard
+                    key={data.product.sku}
+                    product={data.product}
+                    size={data.size}
+                    checked={data.checked}
+                />
             ))}
         </section>
     )
@@ -156,8 +151,13 @@ function OrderButton({ cartData }: { cartData: ProductCartProps[] }) {
         </div>
     )
 }
-function InfoBox({ cartData }: { cartData: ProductCartProps[] }) {
-    const checkedCartData = cartData.filter((p) => p.checked)
+function InfoBox() {
+    const { cartData } = useCartContext()
+
+    if (!cartData) return null
+    if (cartData.length === 0) return null
+    const checkedCartData = cartData ? cartData.filter((p) => p.checked) : []
+
     return (
         <aside className="flex flex-col w-full md:max-w-[350px] lg:max-w-[450px] gap-6 bg-gray-50 md:bg-white p-4 shadow-inner md:shadow-none">
             <PriceBox cartData={checkedCartData} />
@@ -176,21 +176,13 @@ function CartContainer({ children }: { children: React.ReactNode }) {
 }
 
 function Cart() {
-    const { cartData, increaseQty, decreaseQty, removeToCart, toggleCheckState } = useCart()
-
-    if (!cartData) return <Spinner />
-    if (cartData.length === 0) return <NoCartData />
     return (
-        <CartContainer>
-            <CartProductBox
-                cartData={cartData}
-                increaseQty={increaseQty}
-                decreaseQty={decreaseQty}
-                removeToCart={removeToCart}
-                toggleCheckState={toggleCheckState}
-            />
-            <InfoBox cartData={cartData} />
-        </CartContainer>
+        <CartProvider>
+            <CartContainer>
+                <CartProductBox />
+                <InfoBox />
+            </CartContainer>
+        </CartProvider>
     )
 }
 

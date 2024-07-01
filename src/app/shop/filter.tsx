@@ -1,15 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import { useState, useRef } from 'react'
+import { useState, useRef, useCallback, useMemo } from 'react'
 import { ChevronDown } from 'lucide-react'
-import {
-    ButtonBox,
-    ToggleButton,
-    getToggleStatus,
-    ConfirmButton,
-    CancelButton,
-} from '@/components/button'
+import { ButtonBox, ToggleButtonTest, ConfirmButton, CancelButton } from '@/components/button'
 import DropdownComponent from '@/components/dropdown'
 import SlideComponent from '@/components/slider/slider'
 import { useFilterParams, useCategoryType } from '@/hooks/data/use-filter'
@@ -140,7 +134,7 @@ export function FilterOptions({
         <div
             className={cn(
                 'absolute z-20 w-full bg-white pb-4 left-0 right-0 ',
-                `$top-${boxHeight}px`,
+                `top-${boxHeight}px`,
             )}
         >
             <div className="py-2">{FilterComponent[selectedFilterType]}</div>
@@ -155,36 +149,52 @@ export function FilterOptions({
 type FilterType = '정렬순' | '브랜드' | '종류' | '사이즈' | '배송' | '가격'
 const VALID_FILTER_TYPES: FilterType[] = ['정렬순', '브랜드', '종류', '사이즈', '배송', '가격']
 
-export default function Filter() {
-    const [selectedFilterType, setSelectedFilterType] = useState<FilterType>()
-    const filterStatus = getToggleStatus<FilterType>(VALID_FILTER_TYPES, selectedFilterType)
+function FilterButtonBox({
+    selectedFilterType,
+    handleFilterClick,
+}: {
+    selectedFilterType: FilterType | undefined
+    handleFilterClick: (d: FilterType) => void
+}) {
+    const icon = useMemo(() => <ChevronDown size={20} />, [])
 
+    return (
+        <ButtonBox>
+            {VALID_FILTER_TYPES.map((data) => (
+                <ToggleButtonTest<FilterType>
+                    key={data}
+                    data={data}
+                    isActive={selectedFilterType === data}
+                    handleFilterClick={handleFilterClick}
+                    Icon={icon}
+                />
+            ))}
+        </ButtonBox>
+    )
+}
+
+export default function Filter() {
     const boxRef = useRef<HTMLDivElement>(null)
 
-    const addOrRemoveItem = (v: FilterType | undefined) => {
+    const [selectedFilterType, setSelectedFilterType] = useState<FilterType>()
+
+    const handleFilterClick = useCallback((data: FilterType | undefined) => {
         setSelectedFilterType((old) => {
-            if (old === v) return undefined
-            return v
+            if (old === data) return undefined
+            return data
         })
-    }
+    }, [])
     return (
         <>
             <MobileCategoryNav />
             <div className="sticky top-[55px] py-3 px-2 w-full bg-white z-10" ref={boxRef}>
-                <ButtonBox>
-                    {filterStatus.map((f) => (
-                        <ToggleButton<FilterType>
-                            key={f.item}
-                            data={f.item}
-                            status={f.status}
-                            setSelected={addOrRemoveItem}
-                            icon={<ChevronDown size="15px" />}
-                        />
-                    ))}
-                </ButtonBox>
+                <FilterButtonBox
+                    selectedFilterType={selectedFilterType}
+                    handleFilterClick={handleFilterClick}
+                />
                 <FilterOptions
                     selectedFilterType={selectedFilterType}
-                    setSelectedFilterType={addOrRemoveItem}
+                    setSelectedFilterType={handleFilterClick}
                     boxRef={boxRef}
                 />
             </div>

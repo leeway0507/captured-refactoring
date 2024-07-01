@@ -1,4 +1,4 @@
-import { convertObjToProductFilter } from '@/actions/product-list-fetch'
+import { convertObjToProductFilter } from '@/utils/filter'
 
 describe('product-list-fetch', () => {
     it('should convert URL Params to Product Filter Obj', async () => {

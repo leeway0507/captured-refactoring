@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
 import { toast } from 'react-toastify'
@@ -9,7 +9,7 @@ import useCart from '@/hooks/data/use-cart'
 import SideModal from '@/components/side-modal'
 import { ProductImage } from '@/components/product/product-card'
 import EmblaCarousel, { CarouselImage } from '@/components/carousel/carousel'
-import { ToggleButton, ButtonBox, ConfirmButton, getToggleStatus } from '@/components/button'
+import { ToggleButtonTest, ButtonBox, ConfirmButton } from '@/components/button'
 
 import { ProductShipmentInfo, ProductShipmentInfoModal } from './shipment-info'
 
@@ -95,22 +95,21 @@ export function ProductInfo({ product }: { product: ProductProps }) {
 
 export function SizeBox({
     product,
-    selected,
-    setSelected,
+    selectedSize,
+    setSelectedSize,
 }: {
     product: ProductProps
-    selected: string | undefined
-    setSelected: (s: string) => void
+    selectedSize: string | undefined
+    setSelectedSize: (s: string) => void
 }) {
-    const sizeStatusList = getToggleStatus(product.size, selected)
     return (
         <ButtonBox>
-            {sizeStatusList.map((d) => (
-                <ToggleButton
-                    key={d.item}
-                    data={d.item}
-                    status={d.status}
-                    setSelected={setSelected}
+            {product.size.map((d) => (
+                <ToggleButtonTest
+                    key={d}
+                    data={d}
+                    isActive={d === selectedSize}
+                    handleFilterClick={setSelectedSize}
                 />
             ))}
         </ButtonBox>
@@ -119,10 +118,10 @@ export function SizeBox({
 
 export function AddToCartNormal({
     product,
-    selected,
+    selectedSize,
 }: {
     product: ProductProps
-    selected: string
+    selectedSize: string
 }) {
     const { size } = product
     const inStock = !!(size && size.length > 0)
@@ -130,12 +129,16 @@ export function AddToCartNormal({
     const { addToCart } = useCart()
 
     const handleClick = () => {
-        addToCart(product, selected)
+        addToCart(product, selectedSize)
         toast(<div>장바구니에 담았습니다.</div>)
     }
 
     return (
-        <ConfirmButton disabled={!inStock || !selected} onClick={handleClick} className="w-full">
+        <ConfirmButton
+            disabled={!inStock || !selectedSize}
+            onClick={handleClick}
+            className="w-full"
+        >
             {inStock ? '장바구니 담기' : '품절'}
         </ConfirmButton>
     )
@@ -143,30 +146,52 @@ export function AddToCartNormal({
 
 export function AddToCartMobile({
     product,
-    selected,
+    selectedSize,
 }: {
     product: ProductProps
-    selected: string
+    selectedSize: string
 }) {
     const boxContainer =
         'flex items-center justify-between h-[70px] bg-white fixed bottom-0 left-0 px-4 w-full border-t-2 z-10'
     return (
         <div className={`${boxContainer}`}>
             <div className="basis-2/3 grow text-lg">{KRW(product.price)}</div>
-            <AddToCartNormal product={product} selected={selected} />
+            <AddToCartNormal product={product} selectedSize={selectedSize} />
         </div>
     )
 }
 
-export function AddToCart({ product, selected }: { product: ProductProps; selected: string }) {
+export function AddToCart({
+    product,
+    selectedSize,
+}: {
+    product: ProductProps
+    selectedSize: string
+}) {
     return (
         <>
             <div className="hidden md:block">
-                <AddToCartNormal product={product} selected={selected} />
+                <AddToCartNormal product={product} selectedSize={selectedSize} />
             </div>
             <div className="block md:hidden">
-                <AddToCartMobile product={product} selected={selected} />
+                <AddToCartMobile product={product} selectedSize={selectedSize} />
             </div>
+        </>
+    )
+}
+
+export function SizeSelectionBox({ product }: { product: ProductProps }) {
+    const [selectedSize, setSelectedSize] = useState<string>()
+    const selectSize = useCallback((data: string | undefined) => {
+        setSelectedSize((old) => {
+            if (old === data) return undefined
+            return data
+        })
+    }, [])
+    return (
+        <>
+            <SizeBox product={product} selectedSize={selectedSize} setSelectedSize={selectSize} />
+            <AddToCart product={product} selectedSize={selectedSize!} />
         </>
     )
 }

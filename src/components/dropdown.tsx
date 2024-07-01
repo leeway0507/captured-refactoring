@@ -1,6 +1,6 @@
 'use client'
 
-import { Toggle } from './shadcn-ui/toggle'
+import Toggle from './shadcn-ui/toggle'
 
 function DropdownComponent({
     defaultData,
@@ -34,7 +34,7 @@ function DropdownComponent({
             {defaultData.map((v) => (
                 <Toggle
                     key={v}
-                    pressed={selectedData && selectedData.includes(v)}
+                    pressed={selectedData.includes(v)}
                     onClick={() => handleUpdate(v)}
                     className="py-2"
                 >

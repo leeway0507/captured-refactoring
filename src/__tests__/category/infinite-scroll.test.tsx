@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import useIntersectionObserver from '@/hooks/interaction/use-infinite-scroll'
 import { getNextPageNum, updatePageParams } from '@/app/shop/product-list'
 
-jest.mock('../../hooks/interaction/scroll-direction', () => ({
+jest.mock('../../hooks/interaction/use-scroll-direction', () => ({
     __esModule: true,
     default: jest.fn().mockReturnValue('down'),
 }))

@@ -3,8 +3,6 @@ import { fetchProductList } from '@/actions/product'
 import { ProductFilterSearchParamsProps } from '@/types'
 import { Suspense } from 'react'
 import Spinner from '@/components/spinner/spinner'
-import Footer from '../../components/common/footer'
-import Nav from '../../components/common/nav'
 import Filter from './filter'
 
 async function Product({ filterParams }: { filterParams: ProductFilterSearchParamsProps }) {
@@ -16,18 +14,14 @@ async function Product({ filterParams }: { filterParams: ProductFilterSearchPara
 
 async function Page({ searchParams }: { searchParams: ProductFilterSearchParamsProps }) {
     return (
-        <>
-            <Nav />
-            <main className="page-container page-max-frame grow flex flex-col w-full">
-                <Suspense fallback={<Spinner />}>
-                    <Filter />
-                </Suspense>
-                <Suspense fallback={<Spinner />}>
-                    <Product filterParams={searchParams} />
-                </Suspense>
-            </main>
-            <Footer />
-        </>
+        <div className="page-max-frame grow flex flex-col w-full">
+            <Suspense fallback={<Spinner />}>
+                <Filter />
+            </Suspense>
+            <Suspense fallback={<Spinner />}>
+                <Product filterParams={searchParams} />
+            </Suspense>
+        </div>
     )
 }
 

@@ -2,14 +2,15 @@
 
 import { X } from 'lucide-react'
 import { useState } from 'react'
+import { z } from 'zod'
+import { toast } from 'react-toastify'
+
 import { Button } from '@/components/shadcn-ui/button'
 import { FormField } from '@/components/form'
-import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useFormContext, useForm } from 'react-hook-form'
 import { DialogWrapper } from '@/components/dialog'
 import useCountDown from '@/hooks/interaction/use-count-down'
-import { toast } from 'react-toastify'
 import { checkEmailDuplication, verifyEmailCode, sendEmailCode } from '@/actions/auth'
 
 function EmailVerificationDialog({

@@ -25,11 +25,10 @@ async function Page({ params }: { params: ParamsProps }) {
             <Suspense>
                 <JsonLDComponent sku={sku} />
             </Suspense>
-            <div className="page-container page-max-frame">
-                <Suspense fallback={<Spinner />}>
-                    <ProductWrapper sku={sku} />
-                </Suspense>
-            </div>
+
+            <Suspense fallback={<Spinner />}>
+                <ProductWrapper sku={sku} />
+            </Suspense>
         </>
     )
 }

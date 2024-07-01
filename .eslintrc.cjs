@@ -19,4 +19,5 @@ module.exports = {
     "@typescript-eslint/no-use-before-define": ["error"],
   
   },
+  ignorePatterns: ["next.config.mjs"], 
 };

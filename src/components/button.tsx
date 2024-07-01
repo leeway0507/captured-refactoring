@@ -1,3 +1,6 @@
+'use client'
+
+import React, { memo } from 'react'
 import cn from '@/utils/cn'
 import { Button, ButtonProps } from './shadcn-ui/button'
 
@@ -17,7 +20,7 @@ export function CancelButton(button: ButtonProps) {
     )
 }
 
-interface ToggleStatusProps<T> {
+export interface ToggleStatusProps<T> {
     item: T
     status: 'selected' | 'init'
 }
@@ -66,7 +69,7 @@ export function ToggleButton<T extends React.ReactNode>({
             disabled={status === 'disabled'}
             variant={buttonDesign[status] as 'default' | 'outline'}
             onClick={() => setSelected(data)}
-            className='font-normal'
+            className="font-normal"
         >
             <span className="flex gap-1 items-center">
                 {data} {icon}
@@ -74,3 +77,32 @@ export function ToggleButton<T extends React.ReactNode>({
         </Button>
     )
 }
+
+type ToggleButtonTestProps<T> = {
+    data: T
+    isActive: boolean
+    handleFilterClick: (d: T) => void
+    Icon?: React.ReactNode
+}
+
+function ToggleButtonTestInner<T extends React.ReactNode>({
+    data,
+    isActive,
+    handleFilterClick,
+    Icon,
+}: ToggleButtonTestProps<T>) {
+    return (
+        <Button
+            type="button"
+            onClick={() => handleFilterClick(data)}
+            variant={`${isActive ? 'default' : 'outline'}`}
+            className="font-normal"
+        >
+            <span className="flex gap-1 items-center">
+                {data} {Icon}
+            </span>
+        </Button>
+    )
+}
+
+export const ToggleButtonTest = memo(ToggleButtonTestInner) as typeof ToggleButtonTestInner

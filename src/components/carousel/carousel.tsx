@@ -2,7 +2,6 @@
 
 import Image from 'next/image'
 import useEmblaCarousel from 'embla-carousel-react'
-import { EmblaOptionsType } from 'embla-carousel'
 import styles from './styles.module.css'
 
 const handleImageError = (errorNode: React.SyntheticEvent<HTMLImageElement>) => {
@@ -34,7 +33,7 @@ function EmblaCarousel({
     children: React.ReactNode
     type: 'single' | 'multi'
 }) {
-    const options: EmblaOptionsType = { dragFree: true, containScroll: 'trimSnaps' }
+    const options: object = { dragFree: true, containScroll: 'trimSnaps' }
     const [emblaRef] = useEmblaCarousel(options)
 
     const carouselType = {
