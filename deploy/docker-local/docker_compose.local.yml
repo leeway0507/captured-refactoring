@@ -1,0 +1,43 @@
+version: '3.9'
+services:
+    frontend:
+        container_name: frontend
+        build:
+            # context: 경로의 시작 위치 설정 / docker는 context 이전 경로를 접근할 수 없음
+            context: ../../
+            dockerfile: ./deploy/docker/frontend.Dockerfile
+        restart: always
+        ports:
+            - '3000:3000'
+        environment:
+            TZ: 'Asia/Seoul'
+
+    product-server:
+        container_name: product-server
+        restart: always
+        build:
+            # context: product-server 폴더가 captured에 있으므로 context를 해당 폴더 경로로 설정
+            # context를 넓게 잡으면 해당 context에 있는 모든 폴더가 수집되는 오버헤드 발생
+            context: ../../../captured/main/product-server
+            # dockerfile: context 경로 기준으로 dockerfile 위치 지정
+            dockerfile: ./docker/product-server-local.Dockerfile
+        ports:
+            - '8080:8080'
+        environment:
+            TZ: 'Asia/Seoul'
+            ProductionLevel: 'local_test'
+            DB_HOST: host.docker.internal
+
+    auth-server:
+        container_name: auth-server
+        build:
+            # context: auth-server 폴더가 captured에 있으므로 context를 해당 폴더 경로로 설정
+            # context를 넓게 잡으면 해당 context에 있는 모든 폴더가 수집되는 오버헤드 발생
+            context: ../../../captured/main/auth-server
+            # dockerfile: context 경로 기준으로 dockerfile 위치 지정
+            dockerfile: ./docker/auth-server.Dockerfile
+        restart: always
+        environment:
+            TZ: 'Asia/Seoul'
+            ProductionLevel: 'local'
+            DB_HOST: host.docker.internal

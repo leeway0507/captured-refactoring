@@ -1,0 +1,31 @@
+version: '3.9'
+services:
+    frontend:
+        container_name: frontend
+        image: 679oose/frontend:latest
+        restart: always
+        ports:
+            - '80:3000'
+        environment:
+            TZ: 'Asia/Seoul'
+
+    product-server:
+        container_name: product-server
+        image: 679oose/product-server:latest
+        restart: always
+        expose:
+            - '8000'
+        environment:
+            TZ: 'Asia/Seoul'
+            ProductionLevel: 'production'
+
+    auth-server:
+        container_name: auth-server
+        platform: linux/amd64
+        image: 679oose/auth-server:latest
+        restart: always
+        ports:
+            - '8080'
+        environment:
+            TZ: 'Asia/Seoul'
+            ProductionLevel: 'production'
