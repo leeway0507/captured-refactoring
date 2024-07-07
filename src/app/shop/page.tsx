@@ -14,8 +14,8 @@ async function Product({ filterParams }: { filterParams: ProductFilterSearchPara
 
 async function Page({ searchParams }: { searchParams: ProductFilterSearchParamsProps }) {
     return (
-        <div className="page-max-frame grow flex flex-col w-full">
-            <Suspense fallback={<Spinner />}>
+        <div className="mx-auto page-max-frame grow flex flex-col w-full">
+            <Suspense>
                 <Filter />
             </Suspense>
             <Suspense fallback={<Spinner />}>

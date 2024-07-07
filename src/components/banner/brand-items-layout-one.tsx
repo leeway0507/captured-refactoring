@@ -15,10 +15,10 @@ export default async function BrandItemsLayOut({
 
     const data = await fetchProductList(filter).then((res) => res.data)
     const container =
-        'mx-auto w-full layout-max-frame flex flex-col gap-2 md:grid md:auto-cols-auto md:grid-flow-col md:px-4 px-1'
+        'mx-auto w-full layout-max-frame flex flex-col gap-2 md:grid md:auto-cols-auto md:grid-flow-col md:px-4 px-1 '
 
     const productCardBox =
-        'grid grid-cols-2 xl:grid-cols-3 xl:px-2 gap-1 place-content-between h-full'
+        'grid grid-cols-2 xl:grid-cols-3 xl:px-2 gap-2 place-content-between space-y-4'
     return (
         <Container className={`${container}`}>
             <section className="w-full max-w-[400px] md:max-w-[600px] 2xl:max-w-[650px]">

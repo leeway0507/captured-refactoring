@@ -34,7 +34,7 @@ export function ResponsiveBanner({
     alt,
     className,
     imgClassName,
-    aspect = 'aspect-[1/1.2]',
+    aspect,
 }: {
     src: string
     alt: string
@@ -42,7 +42,7 @@ export function ResponsiveBanner({
     imgClassName?: string
     aspect?: string
 }) {
-    const defaultOptions = 'relative w-full mx-auto vignette rounded '
+    const defaultOptions = 'relative w-full mx-auto vignette rounded bg-orange-200'
 
     return (
         <div className={cn(defaultOptions, className, aspect)}>
@@ -113,10 +113,7 @@ export function ResponsiveCardTitle({
     aspect?: string
 }) {
     return (
-        <Link
-            href={`${href}`}
-            className="relative hover:opacity-95 w-full h-full max-h-[400px] md:max-h-full overflow-hidden"
-        >
+        <Link href={`${href}`} className="relative hover:opacity-95">
             <CardTitleOverlay name={name} />
             <ResponsiveBanner src={src} alt={name} className={`${aspect}`} />
         </Link>

@@ -7,21 +7,21 @@ const streams = [
     { stream: process.stdout },
     {
         stream: pino.destination({
-            dest: 'src/log/app.log',
+            dest: process.env.LOG_DIR,
             append: 'stack',
         }),
     },
 ]
 
+const transport =
+    process.env.NODE_ENV === 'development'
+        ? { target: 'pino-pretty', options: { colorize: true } }
+        : undefined
+
 const logger: Logger = pino(
     {
         timestamp: pino.stdTimeFunctions.isoTime,
-        transport: {
-            target: 'pino-pretty',
-            options: {
-                colorize: true,
-            },
-        },
+        transport,
         level: process.env.PINO_LOG_LEVEL || 'info',
         redact: [],
     },

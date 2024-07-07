@@ -124,7 +124,7 @@ export default function SearchInputMain() {
 
     const onKeyDownHandler = (event: { key: string }) => {
         if (event.key === 'Enter' && inputValue) {
-            router.push(`/search?keyword=${inputValue}`, { scroll: false })
+            router.push(`/shop/search?keyword=${inputValue}`, { scroll: false })
         }
     }
 

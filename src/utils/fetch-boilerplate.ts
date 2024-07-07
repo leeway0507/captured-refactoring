@@ -16,17 +16,17 @@ const ACCEPT_CODE = [200, 201, 202, 303, 307]
 export const handleFetchError = async <T>(
     fetchFn: () => Promise<{ status: number; data: T }>,
     errorCase?: ErrorCaseProps, // Assuming you want to pass status and data to errorCase
-    userAcceptCode?: Array<number>,
+    customAcceptCode?: Array<number>,
 ): Promise<T> => {
     try {
         const resp = await fetchFn()
-        const acceptCode = new Set([...ACCEPT_CODE, ...(userAcceptCode || [])])
+        const acceptCode = new Set([...ACCEPT_CODE, ...(customAcceptCode || [])])
         if (acceptCode.has(resp.status)) return resp.data
         throw new CustomError('', resp.status, resp.data)
     } catch (error) {
         const err = error as CustomError
         const message = { ...ERROR_CASE, ...errorCase }[err.status] || JSON.stringify(err.data)
-        logError(`message : ${message} \n function : ${fetchFn.toString()} `)
+        logError(`message : ${message} \n fetchFn : ${fetchFn.toString()} `)
 
         err.message = message
         throw err

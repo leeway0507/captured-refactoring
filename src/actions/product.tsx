@@ -32,12 +32,12 @@ export const fetchProductList = async (
     return handleFetchError(fetchFn)
 }
 
-export const fetchSearchList = async (keyword: string): Promise<ProductProps[]> => {
+export const fetchSearchList = async (keyword: string): Promise<{ data: ProductProps[] }> => {
     const fetchFn = async () => {
         const res = await fetch(
             `${process.env.PRODUCT_API_URL}/api/product/search?keyword=${keyword}`,
         )
-        return { status: res.status, data: (await res.json()) as ProductProps[] }
+        return { status: res.status, data: (await res.json()) as { data: ProductProps[] } }
     }
     return handleFetchError(fetchFn)
 }
