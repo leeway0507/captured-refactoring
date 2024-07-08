@@ -1,12 +1,9 @@
 'use server'
 
-import { fetchWithAuth, handleFetchError } from '@/utils/fetch-boilerplate'
-import {
-    OrderHistoryProps,
-    OrderItemProps,
-    ProductCartProps,
-    CheckCartItemResultProps,
-} from '@/types'
+import { fetchWithAuth } from '@/utils/custom-fetch'
+
+import { handleFetchError } from '@/utils/error/handle-fetch-error'
+import { OrderHistoryProps, OrderItemProps, CheckCartItemResultProps } from '@/types'
 
 export const getOrderHistory = async (accessToken: string) => {
     const url = `${process.env.AUTH_API_URL}/api/order/get-order-history`
@@ -22,10 +19,10 @@ export const getOrderItem = async (orderId: string, accessToken: string) => {
     return handleFetchError(fetchFn, errorCase)
 }
 
-export const checkCartItems = async (cartItems: ProductCartProps[]) => {
+export const checkCartItems = async (cartItems: { sku: number; size: string }[]) => {
     const data = {
-        form: cartItems.map((v) => `${v.product.sku}-${v.product.size}`),
-        sku: cartItems.map((v) => v.product.sku),
+        form: cartItems.map((v) => `${v.sku}-${v.size}`),
+        sku: cartItems.map((v) => v.sku),
     }
 
     const fetchFn = async () => {

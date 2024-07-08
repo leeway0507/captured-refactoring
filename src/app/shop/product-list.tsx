@@ -39,7 +39,7 @@ export function NoData() {
 }
 
 export function ProductCardGrid({ children }: { children: React.ReactNode }) {
-    const productGrid = 'grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3'
+    const productGrid = 'grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-3 gap-y-24'
     return <div className={`${productGrid}`}>{children}</div>
 }
 

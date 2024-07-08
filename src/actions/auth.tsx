@@ -1,12 +1,13 @@
 'use server'
 
-import { fetchWithAuth, handleFetchError } from '@/utils/fetch-boilerplate'
-
-import { AddressFormProps, Step2State, RegisterFormProps } from '@/types'
-import { signIn, signOut } from '@/auth'
-import { AuthError } from 'next-auth'
-import { logError } from '@/utils/log-error'
 import { redirect } from 'next/navigation'
+import { AuthError } from 'next-auth'
+
+import { signIn, signOut } from '@/auth'
+import { logError } from '@/utils/error/log-error'
+import { fetchWithAuth } from '@/utils/custom-fetch'
+import { handleFetchError } from '@/utils/error/handle-fetch-error'
+import { AddressFormProps, Step2State, RegisterFormProps } from '@/types'
 
 export const signInAction = async (data: {
     email: string

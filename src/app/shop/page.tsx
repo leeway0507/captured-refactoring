@@ -3,10 +3,11 @@ import { fetchProductList } from '@/actions/product'
 import { ProductFilterSearchParamsProps } from '@/types'
 import { Suspense } from 'react'
 import Spinner from '@/components/spinner/spinner'
+import CatchError from '@/utils/error/handle-fetch-error'
 import Filter from './filter'
 
 async function Product({ filterParams }: { filterParams: ProductFilterSearchParamsProps }) {
-    const res = await fetchProductList(filterParams)
+    const res = await fetchProductList(filterParams).then(CatchError)
     const ProductList = dynamic(() => import('./product-list'), { ssr: false })
     const { page, ...pageParamsWithoutPage } = filterParams
     return <ProductList searchKey={pageParamsWithoutPage} productResponse={res} />

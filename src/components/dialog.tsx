@@ -96,7 +96,7 @@ function AlertComponent({
         handleDialogClose()
     }
     return (
-        <div className="gap-6 flex justify-start flex-col my-2 mx-4 max-w-[350px]">
+        <div className="gap-6 flex justify-start flex-col my-2 mx-4 max-w-[350px] text-base">
             <div>{message}</div>
             <div className="flex justify-end items-center">
                 <ConfirmButton onClick={handleCancel}>확인</ConfirmButton>

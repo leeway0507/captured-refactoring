@@ -1,10 +1,11 @@
 import { fetchSearchList } from '@/actions/product'
 import { Suspense } from 'react'
 import Spinner from '@/components/spinner/spinner'
+import CatchError from '@/utils/error/handle-fetch-error'
 import SearchList, { NoSearchData } from './search'
 
 async function Search({ searchParams }: { searchParams: { keyword: string } }) {
-    const { data } = await fetchSearchList(searchParams.keyword)
+    const { data } = await fetchSearchList(searchParams.keyword).then(CatchError)
     return data.length > 0 ? <SearchList data={data} /> : <NoSearchData />
 }
 

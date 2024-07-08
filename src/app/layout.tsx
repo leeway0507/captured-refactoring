@@ -1,9 +1,15 @@
 import './globals.css'
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { IBM_Plex_Sans_KR } from 'next/font/google'
 import { ToastContainer, Slide } from 'react-toastify'
 import Script from 'next/script'
 import GoogleAnalytics from '@/utils/google-analytics-4'
+
+export const viewport: Viewport = {
+    maximumScale: 1,
+    initialScale: 1,
+    width: 'device-width',
+}
 
 const monda = IBM_Plex_Sans_KR({
     weight: ['100', '200', '300', '400', '500', '600', '700'],
@@ -32,7 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
-            <body className={`${monda.className} relative text-sm text-black/90`}>
+            <body className={`${monda.className} relative text-sm 2xl:text-base text-black/90`}>
                 {children}
                 <ToastContainer
                     position="top-right"

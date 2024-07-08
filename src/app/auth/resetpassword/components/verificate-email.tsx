@@ -10,6 +10,7 @@ import { UserNameField, EmailField } from '@/components/form'
 import { ConfirmButton } from '@/components/button'
 import { getTokenByEmailAndName } from '@/actions/auth'
 import { ResetDataProps } from '@/types'
+import CatchError from '@/utils/error/handle-fetch-error'
 
 export default function VerificateEmail({
     setResetData,
@@ -37,9 +38,9 @@ export default function VerificateEmail({
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
         await getTokenByEmailAndName(data.email, data.username)
+            .then((r) => CatchError(r, 'clientSideErrorPopUp'))
             .then((r) => setResetData({ accessToken: r.token, email: form.getValues().email }))
             .then(() => toast('인증에 성공했습니다.'))
-            .catch((r) => toast.error(r.message))
     }
 
     return (

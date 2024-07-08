@@ -1,4 +1,5 @@
 import { fetchProductList } from '@/actions/product'
+import CatchError from '@/utils/error/handle-fetch-error'
 import { ProductCardCarousel, Container, ResponsiveCardTitle } from './_component'
 
 export default async function BrandItemsLayOutTop({ brandName }: { brandName: string }) {
@@ -7,7 +8,7 @@ export default async function BrandItemsLayOutTop({ brandName }: { brandName: st
         brand: brandName,
     }
 
-    const productResponse = await fetchProductList(filter)
+    const productResponse = await fetchProductList(filter).then(CatchError)
 
     const container = 'layout-max-frame flex flex-col w-full  bg-gray-50 py-4 mx-auto space-y-4'
     return (

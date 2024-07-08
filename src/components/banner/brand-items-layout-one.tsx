@@ -1,4 +1,5 @@
 import { fetchProductList } from '@/actions/product'
+import CatchError from '@/utils/error/handle-fetch-error'
 import { ProductCardArr, Container, FixedCardTitle } from './_component'
 
 export default async function BrandItemsLayOut({
@@ -13,7 +14,9 @@ export default async function BrandItemsLayOut({
         brand: brandName,
     }
 
-    const data = await fetchProductList(filter).then((res) => res.data)
+    const data = await fetchProductList(filter)
+        .then(CatchError)
+        .then((res) => res.data)
     const container =
         'mx-auto w-full layout-max-frame flex flex-col gap-2 md:grid md:auto-cols-auto md:grid-flow-col md:px-4 px-1 '
 

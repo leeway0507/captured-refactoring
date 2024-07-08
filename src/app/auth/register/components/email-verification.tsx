@@ -3,7 +3,6 @@
 import { X } from 'lucide-react'
 import { useState } from 'react'
 import { z } from 'zod'
-import { toast } from 'react-toastify'
 
 import { Button } from '@/components/shadcn-ui/button'
 import { FormField } from '@/components/form'
@@ -12,6 +11,7 @@ import { useFormContext, useForm } from 'react-hook-form'
 import { DialogWrapper } from '@/components/dialog'
 import useCountDown from '@/hooks/interaction/use-count-down'
 import { checkEmailDuplication, verifyEmailCode, sendEmailCode } from '@/actions/auth'
+import CatchError from '@/utils/error/handle-fetch-error'
 
 function EmailVerificationDialog({
     email,
@@ -26,7 +26,7 @@ function EmailVerificationDialog({
     const { defaultTimeFormat, seconds } = useCountDown(resetCount)
 
     const resendEmail = async () => {
-        await sendEmailCode(email)
+        await sendEmailCode(email).then((r) => CatchError(r, 'clientSideErrorPopUp'))
         setResetCount((old) => !old)
     }
 
@@ -41,12 +41,12 @@ function EmailVerificationDialog({
 
     const onSubmit = async (data: z.infer<typeof FormSchema>) => {
         verifyEmailCode(email, data.code)
+            .then((r) => CatchError(r, 'clientSideErrorPopUp'))
             .then(() => alert('인증을 완료했습니다.'))
             .then(() => {
                 handleModalClose()
                 setIsverfied(true)
             })
-            .catch((r) => toast.error(r.message))
     }
 
     return (
@@ -100,10 +100,10 @@ export default function EmailVerificationButton({
 
     const checkEmail = async () =>
         checkEmailDuplication(email)
+            .then((r) => CatchError(r, 'clientSideErrorPopUp'))
             .then(async () => sendEmailCode(email))
             .then(() => alert('입력하신 메일주소로 인증코드를 발급했습니다.'))
             .then(() => setIsOpen(true))
-            .catch((r) => toast.error(r.message))
 
     return (
         <>

@@ -1,15 +1,16 @@
 import { auth } from '@/auth'
 import { getAddressAll } from '@/actions/address'
 import Link from 'next/link'
+import CatchError from '@/utils/error/handle-fetch-error'
 import { AddressForm } from './address-form'
 
-export async function UpdateAddressButton({ addressId }: { addressId: string }) {
+export function UpdateAddressButton({ addressId }: { addressId: string }) {
     return <Link href={`?updateAddress=${addressId}`}>수정</Link>
 }
 
 export async function UpdateAddressForm({ addressId }: { addressId: string | 'new' }) {
     const session = await auth()
-    const addresses = await getAddressAll(session?.user.accessToken!)
+    const addresses = await getAddressAll(session?.user.accessToken!).then(CatchError)
 
     const defaultValue = addressId === 'new' ? {} : addresses.find((a) => a.addressId === addressId)
 

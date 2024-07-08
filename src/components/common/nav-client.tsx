@@ -162,7 +162,7 @@ function Icons({ userName }: { userName?: string | undefined }) {
 export function NavBottom({ session }: { session: Session | null }) {
     const elementHideRef = useElementHide(20, 40)
     const baseContainer =
-        'grid grid-cols-5 text-center w-full bg-white px-16 max-w-[1440px] overflow-hidden mx-auto pt-4'
+        'grid grid-cols-5 text-center w-full bg-white px-16 max-w-[1280px] overflow-hidden mx-auto pt-4'
     const animation = 'duration-300 ease-in-out opacity-100 transform translate-y-0 relative'
     return (
         <div ref={elementHideRef} className={cn(baseContainer, animation)}>

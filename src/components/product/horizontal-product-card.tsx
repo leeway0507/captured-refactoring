@@ -1,6 +1,5 @@
-'use client'
-
 import { KRW } from '@/utils/currency'
+import Link from 'next/link'
 import { ProductImage } from './product-card'
 
 interface ProductHorizontalCardProps {
@@ -37,11 +36,12 @@ export function ProductHorizontalCard(props: ProductHorizontalCardProps) {
     const { sku, ...rest } = props
     return (
         <div className="flex gap-4">
-            <ProductImage
-                sku={sku.toString()}
-                imgName="main"
-                className="max-w-[100px] md:max-w-[125px] lg:max-w-[150px]"
-            />
+            <Link
+                href={`/product/${sku}`}
+                className="w-full max-w-[100px] md:max-w-[125px] lg:max-w-[150px]"
+            >
+                <ProductImage sku={sku.toString()} imgName="main" />
+            </Link>
             <OrderProductDescription {...rest} />
         </div>
     )

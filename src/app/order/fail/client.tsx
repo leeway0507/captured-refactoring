@@ -10,7 +10,7 @@ export interface PaymentFailProps {
 
 function Fail({ paymentFail }: { paymentFail: PaymentFailProps }) {
     useEffect(() => {
-        alert(paymentFail.message)
+        alert(paymentFail.message || '잘못된 접근입니다.')
         redirect('/cart')
     }, [])
     return null

@@ -1,6 +1,7 @@
 'use server'
 
-import { handleFetchError, fetchWithAuth } from '@/utils/fetch-boilerplate'
+import { handleFetchError } from '@/utils/error/handle-fetch-error'
+import { fetchWithAuth } from '@/utils/custom-fetch'
 import { OrderHistoryRequestProps, ProductCartProps } from '@/types'
 
 const transformToOrderRows = (items: ProductCartProps[], orderId: string) =>

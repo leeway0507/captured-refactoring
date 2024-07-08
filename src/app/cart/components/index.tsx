@@ -142,7 +142,19 @@ function CartProductBox() {
 
 function OrderButton({ cartData }: { cartData: ProductCartProps[] }) {
     const handleClick = () =>
-        setCartItemsToCookies(window.btoa(encodeURIComponent(JSON.stringify(cartData))))
+        setCartItemsToCookies(
+            window.btoa(
+                encodeURIComponent(
+                    JSON.stringify(
+                        cartData.map((d) => ({
+                            sku: d.product.sku,
+                            size: d.size,
+                            quantity: d.quantity,
+                        })),
+                    ),
+                ),
+            ),
+        )
     return (
         <div className="w-full flex gap-4 justify-evenly">
             <ConfirmButton className="w-full" onClick={handleClick}>
@@ -151,6 +163,7 @@ function OrderButton({ cartData }: { cartData: ProductCartProps[] }) {
         </div>
     )
 }
+
 function InfoBox() {
     const { cartData } = useCartContext()
 

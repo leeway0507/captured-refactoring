@@ -1,5 +1,6 @@
 import { ProductProps } from '@/types'
 import { fetchProduct } from '@/actions/product'
+import CatchError from '@/utils/error/handle-fetch-error'
 
 const generateTitle = (product: ProductProps) =>
     `${product.korBrand} ${product.korProductName} | ${product.productId}`
@@ -21,7 +22,7 @@ export async function productMetaData(product: ProductProps) {
 }
 
 export async function JsonLDComponent({ sku }: { sku: string }) {
-    const product = await fetchProduct(sku)
+    const product = await fetchProduct(sku).then(CatchError)
     const name = generateTitle(product)
     const description = generateDescription(product)
     const image = `${process.env.NEXT_PUBLIC_MOBILE_IMAGE_URL}/product/${product.sku}/main.webp`

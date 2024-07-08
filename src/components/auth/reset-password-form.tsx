@@ -11,6 +11,7 @@ import { PasswordConfirmField, PasswordField } from '@/components/form'
 import { ConfirmButton } from '@/components/button'
 import { fetchResetPassword } from '@/actions/auth'
 import { ResetDataProps } from '@/types'
+import CatchError from '@/utils/error/handle-fetch-error'
 
 export default function ResetPasswordForm({
     resetData,
@@ -55,9 +56,9 @@ export default function ResetPasswordForm({
     const router = useRouter()
     async function onSubmit(data: z.infer<typeof FormSchema>) {
         await fetchResetPassword(resetData.accessToken, data.password)
+            .then((r) => CatchError(r, 'clientSideErrorPopUp'))
             .then(() => toast('비밀번호를 변경했습니다.'))
             .then(() => router.push(redirectTo))
-            .catch((r) => toast(r.message))
     }
 
     return (

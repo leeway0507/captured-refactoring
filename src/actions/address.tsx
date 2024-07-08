@@ -1,6 +1,8 @@
 'use server'
 
-import { fetchWithAuth, handleFetchError } from '@/utils/fetch-boilerplate'
+import { fetchWithAuth } from '@/utils/custom-fetch'
+
+import { handleFetchError } from '@/utils/error/handle-fetch-error'
 import { AddressFormProps, AddressProps } from '@/types'
 
 import { auth } from '@/auth'

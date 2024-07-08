@@ -19,6 +19,7 @@ import { getAddressById } from '@/actions/address'
 import { getOrderItem } from '@/actions/order'
 import { PriceBox } from '@/components/order/price-box'
 import { AddressCard } from '@/components/address'
+import CatchError from '@/utils/error/handle-fetch-error'
 
 interface ProductHorizontalCardProps {
     sku: number
@@ -112,10 +113,14 @@ export default function OrderDetail({
 
     useEffect(() => {
         const getProducts = async () =>
-            getOrderItem(order.orderId, accessToken).then((r) => setOrderProducts(r))
+            getOrderItem(order.orderId, accessToken)
+                .then(CatchError)
+                .then((r) => setOrderProducts(r))
 
         const getaddressInfo = async () =>
-            getAddressById(order.addressId, accessToken).then((r) => setAddress(r))
+            getAddressById(order.addressId, accessToken)
+                .then(CatchError)
+                .then((r) => setAddress(r))
 
         getaddressInfo()
         getProducts()

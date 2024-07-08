@@ -8,6 +8,8 @@ import { InputWithLabel } from '@/components/input'
 import { UpdateAddressForm } from '@/components/address'
 import ResetPasswordForm from '@/components/auth/reset-password-form'
 
+import CatchError from '@/utils/error/handle-fetch-error'
+import { redirect } from 'next/navigation'
 import OrderDetail from './order-detail'
 import OrderHistoryTable from './order-table'
 import { AddressList } from './address'
@@ -40,6 +42,8 @@ export async function OrderTab({ orderId }: { orderId: string | undefined }) {
     } = (await auth()) as Session
 
     const orderHistory = await getOrderHistory(accessToken)
+        .then(CatchError)
+        .catch((r) => redirect(`/redirection?message=${r}&to=/&signOut=true`))
 
     const order = orderId && orderHistory.find((p) => p.orderId === orderId)
     return order ? (

@@ -1,8 +1,9 @@
 import { fetchProductList } from '@/actions/product'
+import CatchError from '@/utils/error/handle-fetch-error'
 import { ProductCardCarousel, Container, MoreButton } from './_component'
 
 async function NewestItem() {
-    const productResponse = await fetchProductList({})
+    const productResponse = await fetchProductList({}).then(CatchError)
     const container = 'w-full bg-gray-100 py-4'
     return (
         <Container className={`${container}`}>
