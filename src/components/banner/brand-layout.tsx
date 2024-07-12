@@ -19,7 +19,7 @@ function BrandCard({ brandName }: { brandName: string }) {
     )
 }
 
-const logoArr = [
+const LOGOS = [
     'acne studios',
     "arc'teryx",
     'adidas originals',
@@ -29,7 +29,7 @@ const logoArr = [
     'the north face',
 ]
 const BrandBox = () =>
-    logoArr.map((brandName: string) => <BrandCard key={brandName} brandName={brandName} />)
+    LOGOS.map((brandName: string) => <BrandCard key={brandName} brandName={brandName} />)
 
 export default async function BrandList() {
     return (

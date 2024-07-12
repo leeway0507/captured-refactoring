@@ -52,7 +52,7 @@ function SubTitle({ children }: { children: React.ReactNode }) {
 }
 
 const boxClass = 'bg-light-gray opacity-80 rounded-md border border-gray-200 px-3 py-6'
-function Conent({ children }: { children: React.ReactNode }) {
+function Contents({ children }: { children: React.ReactNode }) {
     return <div className={`${boxClass}`}>{children}</div>
 }
 
@@ -72,13 +72,13 @@ export function ProductShipmentInfoModal({ closeModal }: { closeModal: () => voi
         <div className="max-w-xl w-full h-full py-8 px-4 ">
             <Title closeModal={closeModal}>배송 및 반품 안내사항</Title>
             <SubTitle>배송절차</SubTitle>
-            <Conent>{Process}</Conent>
+            <Contents>{Process}</Contents>
             <SubTitle>배송비</SubTitle>
-            <Conent>{ShippingFee}</Conent>
+            <Contents>{ShippingFee}</Contents>
             <SubTitle>관부가세</SubTitle>
-            <Conent>{CustomFee}</Conent>
+            <Contents>{CustomFee}</Contents>
             <SubTitle>기타</SubTitle>
-            <Conent>{RefundAndExchange}</Conent>
+            <Contents>{RefundAndExchange}</Contents>
         </div>
     )
 }

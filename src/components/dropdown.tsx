@@ -34,7 +34,7 @@ function DropdownComponent({
             {defaultData.map((v) => (
                 <Toggle
                     key={v}
-                    pressed={selectedData.includes(v)}
+                    pressed={selectedData && selectedData.includes(v)}
                     onClick={() => handleUpdate(v)}
                     className="py-2"
                 >

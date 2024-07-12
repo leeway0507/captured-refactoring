@@ -12,10 +12,10 @@ function Product({ product }: { product: ProductProps }) {
             <Prod.Container>
                 <Prod.ImageLayer product={product} />
                 <Prod.InfoLayout>
-                    <Prod.ProductInfo product={product} />
+                    <Prod.SpecBox product={product} />
                     <Prod.SizeSelectionBox product={product} />
-                    <Prod.Shipment product={product} />
-                    <Prod.Info />
+                    <Prod.ShipmentInfo product={product} />
+                    <Prod.PolicyInfo />
                 </Prod.InfoLayout>
             </Prod.Container>
             <RecentView product={product} />

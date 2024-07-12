@@ -9,7 +9,7 @@ import useCart from '@/hooks/data/use-cart'
 import SideModal from '@/components/side-modal'
 import { ProductImage } from '@/components/product/product-card'
 import EmblaCarousel, { CarouselImage } from '@/components/carousel/carousel'
-import { ToggleButtonTest, ButtonBox, ConfirmButton } from '@/components/button'
+import { ToggleButton, ButtonBox, ConfirmButton } from '@/components/button'
 
 import { ProductShipmentInfo, ProductShipmentInfoModal } from './shipment-info'
 
@@ -17,7 +17,7 @@ export function Container({ children }: { children: React.ReactNode }) {
     return <div className="flex gap-8 justify-between flex-col lg:flex-row ">{children}</div>
 }
 
-export function ImageNormal({ product }: { product: ProductProps }) {
+export function ImagePC({ product }: { product: ProductProps }) {
     const imageNameArray = ['main', 'sub-1', 'sub-2', 'sub-3']
     const ImageGrid = 'hidden lg:grid lg:grid-cols-2 overflow-auto w-full max-w-3xl gap-1 pt-6'
     const sku = product.sku.toString()
@@ -50,7 +50,7 @@ export function ImageMobile({ product }: { product: ProductProps }) {
 export function ImageLayer({ product }: { product: ProductProps }) {
     return (
         <>
-            <ImageNormal product={product} />
+            <ImagePC product={product} />
             <div className="block lg:hidden">
                 <ImageMobile product={product} />
             </div>
@@ -65,7 +65,7 @@ export function InfoLayout({ children }: { children: React.ReactNode }) {
     return <aside className={`${InfoClass}`}>{children}</aside>
 }
 
-export function ProductInfo({ product }: { product: ProductProps }) {
+export function SpecBox({ product }: { product: ProductProps }) {
     const { brand, productName, price, intl, productId } = product
 
     return (
@@ -105,7 +105,7 @@ export function SizeBox({
     return (
         <ButtonBox>
             {product.size.map((d) => (
-                <ToggleButtonTest
+                <ToggleButton
                     key={d}
                     data={d}
                     isActive={d === selectedSize}
@@ -196,12 +196,12 @@ export function SizeSelectionBox({ product }: { product: ProductProps }) {
     )
 }
 
-export function Shipment({ product }: { product: ProductProps }) {
+export function ShipmentInfo({ product }: { product: ProductProps }) {
     const { intl } = product
     return <ProductShipmentInfo type={intl ? 'intl' : 'dome'} />
 }
 
-export function Info() {
+export function PolicyInfo() {
     const [isDeliveryOpen, setIsDeliveryOpen] = useState(false)
     const closeDeliveryModal = () => setIsDeliveryOpen(false)
 

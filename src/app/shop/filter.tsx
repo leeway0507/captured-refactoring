@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useState, useRef, useCallback, useMemo } from 'react'
 import { ChevronDown } from 'lucide-react'
-import { ButtonBox, ToggleButtonTest, ConfirmButton, CancelButton } from '@/components/button'
+import { ButtonBox, ToggleButton, ConfirmButton, CancelButton } from '@/components/button'
 import DropdownComponent from '@/components/dropdown'
 import SlideComponent from '@/components/slider/slider'
 import { useFilterParams, useCategoryType } from '@/hooks/data/use-filter'
@@ -161,7 +161,7 @@ function FilterButtonBox({
     return (
         <ButtonBox>
             {VALID_FILTER_TYPES.map((data) => (
-                <ToggleButtonTest<FilterType>
+                <ToggleButton<FilterType>
                     key={data}
                     data={data}
                     isActive={selectedFilterType === data}
@@ -184,6 +184,7 @@ export default function Filter() {
             return data
         })
     }, [])
+
     return (
         <>
             <MobileCategoryNav />

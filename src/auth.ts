@@ -18,7 +18,7 @@ declare module 'next-auth' {
     }
 }
 
-const transform = (res: {
+const transformStyle = (res: {
     user_id: string
     email: string
     kr_name: string
@@ -67,7 +67,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     credentials.password as string,
                 )
 
-                if (status === 200) return transform(data)
+                if (status === 200) return transformStyle(data)
 
                 throw new CredentialsSignin(data.detail)
             },
