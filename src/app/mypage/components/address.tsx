@@ -1,14 +1,13 @@
 import Link from 'next/link'
 
-import { getAddressAll, deleteAddressAction } from '@/actions/address'
+import { deleteAddress, getAddressAll } from '@/actions/address'
 import { AddressProps } from '@/types'
-import { auth } from '@/auth'
 import { UpdateAddressButton, AddressCard } from '@/components/address'
 import CatchError from '@/utils/error/handle-fetch-error'
 
 function DeleteAddressButton({ addressId }: { addressId: string }) {
     return (
-        <form action={deleteAddressAction}>
+        <form action={deleteAddress}>
             <input name="addressId" type="hidden" value={addressId} />
             <button type="submit" className="underline">
                 삭제
@@ -46,8 +45,7 @@ function NoAddress() {
 }
 
 export async function AddressList() {
-    const session = await auth()
-    const addresses = await getAddressAll(session?.user.accessToken!).then(CatchError)
+    const addresses = await getAddressAll().then(CatchError)
     if (addresses.length === 0) return <NoAddress />
     return (
         <div className="max-w-lg mx-auto">

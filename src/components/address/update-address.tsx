@@ -1,4 +1,3 @@
-import { auth } from '@/auth'
 import { getAddressAll } from '@/actions/address'
 import Link from 'next/link'
 import CatchError from '@/utils/error/handle-fetch-error'
@@ -9,8 +8,7 @@ export function UpdateAddressButton({ addressId }: { addressId: string }) {
 }
 
 export async function UpdateAddressForm({ addressId }: { addressId: string | 'new' }) {
-    const session = await auth()
-    const addresses = await getAddressAll(session?.user.accessToken!).then(CatchError)
+    const addresses = await getAddressAll().then(CatchError)
 
     const defaultValue = addressId === 'new' ? {} : addresses.find((a) => a.addressId === addressId)
 

@@ -62,7 +62,7 @@ function useTossPayments(props: TossPaymentsProps) {
         const paymentWidget = widgetRef.current
 
         // toss payments 결제 정보 비교 위해 서버에 관련 정보 저장
-        await savePaymentInfo(orderId, addressId, totalPrice, orderItems, session.accessToken)
+        await savePaymentInfo(orderId, addressId, totalPrice, orderItems)
 
         // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
         // https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보

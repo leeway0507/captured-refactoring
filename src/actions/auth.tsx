@@ -49,7 +49,7 @@ export const getTokenByEmailAndName = async (email: string, username: string) =>
 }
 export const fetchResetPassword = async (accessToken: string, password: string) => {
     const url = `${process.env.AUTH_API_URL}/api/mypage/resset-password`
-    const fetchFn = () => fetchWithAuth(url, 'POST', accessToken, { password })
+    const fetchFn = () => fetchWithAuth(url, 'POST', { password })
     return handleFetchError(fetchFn)
 }
 

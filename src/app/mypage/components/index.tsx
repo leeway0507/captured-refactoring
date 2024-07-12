@@ -37,20 +37,12 @@ export function AddressTab({ addressId }: { addressId: string | undefined }) {
 }
 
 export async function OrderTab({ orderId }: { orderId: string | undefined }) {
-    const {
-        user: { accessToken },
-    } = (await auth()) as Session
-
-    const orderHistory = await getOrderHistory(accessToken)
+    const orderHistory = await getOrderHistory()
         .then(CatchError)
         .catch((r) => redirect(`/redirection?message=${r}&to=/&signOut=true`))
 
     const order = orderId && orderHistory.find((p) => p.orderId === orderId)
-    return order ? (
-        <OrderDetail order={order} accessToken={accessToken} />
-    ) : (
-        <OrderHistoryTable orderHistory={orderHistory} />
-    )
+    return order ? <OrderDetail order={order} /> : <OrderHistoryTable orderHistory={orderHistory} />
 }
 
 function TriggerGroup() {

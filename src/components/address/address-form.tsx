@@ -2,12 +2,12 @@
 
 import { z } from 'zod'
 import { AddressFormProps } from '@/types'
-import { updateAddressAction, createAddressAction } from '@/actions/address'
+import { updateAddress, createAddress } from '@/actions/address'
 import { AddressFormCasting } from './address-form-casting'
 
 const FORM_TYPES = {
-    update: { buttonText: '변경하기', submitFn: updateAddressAction },
-    new: { buttonText: '등록하기', submitFn: createAddressAction },
+    update: { buttonText: '변경하기', submitFn: updateAddress },
+    new: { buttonText: '등록하기', submitFn: createAddress },
 }
 
 const createAddressFormSchema = () =>

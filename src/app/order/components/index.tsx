@@ -39,7 +39,7 @@ function OrderDetails({ data }: { data: ProductCartProps[] }) {
 
 async function OrderOptions({ data }: { data: ProductCartProps[] }) {
     const session = (await auth()) as Session
-    const addressArr = await getAddressAll(session.user.accessToken).then(CatchError)
+    const addressArr = await getAddressAll().then(CatchError)
 
     return (
         <section className="basis-2/5 lg:mx-4">

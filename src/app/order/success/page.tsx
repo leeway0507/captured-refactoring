@@ -1,5 +1,3 @@
-import { auth } from '@/auth'
-import { Session } from 'next-auth'
 import { redirect } from 'next/navigation'
 import { OrderHistoryRequestProps } from '@/types'
 import {
@@ -18,14 +16,11 @@ interface PaymentSuccessParams {
 }
 
 export default async function Page({ searchParams }: { searchParams: PaymentSuccessParams }) {
-    const {
-        user: { accessToken },
-    } = (await auth()) as Session
     const { orderId, paymentKey, amount } = searchParams
 
     // 1. 결제정보를 서버에서 불러온다.
     // const { orderTotalPrice } = await getPaymentVerification(orderId, accessToken)
-    const { orderTotalPrice } = await getPaymentVerification(orderId, 'error')
+    const { orderTotalPrice } = await getPaymentVerification(orderId)
         .then((r) => CatchError(r))
         .catch(() =>
             redirect(
@@ -62,7 +57,7 @@ export default async function Page({ searchParams }: { searchParams: PaymentSucc
     }
 
     // 4. 결제정보를 서버에 저장한다.
-    await createOrderHistory(orderHistory, accessToken)
+    await createOrderHistory(orderHistory)
         .then((r) => CatchError(r))
         .catch(() =>
             redirect('/order/fail?code=FAIL_TO_SAVE_INFO&message=결제정보 저장에 실패했습니다.'),

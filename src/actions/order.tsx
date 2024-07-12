@@ -5,16 +5,16 @@ import { fetchWithAuth } from '@/utils/custom-fetch'
 import { handleFetchError } from '@/utils/error/handle-fetch-error'
 import { OrderHistoryProps, OrderItemProps, CheckCartItemResultProps } from '@/types'
 
-export const getOrderHistory = async (accessToken: string) => {
+export const getOrderHistory = async () => {
     const url = `${process.env.AUTH_API_URL}/api/order/get-order-history`
-    const fetchFn = () => fetchWithAuth<OrderHistoryProps[]>(url, 'GET', accessToken)
+    const fetchFn = () => fetchWithAuth<OrderHistoryProps[]>(url, 'GET')
     const errorCase = { 401: '권한이 없습니다.' }
     return handleFetchError(fetchFn, errorCase)
 }
 
-export const getOrderItem = async (orderId: string, accessToken: string) => {
+export const getOrderItem = async (orderId: string) => {
     const url = `${process.env.AUTH_API_URL}/api/order/get-order-row?order_id=${orderId}`
-    const fetchFn = () => fetchWithAuth<OrderItemProps[]>(url, 'GET', accessToken)
+    const fetchFn = () => fetchWithAuth<OrderItemProps[]>(url, 'GET')
     const errorCase = { 401: '권한이 없습니다.' }
     return handleFetchError(fetchFn, errorCase)
 }

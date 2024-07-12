@@ -100,25 +100,19 @@ function OrderInfo({ order }: { order: OrderHistoryProps }) {
     )
 }
 
-export default function OrderDetail({
-    order,
-    accessToken,
-}: {
-    order: OrderHistoryProps
-    accessToken: string
-}) {
+export default function OrderDetail({ order }: { order: OrderHistoryProps }) {
     const [orderItems, setOrderProducts] = useState<OrderItemProps[]>([])
     const [address, setAddress] = useState<AddressProps>()
     const router = useRouter()
 
     useEffect(() => {
         const getProducts = async () =>
-            getOrderItem(order.orderId, accessToken)
+            getOrderItem(order.orderId)
                 .then(CatchError)
                 .then((r) => setOrderProducts(r))
 
         const getaddressInfo = async () =>
-            getAddressById(order.addressId, accessToken)
+            getAddressById(order.addressId)
                 .then(CatchError)
                 .then((r) => setAddress(r))
 

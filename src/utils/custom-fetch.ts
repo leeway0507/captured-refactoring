@@ -1,14 +1,16 @@
+import { auth } from '@/auth'
+
 export const fetchWithAuth = async <T>(
     url: string,
     method: string,
-    accessToken: string,
     body?: any,
 ): Promise<{ status: number; data: T }> => {
+    const session = await auth()
     const options: RequestInit = {
         method,
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${session?.user.accessToken}`,
         },
         body: body ? JSON.stringify(body) : undefined,
     }
