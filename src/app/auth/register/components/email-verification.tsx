@@ -1,7 +1,7 @@
 'use client'
 
 import { X } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { z } from 'zod'
 
 import { Button } from '@/components/shadcn-ui/button'
@@ -10,7 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useFormContext, useForm } from 'react-hook-form'
 import { DialogWrapper } from '@/components/dialog'
 import useCountDown from '@/hooks/interaction/use-count-down'
-import { checkEmailDuplication, verifyEmailCode, sendEmailCode } from '@/actions/auth'
+import { checkEmailDuplication, verifyEmailCode, reSendEmailCode } from '@/actions/auth'
 import CatchError from '@/utils/error/handle-fetch-error'
 
 function EmailVerificationDialog({
@@ -26,7 +26,7 @@ function EmailVerificationDialog({
     const { defaultTimeFormat, seconds } = useCountDown(resetCount)
 
     const resendEmail = async () => {
-        await sendEmailCode(email).then((r) => CatchError(r, 'clientSideErrorPopUp'))
+        await reSendEmailCode(email).then((r) => CatchError(r, 'clientSideErrorPopUp'))
         setResetCount((old) => !old)
     }
 
@@ -98,13 +98,12 @@ export default function EmailVerificationButton({
     const { email } = form.getValues()
     form.watch('email')
 
-    const checkEmail = async () =>
+    const checkEmail = useCallback(async () => {
         checkEmailDuplication(email)
             .then((r) => CatchError(r, 'clientSideErrorPopUp'))
-            .then(async () => sendEmailCode(email))
             .then(() => alert('입력하신 메일주소로 인증코드를 발급했습니다.'))
             .then(() => setIsOpen(true))
-
+    }, [email])
     return (
         <>
             <Button type="button" onClick={checkEmail} disabled={!verified || isVerfied}>

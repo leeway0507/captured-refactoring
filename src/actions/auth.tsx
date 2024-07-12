@@ -63,7 +63,7 @@ export const verifyEmailCode = async (email: string, code: string) => {
     return handleFetchError(fetchFn, errorCase)
 }
 
-export const sendEmailCode = async (email: string) => {
+export const reSendEmailCode = async (email: string) => {
     const url = `${process.env.AUTH_API_URL}/api/auth/resend-code-to-email?email=${email}`
     const fetchFn = async () => {
         const res = await fetch(url)
