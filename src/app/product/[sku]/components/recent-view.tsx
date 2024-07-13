@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 import useRecentView from '@/hooks/data/use-recent-view'
 import EmblaCarousel, { CarouselImage } from '@/components/carousel/carousel'
 import { Description } from '@/components/product/product-card'
@@ -7,7 +9,10 @@ import styles from '@/components/carousel/styles.module.css'
 function RecentViewProduct({ product }: { product: ProductProps }) {
     const src = `${process.env.NEXT_PUBLIC_CDN}/product/${product.sku}/main.webp`
     return (
-        <div key={product.sku} className={`${styles.embla__slide} flex-center flex-col tex-sm`}>
+        <Link
+            href={`/product/${product.sku}`}
+            className={`${styles.embla__slide} flex-center flex-col tex-sm`}
+        >
             <CarouselImage
                 src={src}
                 alt="최신 본 제품"
@@ -16,7 +21,7 @@ function RecentViewProduct({ product }: { product: ProductProps }) {
                 height={300}
             />
             <Description product={product} />
-        </div>
+        </Link>
     )
 }
 

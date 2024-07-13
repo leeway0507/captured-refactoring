@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { ProductFilterParamsProps } from '@/types'
 
@@ -26,7 +26,17 @@ export const useFilterParams = () => {
     const [filterState, setFilterState] = useState<ProductFilterParamsProps>(
         getFilterParams() || {},
     )
-    const prevFilterSate = getFilterParams() || {}
+
+    useEffect(() => {
+        const searchParams = getFilterParams() || {}
+        const prevCat = filterState.category && filterState.category[0]
+        const currCat = searchParams.category && searchParams.category[0]
+
+        if (prevCat !== currCat) {
+            const reInitState = currCat ? { category: searchParams.category } : {}
+            setFilterState(reInitState)
+        }
+    })
 
     const applyFilterToURL = () => {
         if (filterState) {
@@ -39,8 +49,13 @@ export const useFilterParams = () => {
         }
     }
     const resetFilterState = () => {
-        if (filterState) setFilterState(prevFilterSate)
+        if (filterState) {
+            const searchParams = getFilterParams() || {}
+            setFilterState(searchParams)
+        }
+        return { filterState, setFilterState, applyFilterToURL, resetFilterState }
     }
+
     return { filterState, setFilterState, applyFilterToURL, resetFilterState }
 }
 

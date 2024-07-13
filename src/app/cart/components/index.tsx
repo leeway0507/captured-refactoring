@@ -15,6 +15,7 @@ import Spinner from '@/components/spinner/spinner'
 import { PriceBox } from '@/components/order/price-box'
 import { CartProvider, useCartContext } from '@/components/context/cart-povider'
 
+import { useRouter } from 'next/navigation'
 import CartShipmentInfo from './shipment-info'
 import { NoCartData } from './no-cart-data'
 
@@ -141,6 +142,7 @@ function CartProductBox() {
 }
 
 function OrderButton({ cartData }: { cartData: ProductCartProps[] }) {
+    const rotuer = useRouter()
     const handleClick = () =>
         setCartItemsToCookies(
             window.btoa(
@@ -154,13 +156,11 @@ function OrderButton({ cartData }: { cartData: ProductCartProps[] }) {
                     ),
                 ),
             ),
-        )
+        ).then(() => rotuer.push('/order'))
     return (
-        <div className="w-full flex gap-4 justify-evenly">
-            <ConfirmButton className="w-full" onClick={handleClick}>
-                주문하기
-            </ConfirmButton>
-        </div>
+        <ConfirmButton className="w-full" onClick={handleClick}>
+            주문하기
+        </ConfirmButton>
     )
 }
 

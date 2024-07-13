@@ -23,7 +23,7 @@ export type ProductFetchResponseProps = {
 }
 
 export interface ProductFilterParamsProps {
-    pageType?: string[]
+    category?: string[]
     sortBy?: string[]
     brand?: string[]
     categorySpec?: string[]
@@ -33,7 +33,7 @@ export interface ProductFilterParamsProps {
 }
 export interface ProductFilterSearchParamsProps {
     page?: string
-    pageType?: string
+    category?: string
     sortBy?: string
     brand?: string
     categorySpec?: string

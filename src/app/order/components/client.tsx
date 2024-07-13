@@ -114,7 +114,7 @@ export function AddressList({
     return (
         <div className="max-w-lg space-y-4">
             {data.map((address) => (
-                <AddressItem address={address} setAddress={setAddress} />
+                <AddressItem key={address.addressId} address={address} setAddress={setAddress} />
             ))}
         </div>
     )

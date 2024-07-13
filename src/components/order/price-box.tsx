@@ -33,11 +33,11 @@ function DeliveryBox({
             <div className={`${isOpen ? 'block' : 'hidden '}  text-gray-500 text-xs`}>
                 <div className="flex justify-between w-full">
                     <span>국내 배송비</span>
-                    <span>{KRW(intlShippingFee)}</span>
+                    <span>{KRW(domeShippingFee)}</span>
                 </div>
                 <div className=" flex justify-between w-full">
                     <span>해외 배송비</span>
-                    <span>{KRW(domeShippingFee)}</span>
+                    <span>{KRW(intlShippingFee)}</span>
                 </div>
             </div>
         </>
