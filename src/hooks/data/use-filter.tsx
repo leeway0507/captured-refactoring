@@ -28,13 +28,13 @@ export const useFilterParams = () => {
     )
 
     useEffect(() => {
-        const searchParams = getFilterParams() || {}
-        const prevCat = filterState.category && filterState.category[0]
-        const currCat = searchParams.category && searchParams.category[0]
+        const currSearchParams = getFilterParams() || {}
+        const prevCategory = filterState.category && filterState.category[0]
+        const currCategory = currSearchParams.category && currSearchParams.category[0]
 
-        if (prevCat !== currCat) {
-            const reInitState = currCat ? { category: searchParams.category } : {}
-            setFilterState(reInitState)
+        if (prevCategory !== currCategory) {
+            const forceReInitState = currCategory ? { category: currSearchParams.category } : {}
+            setFilterState(forceReInitState)
         }
     })
 
@@ -44,7 +44,9 @@ export const useFilterParams = () => {
             const newURL = new URL(urlWithoutSearchParams)
 
             // update SearchParams
-            Object.entries(filterState).map(([k, v]) => newURL.searchParams.set(k, v.join()))
+            Object.entries(filterState).map(([filterName, values]) =>
+                newURL.searchParams.set(filterName, values.join()),
+            )
             router.push(newURL.href, { scroll: false })
         }
     }
@@ -53,7 +55,6 @@ export const useFilterParams = () => {
             const searchParams = getFilterParams() || {}
             setFilterState(searchParams)
         }
-        return { filterState, setFilterState, applyFilterToURL, resetFilterState }
     }
 
     return { filterState, setFilterState, applyFilterToURL, resetFilterState }

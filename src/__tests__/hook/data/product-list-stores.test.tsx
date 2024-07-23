@@ -2,9 +2,7 @@ import productMock from '@/__mocks__/product-data-api'
 import { renderHook, render, waitFor } from '@testing-library/react' // React v18 이후
 import { useState, useEffect } from 'react'
 import { saveToLocal, loadFromLocal } from '@/utils/storage'
-import useProductDataStore, {
-    loadUpdatedProductDataStore,
-} from '@/hooks/data/use-product-data-stores'
+import useProductDataStore, { updateProductDataStore } from '@/hooks/data/use-product-data-stores'
 import { simpleHash } from '@/utils/simple-hash'
 import { ProductDataStoreProps } from '@/types'
 
@@ -28,7 +26,7 @@ describe('product-store', () => {
 
                 useEffect(() => {
                     const prevProductDataStore = loadFromLocal<ProductDataStoreProps>(localKey)
-                    const productDataStore = loadUpdatedProductDataStore(
+                    const productDataStore = updateProductDataStore(
                         filterParams,
                         prevProductDataStore,
                         productResponse,
@@ -52,7 +50,7 @@ describe('product-store', () => {
 
                     useEffect(() => {
                         const prevProductDataStore = loadFromLocal<ProductDataStoreProps>(localKey)
-                        const productDataStore = loadUpdatedProductDataStore(
+                        const productDataStore = updateProductDataStore(
                             filterParams,
                             prevProductDataStore,
                             productResponse,

@@ -3,12 +3,14 @@ import { useEffect, useRef } from 'react'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 import useScrollDirection, { ScrollDirectionProps } from './use-scroll-direction'
 
+export type IntersectionTriggerFn = (
+    ref: React.RefObject<HTMLDivElement>,
+    appRouter: AppRouterInstance,
+    scrollDirection: ScrollDirectionProps,
+) => void
+
 export default function useIntersectionObserver(
-    trigger: (
-        ref: React.RefObject<HTMLDivElement>,
-        appRouter: AppRouterInstance,
-        scrollDirection: ScrollDirectionProps,
-    ) => void,
+    trigger: IntersectionTriggerFn,
     rootMargin?: string,
     threshold?: number,
 ) {

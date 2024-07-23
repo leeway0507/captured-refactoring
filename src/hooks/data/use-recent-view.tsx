@@ -21,34 +21,36 @@ export const addProductToRecentView = (
 
     // 신규 recentView 정의
     const updatedRecentView = [...recentView]
-    const duplicateProductIndex = findDuplicateProduct(product, recentView)
+    const duplicatedProductIndex = findDuplicateProduct(product, recentView)
+    const isProductInRecentView = duplicatedProductIndex !== -1
 
     // recentView가 정한 사이즈보다 큰 경우
     if (recentView.length >= maxViewSize) {
-        if (duplicateProductIndex !== -1) {
-            // 중복된 제품 제거
-            updatedRecentView.splice(duplicateProductIndex, 1)
+        if (isProductInRecentView) {
+            // 중복 product 제거
+            updatedRecentView.splice(duplicatedProductIndex, 1)
         } else {
+            // 가장 오래된 product 제거
             updatedRecentView.pop()
         }
+        // 신규 product 삽입
         updatedRecentView.unshift(product)
         return updatedRecentView
     }
 
     // recentView가 정한 사이즈 내 위치한 경우
-    if (duplicateProductIndex !== -1) {
-        updatedRecentView.splice(duplicateProductIndex, 1)
+    if (isProductInRecentView) {
+        updatedRecentView.splice(duplicatedProductIndex, 1)
     }
     return [product, ...updatedRecentView]
 }
 
 const useRecentView = (product: ProductProps, maxViewSize: number = 10) => {
-    // localStorage에 데이터를 보관하므로 State 관리 불필요
     const prevRecentView = loadFromLocal<ProductProps[]>(localKey)
-    const updatedRecentView = addProductToRecentView(maxViewSize, product, prevRecentView)
+    const lastRecentView = addProductToRecentView(maxViewSize, product, prevRecentView)
 
-    if (JSON.stringify(prevRecentView) !== JSON.stringify(updatedRecentView))
-        saveToLocal(localKey, updatedRecentView)
+    if (JSON.stringify(prevRecentView) !== JSON.stringify(lastRecentView))
+        saveToLocal(localKey, lastRecentView)
 
     return prevRecentView
 }
